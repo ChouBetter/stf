@@ -42,7 +42,7 @@ module.exports = function DeviceListUsingDirective(
 
         if (device.using) {
           li.innerHTML =
-            "<iframe style='width:170px;height:255px' src='/#!/control/" +
+            "<iframe style='width:150px;height:255px' src='/#!/control/" +
             device.serial +
             "?standalone" +
             "'></iframe>" +
