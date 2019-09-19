@@ -49,6 +49,7 @@ module.exports = function DeviceListUsingDirective(
             device.serial;
         } else {
           li.style = "display: none";
+          return null;
         }
 
         return li;
@@ -124,7 +125,7 @@ module.exports = function DeviceListUsingDirective(
           }
 
           if (device.using) {
-            kickDevice(device);
+            //kickDevice(device);
             e.preventDefault();
           }
         }
