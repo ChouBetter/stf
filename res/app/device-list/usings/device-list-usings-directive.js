@@ -12,52 +12,9 @@ module.exports = function DeviceListUsingDirective(
       build: function() {
         var li = document.createElement("li");
         li.className = "cursor-select pointer thumbnail";
-
-        // the whole li is a link
-        var a = document.createElement("a");
-        li.appendChild(a);
-
-        // .device-photo-small
-        var photo = document.createElement("div");
-        photo.className = "device-photo-small";
-        var img = document.createElement("img");
-        photo.appendChild(img);
-        a.appendChild(photo);
-
-        // .device-name
-        var name = document.createElement("div");
-        name.className = "device-name";
-        name.appendChild(document.createTextNode(""));
-        a.appendChild(name);
-
-        // button
-        var button = document.createElement("button");
-        button.appendChild(document.createTextNode(""));
-        a.appendChild(button);
-
         return li;
       },
       update: function(li, device) {
-        var a = li.firstChild;
-        var img = a.firstChild.firstChild;
-        var name = a.firstChild.nextSibling;
-        var nt = name.firstChild;
-        var button = name.nextSibling;
-        var at = button.firstChild;
-        var classes = "btn btn-xs device-status ";
-
-        // .device-photo-small
-        if (img.getAttribute("src") !== device.enhancedImage120) {
-          img.setAttribute("src", device.enhancedImage120);
-        }
-
-        // .device-name
-        //nt.nodeValue = device.enhancedName;
-        nt.nodeValue = device.serial;
-
-        // button
-        at.nodeValue = $filter("translate")(device.enhancedStateAction);
-
         function getStateClasses(state) {
           var stateClasses = {
             using: "state-using btn-primary",
@@ -77,20 +34,21 @@ module.exports = function DeviceListUsingDirective(
           return stateClasses;
         }
 
-        button.className = classes + getStateClasses(device.state);
-
-        if (device.state === "available") {
-          name.classList.add("state-available");
-        } else {
-          name.classList.remove("state-available");
-        }
-
         if (device.usable) {
-          a.href = "#!/control/" + device.serial;
           li.classList.remove("device-is-busy");
         } else {
-          a.removeAttribute("href");
           li.classList.add("device-is-busy");
+        }
+
+        if (device.using) {
+          li.innerHTML =
+            "<iframe style='width:180px;height:255px' src='/#!/control/" +
+            device.serial +
+            "?standalone" +
+            "'></iframe>" +
+            device.serial;
+        } else {
+          li.style = "display: none";
         }
 
         return li;
