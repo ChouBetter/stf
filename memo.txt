@@ -1,0 +1,26 @@
+
+# start container
+docker run -dti --name stf --privileged --net=host heut2008/openstf bash
+
+# into container
+docker exec -it stf /bin/bash
+docker exec -it -u stf-build stf /bin/bash
+docker exec -it -u root stf /bin/bash
+
+# start rethinkdb @1
+docker exec -it -u root stf rethinkdb > /dev/null 2>&1 &
+
+# start rethinkdb @2
+docker exec -it -u root stf /bin/bash
+rethinkdb > /dev/null 2>&1 &
+
+# start STF standard
+stf local --allow-remote --public-ip="YOUR PUBLIC IP" --no-cleanup --no-screen-reset
+
+stf local --allow-remote --public-ip="YOUR PUBLIC IP" --no-cleanup --no-screen-reset --provider-max-port 7900 > /dev/null 2>&1 &
+
+# start STF
+./bin/stf local --allow-remote --public-ip="YOUR PUBLIC IP" --no-cleanup --no-screen-reset
+
+./bin/stf local --allow-remote --public-ip="YOUR PUBLIC IP" --no-cleanup --no-screen-reset --provider-max-port 7900 > /dev/null 2>&1 &
+
