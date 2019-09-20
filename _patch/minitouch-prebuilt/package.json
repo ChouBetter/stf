@@ -1,0 +1,91 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "minitouch-prebuilt@^1.2.0",
+        "scope": null,
+        "escapedName": "minitouch-prebuilt",
+        "name": "minitouch-prebuilt",
+        "rawSpec": "^1.2.0",
+        "spec": ">=1.2.0 <2.0.0",
+        "type": "range"
+      },
+      "/stf"
+    ]
+  ],
+  "_from": "minitouch-prebuilt@>=1.2.0 <2.0.0",
+  "_id": "minitouch-prebuilt@1.2.0",
+  "_inCache": true,
+  "_location": "/minitouch-prebuilt",
+  "_nodeVersion": "9.11.1",
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/minitouch-prebuilt_1.2.0_1525827450238_0.2335881583510473"
+  },
+  "_npmUser": {
+    "name": "sorccu",
+    "email": "simo@shoqolate.com"
+  },
+  "_npmVersion": "5.6.0",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "minitouch-prebuilt@^1.2.0",
+    "scope": null,
+    "escapedName": "minitouch-prebuilt",
+    "name": "minitouch-prebuilt",
+    "rawSpec": "^1.2.0",
+    "spec": ">=1.2.0 <2.0.0",
+    "type": "range"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/minitouch-prebuilt/-/minitouch-prebuilt-1.2.0.tgz",
+  "_shasum": "e136fb2eb888d6f0283df173d444f1dfb7d9df31",
+  "_shrinkwrap": null,
+  "_spec": "minitouch-prebuilt@^1.2.0",
+  "_where": "/stf",
+  "author": {
+    "name": "The OpenSTF Project",
+    "email": "contact@openstf.io",
+    "url": "https://openstf.io"
+  },
+  "bugs": {
+    "url": "https://github.com/openstf/minitouch/issues"
+  },
+  "dependencies": {},
+  "description": "Prebuilt binaries of minitouch.",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "integrity": "sha512-YBTCTK0kPQIry0dJUqnj+OKw7qk1BDk4JnOH55ujaL4vtf9f3fRsHtD+zz899SKwT2t319HrrfBNwMLx6h2Vtg==",
+    "shasum": "e136fb2eb888d6f0283df173d444f1dfb7d9df31",
+    "tarball": "https://registry.npmjs.org/minitouch-prebuilt/-/minitouch-prebuilt-1.2.0.tgz",
+    "fileCount": 17,
+    "unpackedSize": 619351,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJa8kd7CRA9TVsSAnZWagAA4asP/1uzxW4PigD0dGjvHAZ+\nXHIj7dyKwH4f6HPvtMJvZ/ySrreN2PSa9ophrAdql0OUzEMB4k+IbjirZNeB\n4zISs3c1Ul20QcdNIjM1CT7BhRj9NOiYyCH1ohgTd3xWiNuayaDNmU5t6Uuj\nRRRCmUTNBkvnfpcXlOc4zXH/HTbiFWoZ2WTiPDyRIg5nTz9jNUGkno4FUeRa\nh8WpdzQHKrAnZYdmLKD8NS2/ZDx+LD0WAfw43lUIbCzbr7vHUraZMr4h/i/f\nQsw2Tc3jxl5JjFAkVvZudVqDcFzi15XqGI3Q/MAvRImZdZV5sIHnk/0IJZsF\nTIsriwGNe1K9vkEQtzjGb2/YziZpeOnOfUBx8LnGofZhz4qeMSzDBhkRE0E2\no191t+lUxzBF+9NpXB+FJFD/taqVNe+aZnGKINAh7oe55z8kWbkmukldYyp+\nHynh5IajoCMg5XlxLg/Az0yXMjIgw52YuSmUBXPIAC7nqt4mwLr49wiK+djC\nb9jzjVLAxVu9aZgqor+ha3dujiv0177SaDLUOxPftCgsGAy2yZ9aXBflzAL2\n5mkmCNx/Ql9A8nVfg1BigDSekKF+iGGhStuo8JK/K3x91KLgb3V1EiDNhkJv\ntdU5BIQQJmRjBKP7ithH9uk4HMDasgsBgNVzMASfSNePa/P0u6c7pIJ+EVdD\npDcW\r\n=T97o\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "gitHead": "9e742e964465b67a800f371aee27e940726577a0",
+  "homepage": "https://github.com/openstf/minitouch#readme",
+  "keywords": [
+    "minitouch"
+  ],
+  "license": "Apache-2.0",
+  "maintainers": [
+    {
+      "name": "sorccu",
+      "email": "simo@shoqolate.com"
+    }
+  ],
+  "name": "minitouch-prebuilt",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/openstf/minitouch.git"
+  },
+  "scripts": {
+    "prepublish": "make"
+  },
+  "version": "1.2.0"
+}
