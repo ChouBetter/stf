@@ -169,15 +169,8 @@ module.exports = function DeviceServiceFactory(
       digest: false
     });
 
-    var cnt = 1;
     oboe("/api/v1/devices").node("devices[*]", function(device) {
-      // add permission control
-      var ok = [
-        "172.116.13.52:5555",
-        "172.116.13.51:5555",
-        "172.116.13.50:5555"
-      ];
-      if (ok.includes(device.serial)) tracker.add(device);
+      tracker.add(device);
     });
 
     return tracker;
