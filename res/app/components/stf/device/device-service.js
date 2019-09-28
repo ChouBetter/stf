@@ -169,9 +169,9 @@ module.exports = function DeviceServiceFactory(
       digest: false
     });
 
+    var cnt = 1;
     oboe("/api/v1/devices").node("devices[*]", function(device) {
-      // tracker.add(device)
-      console.log(device);
+      if (cnt++ < 10) tracker.add(device);
     });
 
     return tracker;
