@@ -10,10 +10,7 @@ module.exports = function DeviceListCtrl(
   $location
 ) {
   $scope.tracker = DeviceService.trackAll($scope);
-  $scope.control = ControlService.create(
-    $scope.tracker.devices.slice(0, 10),
-    "*ALL"
-  );
+  $scope.control = ControlService.create($scope.tracker.devices, "*ALL");
 
   $scope.columnDefinitions = DeviceColumnService;
 
