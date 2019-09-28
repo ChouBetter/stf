@@ -171,7 +171,8 @@ module.exports = function DeviceServiceFactory(
 
     var cnt = 1;
     oboe("/api/v1/devices").node("devices[*]", function(device) {
-      if (cnt++ < 10) tracker.add(device);
+      // add permission control
+      tracker.add(device);
     });
 
     return tracker;
