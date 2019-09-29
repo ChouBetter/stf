@@ -2,6 +2,8 @@
 # start container
 docker run -dti --name stf --privileged --net=host heut2008/openstf bash
 
+docker run -dti --name stf --privileged --net=host -v ~/rethinkdb_data:/rethinkdb_data heut2008/openstf bash
+
 # into container
 docker exec -it stf /bin/bash
 docker exec -it -u stf-build stf /bin/bash
