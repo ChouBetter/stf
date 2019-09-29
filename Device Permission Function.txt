@@ -1,0 +1,19 @@
+Device Permission Function
+
+start rethinkdb command to enable web manager:
+rethinkdb --bind all
+URL: http://[IP Address]:8080/
+
+Click [Data Explorer] Tab
+
+browse All users:
+r.db("stf").table("users");
+
+browse user:
+r.db("stf").table("users").filter({name:"Username"});
+
+add super user permission:
+r.db("stf").table("users").filter({name:"Username"}).update({allowDevices:["ALL"]});
+
+add device white table to user:
+r.db("stf").table("users").filter({name:"Username"}).update({allowDevices:["Device Serial","Device Serial","Device Serial",...]});
