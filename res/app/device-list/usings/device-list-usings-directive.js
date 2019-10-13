@@ -9,12 +9,12 @@ module.exports = function DeviceListUsingDirective(
 ) {
   function DeviceItem() {
     return {
-      build: function() {
+      build: function () {
         var li = document.createElement("li");
         li.className = "cursor-select pointer thumbnail";
         return li;
       },
-      update: function(li, device) {
+      update: function (li, device) {
         function getStateClasses(state) {
           var stateClasses = {
             using: "state-using btn-primary",
@@ -22,12 +22,11 @@ module.exports = function DeviceListUsingDirective(
             available: "state-available btn-primary-outline",
             ready: "state-ready btn-primary-outline",
             present: "state-present btn-primary-outline",
-            preparing:
-              "state-preparing btn-primary-outline btn-success-outline",
+            preparing: "state-preparing btn-primary-outline btn-success-outline",
             unauthorized: "state-unauthorized btn-danger-outline",
             offline: "state-offline btn-warning-outline",
             automation: "state-automation btn-info"
-          }[state];
+          } [state];
           if (typeof stateClasses === "undefined") {
             stateClasses = "btn-default-outline";
           }
@@ -42,7 +41,9 @@ module.exports = function DeviceListUsingDirective(
 
         if (device.using) {
           li.innerHTML =
-            "<iframe style='width:225px;height:385px' src='/#!/control/" +
+            (device.display.rotation == 90 || device.display.rotation == 270 ?
+              "<iframe style='width:385px;height:225px' src='/#!/control/" :
+              "<iframe style='width:225px;height:385px' src='/#!/control/") +
             device.serial +
             "?standalone" +
             "'></iframe>" +
@@ -66,7 +67,7 @@ module.exports = function DeviceListUsingDirective(
       sort: "=sort",
       filter: "&filter"
     },
-    link: function(scope, element) {
+    link: function (scope, element) {
       var tracker = scope.tracker();
       var activeColumns = [];
       var activeSorting = [];
@@ -78,7 +79,7 @@ module.exports = function DeviceListUsingDirective(
       var builder = DeviceItem();
 
       function kickDevice(device, force) {
-        return GroupService.kick(device, force).catch(function(e) {
+        return GroupService.kick(device, force).catch(function (e) {
           alert(
             $filter("translate")(
               gettext("Device cannot get kicked from the group")
@@ -89,12 +90,12 @@ module.exports = function DeviceListUsingDirective(
       }
 
       function inviteDevice(device) {
-        return GroupService.invite(device).then(function() {
+        return GroupService.invite(device).then(function () {
           scope.$digest();
         });
       }
 
-      element.on("click", function(e) {
+      element.on("click", function (e) {
         var id;
 
         if (e.target.classList.contains("thumbnail")) {
@@ -135,7 +136,7 @@ module.exports = function DeviceListUsingDirective(
       scope.columnDefinitions = DeviceColumnService;
 
       // Sorting
-      scope.sortBy = function(column, multiple) {
+      scope.sortBy = function (column, multiple) {
         function findInSorting(sorting) {
           for (var i = 0, l = sorting.length; i < l; ++i) {
             if (sorting[i].name === column.name) {
@@ -175,13 +176,13 @@ module.exports = function DeviceListUsingDirective(
 
       // Watch for sorting changes
       scope.$watch(
-        function() {
+        function () {
           return scope.sort;
         },
-        function(newValue) {
+        function (newValue) {
           activeSorting = newValue.fixed.concat(newValue.user);
           scope.sortedColumns = Object.create(null);
-          activeSorting.forEach(function(sort) {
+          activeSorting.forEach(function (sort) {
             scope.sortedColumns[sort.name] = sort;
           });
           sortAll();
@@ -191,10 +192,10 @@ module.exports = function DeviceListUsingDirective(
 
       // Watch for column updates
       scope.$watch(
-        function() {
+        function () {
           return scope.columns();
         },
-        function(newValue) {
+        function (newValue) {
           updateColumns(newValue);
         },
         true
@@ -210,7 +211,7 @@ module.exports = function DeviceListUsingDirective(
         var newActiveColumns = [];
 
         // Check what we're supposed to show now
-        columnSettings.forEach(function(column) {
+        columnSettings.forEach(function (column) {
           if (column.selected) {
             newActiveColumns.push(column.name);
           }
@@ -279,10 +280,10 @@ module.exports = function DeviceListUsingDirective(
 
       // Watch for filter updates.
       scope.$watch(
-        function() {
+        function () {
           return scope.filter();
         },
-        function(newValue) {
+        function (newValue) {
           updateFilters(newValue);
         },
         true
@@ -296,12 +297,12 @@ module.exports = function DeviceListUsingDirective(
 
       // Compares two devices using the currently active sorting. Returns <0
       // if deviceA is smaller, >0 if deviceA is bigger, or 0 if equal.
-      var compare = (function() {
+      var compare = (function () {
         var mapping = {
           asc: 1,
           desc: -1
         };
-        return function(deviceA, deviceB) {
+        return function (deviceA, deviceB) {
           var diff;
 
           // Find the first difference
@@ -341,7 +342,7 @@ module.exports = function DeviceListUsingDirective(
       // Patches the given item by running the given patch operations in
       // order. The operations must take into account index changes caused
       // by previous operations.
-      function patchItem(/*item, device, patch*/) {
+      function patchItem( /*item, device, patch*/ ) {
         // Currently no-op
       }
 
@@ -440,7 +441,7 @@ module.exports = function DeviceListUsingDirective(
       function sortAll() {
         // This could be improved by getting rid of the array copying. The
         // copy is made because items can't be sorted directly.
-        var sorted = [].slice.call(items).sort(function(itemA, itemB) {
+        var sorted = [].slice.call(items).sort(function (itemA, itemB) {
           return compare(mapping[itemA.id], mapping[itemB.id]);
         });
 
@@ -498,7 +499,7 @@ module.exports = function DeviceListUsingDirective(
       // Maybe we're already late
       tracker.devices.forEach(addListener);
 
-      scope.$on("$destroy", function() {
+      scope.$on("$destroy", function () {
         tracker.removeListener("add", addListener);
         tracker.removeListener("change", changeListener);
         tracker.removeListener("remove", removeListener);
