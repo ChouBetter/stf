@@ -40,9 +40,9 @@ module.exports = function DeviceListUsingDirective(
         }
 
         if (device.display.rotation == 90 || device.display.rotation == 270)
-          li.classList.add(l);
+          li.classList.add("l");
         else
-          li.classList.add(p);
+          li.classList.add("p");
 
         if (device.using) {
           li.innerHTML =
