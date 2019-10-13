@@ -42,12 +42,13 @@ module.exports = function DeviceListUsingDirective(
         if (device.using) {
           if (device.display.rotation == 90 || device.display.rotation == 270) {
             li.classList.add("landscape");
-            li.innerHTML = "<iframe style='width:385px;height:225px' src='/#!/control/";
+            li.innerHTML = "<iframe style='width:385px;height:225px' src='/#!/control/" +
+              device.serial + "?standalone'></iframe>" + device.serial;
           } else {
             li.classList.add("portrait");
-            li.innerHTML = "<iframe style='width:225px;height:385px' src='/#!/control/";
+            li.innerHTML = "<iframe style='width:225px;height:385px' src='/#!/control/" +
+              device.serial + "?standalone'></iframe>" + device.serial;
           }
-          li.innerHTML += device.serial + "?standalone'></iframe>" + device.serial;
         } else {
           li.style = "display: none";
           return null;
