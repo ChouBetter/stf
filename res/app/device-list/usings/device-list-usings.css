@@ -19,14 +19,14 @@ ul.devices-using-view li {
   text-align: center;
 }
 
-ul.devices-using-view .p {
+ul.devices-using-view .portrait {
   width: 245px;
   height: 415px;
 }
 
-ul.devices-using-view .l {
-  width: 415px;
-  height: 245px;
+ul.devices-using-view .landscape {
+  width: 405px;
+  height: 255px;
 }
 
 ul.devices-using-view li:active {

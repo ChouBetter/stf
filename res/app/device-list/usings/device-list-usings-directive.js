@@ -39,20 +39,15 @@ module.exports = function DeviceListUsingDirective(
           li.classList.add("device-is-busy");
         }
 
-        if (device.display.rotation == 90 || device.display.rotation == 270)
-          li.classList.add("l");
-        else
-          li.classList.add("p");
-
         if (device.using) {
-          li.innerHTML =
-            (device.display.rotation == 90 || device.display.rotation == 270 ?
-              "<iframe style='width:385px;height:225px' src='/#!/control/" :
-              "<iframe style='width:225px;height:385px' src='/#!/control/") +
-            device.serial +
-            "?standalone" +
-            "'></iframe>" +
-            device.serial;
+          if (device.display.rotation == 90 || device.display.rotation == 270) {
+            li.classList.add("landscape");
+            li.innerHTML = "<iframe style='width:385px;height:225px' src='/#!/control/";
+          } else {
+            li.classList.add("portrait");
+            li.innerHTML = "<iframe style='width:225px;height:385px' src='/#!/control/";
+          }
+          li.innerHTML += device.serial + "?standalone'></iframe>" + device.serial;
         } else {
           li.style = "display: none";
           return null;
