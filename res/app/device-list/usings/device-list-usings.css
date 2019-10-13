@@ -6,8 +6,8 @@ ul.devices-using-view {
 }
 
 ul.devices-using-view li {
-  width: 245px;
-  height: 415px;
+  /* width: 245px;
+  height: 415px; */
   background: white;
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
@@ -17,6 +17,16 @@ ul.devices-using-view li {
   clear: none;
   margin: 6px;
   text-align: center;
+}
+
+ul.devices-using-view .p {
+  width: 245px;
+  height: 415px;
+}
+
+ul.devices-using-view .l {
+  width: 415px;
+  height: 245px;
 }
 
 ul.devices-using-view li:active {
@@ -41,7 +51,8 @@ ul.devices-using-view .device-photo-small {
 ul.devices-using-view .device-photo-small img {
   width: auto;
   height: 90px;
-  max-width: 95%; /* TODO: Fix this with a new container */
+  max-width: 95%;
+  /* TODO: Fix this with a new container */
 }
 
 ul.devices-using-view .device-name-bigtext {

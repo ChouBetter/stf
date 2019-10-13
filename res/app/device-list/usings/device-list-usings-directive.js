@@ -39,6 +39,11 @@ module.exports = function DeviceListUsingDirective(
           li.classList.add("device-is-busy");
         }
 
+        if (device.display.rotation == 90 || device.display.rotation == 270)
+          li.classList.add(l);
+        else
+          li.classList.add(p);
+
         if (device.using) {
           li.innerHTML =
             (device.display.rotation == 90 || device.display.rotation == 270 ?
