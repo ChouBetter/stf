@@ -135,7 +135,11 @@ module.exports = function DeviceControlCtrl($scope, DeviceService, GroupService,
 
   $scope.testScript = function (device) {
     console.log(device.remoteConnectUrl)
-    window.open("http://localhost:3001/" + device.remoteConnectUrl, "_blank");
-  }
+    if (device.remoteConnectUrl) {
+      window.open("http://localhost:3001/" + device.remoteConnectUrl, "_blank");
+      self.focus();
+    } else
+      window.location.reload();
 
+  }
 }
