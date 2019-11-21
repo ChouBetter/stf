@@ -137,6 +137,7 @@ module.exports = function DeviceControlCtrl($scope, DeviceService, GroupService,
     console.log("==========================================")
     console.log(device.remoteConnectUrl)
     console.log("==========================================")
+    alert(device.remoteConnectUrl);
   }
 
 }
