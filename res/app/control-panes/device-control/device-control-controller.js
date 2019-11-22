@@ -135,11 +135,20 @@ module.exports = function DeviceControlCtrl($scope, DeviceService, GroupService,
 
   $scope.testScript = function (device) {
     console.log(device.remoteConnectUrl)
+
+    fetch("http://123.51.133.103:3001/auto/")
+      .then(function (response) {
+        alert("success");
+        return response
+      }).catch(function (err) {
+        alert("error\n" + err);
+      });
+    /*
     if (device.remoteConnectUrl) {
       window.open("http://123.51.133.103:3001/auto/" + device.remoteConnectUrl, "_blank");
       window.focus();
     } else
       window.location.reload();
-
+    */
   }
 }
