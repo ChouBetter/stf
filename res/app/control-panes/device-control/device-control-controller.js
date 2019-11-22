@@ -1,146 +1,150 @@
-var _ = require('lodash')
+var _ = require("lodash");
 
-module.exports = function DeviceControlCtrl($scope, DeviceService, GroupService,
-  $location, $timeout, $window, $rootScope) {
+module.exports = function DeviceControlCtrl(
+  $scope,
+  DeviceService,
+  GroupService,
+  $location,
+  $timeout,
+  $window,
+  $rootScope
+) {
+  $scope.showScreen = true;
 
-  $scope.showScreen = true
+  $scope.groupTracker = DeviceService.trackGroup($scope);
 
-  $scope.groupTracker = DeviceService.trackGroup($scope)
+  $scope.groupDevices = $scope.groupTracker.devices;
 
-  $scope.groupDevices = $scope.groupTracker.devices
-
-  $scope.kickDevice = function (device) {
-
+  $scope.kickDevice = function(device) {
     if (!device || !$scope.device) {
-      alert('No device found')
-      return
+      alert("No device found");
+      return;
     }
 
     try {
       // If we're trying to kick current device
       if (device.serial === $scope.device.serial) {
-
         // If there is more than one device left
         if ($scope.groupDevices.length > 1) {
-
           // Control first free device first
-          var firstFreeDevice = _.find($scope.groupDevices, function (dev) {
-            return dev.serial !== $scope.device.serial
-          })
-          $scope.controlDevice(firstFreeDevice)
+          var firstFreeDevice = _.find($scope.groupDevices, function(dev) {
+            return dev.serial !== $scope.device.serial;
+          });
+          $scope.controlDevice(firstFreeDevice);
 
           // Then kick the old device
-          GroupService.kick(device).then(function () {
-            $scope.$digest()
-          })
+          GroupService.kick(device).then(function() {
+            $scope.$digest();
+          });
         } else {
           // Kick the device
-          GroupService.kick(device).then(function () {
-            $scope.$digest()
-          })
-          $location.path('/devices/')
+          GroupService.kick(device).then(function() {
+            $scope.$digest();
+          });
+          $location.path("/devices/");
         }
       } else {
-        GroupService.kick(device).then(function () {
-          $scope.$digest()
-        })
+        GroupService.kick(device).then(function() {
+          $scope.$digest();
+        });
       }
     } catch (e) {
-      alert(e.message)
+      alert(e.message);
     }
-  }
+  };
 
-  $scope.controlDevice = function (device) {
-    $location.path('/control/' + device.serial)
-  }
+  $scope.controlDevice = function(device) {
+    $location.path("/control/" + device.serial);
+  };
 
   function isPortrait(val) {
-    var value = val
-    if (typeof value === 'undefined' && $scope.device) {
-      value = $scope.device.display.rotation
+    var value = val;
+    if (typeof value === "undefined" && $scope.device) {
+      value = $scope.device.display.rotation;
     }
-    return (value === 0 || value === 180)
+    return value === 0 || value === 180;
   }
 
   function isLandscape(val) {
-    var value = val
-    if (typeof value === 'undefined' && $scope.device) {
-      value = $scope.device.display.rotation
+    var value = val;
+    if (typeof value === "undefined" && $scope.device) {
+      value = $scope.device.display.rotation;
     }
-    return (value === 90 || value === 270)
+    return value === 90 || value === 270;
   }
 
-  $scope.tryToRotate = function (rotation) {
-    if (rotation === 'portrait') {
-      $scope.control.rotate(0)
-      $timeout(function () {
+  $scope.tryToRotate = function(rotation) {
+    if (rotation === "portrait") {
+      $scope.control.rotate(0);
+      $timeout(function() {
         if (isLandscape()) {
-          $scope.currentRotation = 'landscape'
+          $scope.currentRotation = "landscape";
         }
-      }, 400)
-    } else if (rotation === 'landscape') {
-      $scope.control.rotate(90)
-      $timeout(function () {
+      }, 400);
+    } else if (rotation === "landscape") {
+      $scope.control.rotate(90);
+      $timeout(function() {
         if (isPortrait()) {
-          $scope.currentRotation = 'portrait'
+          $scope.currentRotation = "portrait";
         }
-      }, 400)
+      }, 400);
     }
-  }
+  };
 
-  $scope.currentRotation = 'portrait'
+  $scope.currentRotation = "portrait";
 
-  $scope.$watch('device.display.rotation', function (newValue) {
+  $scope.$watch("device.display.rotation", function(newValue) {
     if (isPortrait(newValue)) {
-      $scope.currentRotation = 'portrait'
+      $scope.currentRotation = "portrait";
     } else if (isLandscape(newValue)) {
-      $scope.currentRotation = 'landscape'
+      $scope.currentRotation = "landscape";
     }
-  })
+  });
 
   // TODO: Refactor this inside control and server-side
-  $scope.rotateLeft = function () {
-    var angle = 0
+  $scope.rotateLeft = function() {
+    var angle = 0;
     if ($scope.device && $scope.device.display) {
-      angle = $scope.device.display.rotation
+      angle = $scope.device.display.rotation;
     }
     if (angle === 0) {
-      angle = 270
+      angle = 270;
     } else {
-      angle -= 90
+      angle -= 90;
     }
-    $scope.control.rotate(angle)
+    $scope.control.rotate(angle);
 
     if ($rootScope.standalone) {
-      $window.resizeTo($window.outerHeight, $window.outerWidth)
+      $window.resizeTo($window.outerHeight, $window.outerWidth);
     }
-  }
+  };
 
-  $scope.rotateRight = function () {
-    var angle = 0
+  $scope.rotateRight = function() {
+    var angle = 0;
     if ($scope.device && $scope.device.display) {
-      angle = $scope.device.display.rotation
+      angle = $scope.device.display.rotation;
     }
     if (angle === 270) {
-      angle = 0
+      angle = 0;
     } else {
-      angle += 90
+      angle += 90;
     }
-    $scope.control.rotate(angle)
+    $scope.control.rotate(angle);
 
     if ($rootScope.standalone) {
-      $window.resizeTo($window.outerHeight, $window.outerWidth)
+      $window.resizeTo($window.outerHeight, $window.outerWidth);
     }
-  }
+  };
 
-  $scope.testScript = function (device) {
-    console.log(device.remoteConnectUrl)
+  $scope.testScript = function(device) {
+    console.log(device.remoteConnectUrl);
 
     fetch("http://123.51.133.103:3001/auto/")
-      .then(function (response) {
+      .then(function(response) {
         alert("success");
-        return response
-      }).catch(function (err) {
+        return response;
+      })
+      .catch(function(err) {
         alert("error\n" + err);
       });
     /*
@@ -150,5 +154,5 @@ module.exports = function DeviceControlCtrl($scope, DeviceService, GroupService,
     } else
       window.location.reload();
     */
-  }
-}
+  };
+};
