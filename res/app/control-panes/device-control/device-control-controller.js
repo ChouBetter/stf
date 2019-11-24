@@ -139,7 +139,8 @@ module.exports = function DeviceControlCtrl(
   $scope.testScript = function(device) {
     console.log(device.remoteConnectUrl);
 
-    fetch("http://123.51.133.103:3001/auto/")
+    alert("prepare script");
+    fetch("http://123.51.133.103:3001/auto/" + device.remoteConnectUrl)
       .then(function(response) {
         alert("success");
         return response;
