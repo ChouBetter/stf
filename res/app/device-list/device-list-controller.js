@@ -137,6 +137,10 @@ module.exports = function DeviceListCtrl(
     script: "script3.py"
   }];
 
+  $scope.triggerScript = function (useScript) {
+    alert(useScript);
+  };
+
   SettingsService.bind($scope, {
     target: "columns",
     source: "deviceListColumns"

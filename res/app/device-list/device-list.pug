@@ -22,12 +22,17 @@
 
             span.pull-right(ng-if='activeTabs.details && !$root.basicMode')
               .btn-group(uib-dropdown).pull-right
-                button.btn.btn-sm.btn-primary-outline(type='button', uib-dropdown-toggle)
-                  i.fa.fa-columns
-                  span(ng-bind='"Customize"|translate')
+
+                button.btn.btn-sm.btn-primary-outline(type='button', ng-click='triggerScript(1);')
+                  i.fa.fa-play
+                  span(ng-bind='"RunScript"|translate')
 
                 select(name='script')
                   option(ng-repeat='s in scripts', ng-value='s.script') {{s.name}}
+
+                button.btn.btn-sm.btn-primary-outline(type='button', uib-dropdown-toggle)
+                  i.fa.fa-columns
+                  span(ng-bind='"Customize"|translate')
 
                 ul.uib-dropdown-menu(role='menu').pointer.stf-device-details-customize
                   li(ng-repeat='column in columns track by column.name',
