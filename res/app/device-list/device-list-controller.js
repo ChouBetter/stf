@@ -139,6 +139,7 @@ module.exports = function DeviceListCtrl(
 
   $scope.triggerScript = function (useScript) {
     alert(useScript);
+    console.log($scope.tracker.devices);
   };
 
   SettingsService.bind($scope, {
