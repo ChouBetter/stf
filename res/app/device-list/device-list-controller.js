@@ -137,9 +137,16 @@ module.exports = function DeviceListCtrl(
     script: "script3.py"
   }];
 
-  $scope.triggerScript = function (useScript) {
-    alert(useScript);
-    console.log($scope.tracker.devices);
+  $scope.triggerScript = function () {
+    var script = document.getElementById("script").value;
+    alert(document.getElementById("script").value);
+    for (var device in $scope.tracker.devices)
+      if (device.using)
+        fetch("http://123.51.133.103:3001/auto/" + device.serial + "/" + script)
+        .then(function (response) {
+          return response;
+        })
+        .catch(function (err) {});
   };
 
   SettingsService.bind($scope, {
