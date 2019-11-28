@@ -13,8 +13,8 @@
               i.fa.fa-play
                 span(ng-bind='"RunScript"|translate')
 
-              select(name='script',id='script')
-                option(ng-repeat='s in scripts', ng-value='s.script') {{s.name}}
+            select(name='script',id='script')
+              option(ng-repeat='s in scripts', ng-value='s.script') {{s.name}}
 
             datalist(id='searchFields')
               select(name='searchFields')

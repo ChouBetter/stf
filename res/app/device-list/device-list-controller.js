@@ -141,7 +141,8 @@ module.exports = function DeviceListCtrl(
     var script = document.getElementById("script").value;
     alert(script);
     console.log($scope.tracker.devices);
-    for (var device in $scope.tracker.devices) {
+    for (var idx in $scope.tracker.devices) {
+      var device = $scope.tracker.devices[idx]
       console.log(device);
       if (device.using)
         fetch("http://123.51.133.103:3001/auto/" + device.serial + "/" + script)
