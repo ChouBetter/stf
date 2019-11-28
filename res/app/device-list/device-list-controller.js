@@ -14,8 +14,7 @@ module.exports = function DeviceListCtrl(
 
   $scope.columnDefinitions = DeviceColumnService;
 
-  var defaultColumns = [
-    {
+  var defaultColumns = [{
       name: "state",
       selected: true
     },
@@ -127,24 +126,31 @@ module.exports = function DeviceListCtrl(
 
   $scope.columns = defaultColumns;
 
+  $scope.scripts = [{
+    name: "script1",
+    script: "script1.py"
+  }, {
+    name: "script2",
+    script: "script2.py"
+  }, {
+    name: "script3",
+    script: "script3.py"
+  }];
+
   SettingsService.bind($scope, {
     target: "columns",
     source: "deviceListColumns"
   });
 
   var defaultSort = {
-    fixed: [
-      {
-        name: "state",
-        order: "asc"
-      }
-    ],
-    user: [
-      {
-        name: "name",
-        order: "asc"
-      }
-    ]
+    fixed: [{
+      name: "state",
+      order: "asc"
+    }],
+    user: [{
+      name: "name",
+      order: "asc"
+    }]
   };
 
   $scope.sort = defaultSort;
@@ -167,7 +173,7 @@ module.exports = function DeviceListCtrl(
     source: "deviceListActiveTabs"
   });
 
-  $scope.toggle = function(device) {
+  $scope.toggle = function (device) {
     if (device.using) {
       $scope.kick(device);
     } else {
@@ -175,13 +181,13 @@ module.exports = function DeviceListCtrl(
     }
   };
 
-  $scope.invite = function(device) {
-    return GroupService.invite(device).then(function() {
+  $scope.invite = function (device) {
+    return GroupService.invite(device).then(function () {
       $scope.$digest();
     });
   };
 
-  $scope.applyFilter = function(query) {
+  $scope.applyFilter = function (query) {
     $scope.filter = QueryParser.parse(query);
   };
 
@@ -190,13 +196,13 @@ module.exports = function DeviceListCtrl(
     focusElement: false
   };
 
-  $scope.focusSearch = function() {
+  $scope.focusSearch = function () {
     if (!$scope.basicMode) {
       $scope.search.focusElement = true;
     }
   };
 
-  $scope.reset = function() {
+  $scope.reset = function () {
     $scope.search.deviceFilter = "";
     $scope.filter = [];
     $scope.sort = defaultSort;

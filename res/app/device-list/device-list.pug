@@ -26,6 +26,9 @@
                   i.fa.fa-columns
                   span(ng-bind='"Customize"|translate')
 
+                select(name='script')
+                  option(ng-repeat='s in scripts', ng-value='s.script') {{s.name}}
+
                 ul.uib-dropdown-menu(role='menu').pointer.stf-device-details-customize
                   li(ng-repeat='column in columns track by column.name',
                   ng-hide='!adminMode && columnDefinitions[column.name].admin',
