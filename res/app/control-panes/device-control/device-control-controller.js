@@ -15,7 +15,7 @@ module.exports = function DeviceControlCtrl(
 
   $scope.groupDevices = $scope.groupTracker.devices;
 
-  $scope.kickDevice = function(device) {
+  $scope.kickDevice = function (device) {
     if (!device || !$scope.device) {
       alert("No device found");
       return;
@@ -27,24 +27,24 @@ module.exports = function DeviceControlCtrl(
         // If there is more than one device left
         if ($scope.groupDevices.length > 1) {
           // Control first free device first
-          var firstFreeDevice = _.find($scope.groupDevices, function(dev) {
+          var firstFreeDevice = _.find($scope.groupDevices, function (dev) {
             return dev.serial !== $scope.device.serial;
           });
           $scope.controlDevice(firstFreeDevice);
 
           // Then kick the old device
-          GroupService.kick(device).then(function() {
+          GroupService.kick(device).then(function () {
             $scope.$digest();
           });
         } else {
           // Kick the device
-          GroupService.kick(device).then(function() {
+          GroupService.kick(device).then(function () {
             $scope.$digest();
           });
           $location.path("/devices/");
         }
       } else {
-        GroupService.kick(device).then(function() {
+        GroupService.kick(device).then(function () {
           $scope.$digest();
         });
       }
@@ -53,7 +53,7 @@ module.exports = function DeviceControlCtrl(
     }
   };
 
-  $scope.controlDevice = function(device) {
+  $scope.controlDevice = function (device) {
     $location.path("/control/" + device.serial);
   };
 
@@ -73,17 +73,17 @@ module.exports = function DeviceControlCtrl(
     return value === 90 || value === 270;
   }
 
-  $scope.tryToRotate = function(rotation) {
+  $scope.tryToRotate = function (rotation) {
     if (rotation === "portrait") {
       $scope.control.rotate(0);
-      $timeout(function() {
+      $timeout(function () {
         if (isLandscape()) {
           $scope.currentRotation = "landscape";
         }
       }, 400);
     } else if (rotation === "landscape") {
       $scope.control.rotate(90);
-      $timeout(function() {
+      $timeout(function () {
         if (isPortrait()) {
           $scope.currentRotation = "portrait";
         }
@@ -93,7 +93,7 @@ module.exports = function DeviceControlCtrl(
 
   $scope.currentRotation = "portrait";
 
-  $scope.$watch("device.display.rotation", function(newValue) {
+  $scope.$watch("device.display.rotation", function (newValue) {
     if (isPortrait(newValue)) {
       $scope.currentRotation = "portrait";
     } else if (isLandscape(newValue)) {
@@ -102,7 +102,7 @@ module.exports = function DeviceControlCtrl(
   });
 
   // TODO: Refactor this inside control and server-side
-  $scope.rotateLeft = function() {
+  $scope.rotateLeft = function () {
     var angle = 0;
     if ($scope.device && $scope.device.display) {
       angle = $scope.device.display.rotation;
@@ -119,7 +119,7 @@ module.exports = function DeviceControlCtrl(
     }
   };
 
-  $scope.rotateRight = function() {
+  $scope.rotateRight = function () {
     var angle = 0;
     if ($scope.device && $scope.device.display) {
       angle = $scope.device.display.rotation;
@@ -134,19 +134,5 @@ module.exports = function DeviceControlCtrl(
     if ($rootScope.standalone) {
       $window.resizeTo($window.outerHeight, $window.outerWidth);
     }
-  };
-
-  $scope.testScript = function(device) {
-    console.log(device.serial);
-
-    alert("prepare script");
-    fetch("http://123.51.133.103:3001/auto/" + device.serial + "/script2.py")
-      .then(function(response) {
-        alert("success");
-        return response;
-      })
-      .catch(function(err) {
-        alert("error\n" + err);
-      });
   };
 };

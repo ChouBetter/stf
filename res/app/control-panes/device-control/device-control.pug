@@ -5,9 +5,6 @@
         .stf-vnc-control-header.as-cell
           .stf-vnc-right-buttons.pull-right
             .btn-group
-              button(type='button', ng-click='testScript(device)', uib-tooltip='{{"Auto"|translate}}', tooltip-placement='bottom').btn.btn-sm.btn-danger-outline
-                i.fa.fa-play
-
               label.btn-sm.btn-primary-outline(type='button', ng-click='tryToRotate("portrait")',
               ng-model='currentRotation', uib-btn-radio='"portrait"',
               uib-tooltip='{{ "Portrait" | translate }} ({{ "Current rotation:" | translate }} {{ device.display.rotation }}°)', tooltip-placement='bottom').pointer
