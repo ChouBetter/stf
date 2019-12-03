@@ -69,3 +69,11 @@
               div.device-list-devices-content(ng-if='activeTabs.usings').selectable
 
                 device-list-usings(tracker='tracker', columns='columns', sort='sort', filter='filter')
+
+            uib-tab(active='activeTabs.task', select='focusSearch()')
+              uib-tab-heading
+                i.fa.fa-th-large
+                span(translate) Task
+              div.device-list-devices-content(ng-if='activeTabs.task').selectable
+
+                device-list-task(tracker='tracker', columns='columns', sort='sort', filter='filter')

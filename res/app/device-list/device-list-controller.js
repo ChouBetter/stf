@@ -181,7 +181,8 @@ module.exports = function DeviceListCtrl(
   $scope.activeTabs = {
     icons: true,
     details: false,
-    usings: false
+    usings: false,
+    task: false
   };
 
   SettingsService.bind($scope, {

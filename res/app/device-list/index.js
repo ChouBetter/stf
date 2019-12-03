@@ -13,20 +13,21 @@ module.exports = angular
     require("./empty").name,
     require("./icons").name,
     require("./usings").name,
+    require("./task").name,
     require("./stats").name,
     require("./customize").name,
     require("./search").name
   ])
   .config([
     "$routeProvider",
-    function($routeProvider) {
+    function ($routeProvider) {
       $routeProvider.when("/devices", {
         template: require("./device-list.pug"),
         controller: "DeviceListCtrl"
       });
     }
   ])
-  .run(function(editableOptions) {
+  .run(function (editableOptions) {
     // bootstrap3 theme for xeditables
     editableOptions.theme = "bs3";
   })
