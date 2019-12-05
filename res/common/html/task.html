@@ -13,14 +13,14 @@
         }).then((jsonData) => {
           console.log(scriptSets = jsonData);
 
-          var _str = '';
+          var _str = '<span>Script</span><ul>';
           for (var idx in scriptSets) {
-            _str += `<span>${ scriptSets[idx].name }</span>`;
+            _str += `<li>${ scriptSets[idx].name }</li>`;
             let items = scriptSets[idx].items;
             for (var idx2 in items) {
               _str += `<input type="radio" name="script" value="${ items[idx2].script }" />${ items[idx2].name }`;
             }
-            _str += "<br/>";
+            _str += "</ul>";
           }
           document.querySelector("#scriptSet").innerHTML = _str;
         }).catch((err) => {
