@@ -34,19 +34,23 @@
 
           var _str =
             '<span>Control Type:</span><ul>' +
-            '<li><input type="radio" name="control" value="all" />ALL</li>' +
-            '<li><input type="radio" name="control" value="using" />USING</li>' +
-            '<li><input type="radio" name="control" value="select" />SELECT</li></ul>';
+            '<li><input type="radio" name="control" value="all" onchange="controlChange(this);" />ALL</li>' +
+            '<li><input type="radio" name="control" value="using" onchange="controlChange(this);" />USING</li>' +
+            '<li><input type="radio" name="control" value="select" onchange="controlChange(this);" />SELECT</li><span id="spanDevices">';
           for (var idx in deviceSets) {
             _str +=
               `<input type="checkbox" name="devices" value="${ deviceSets[idx].serial }" />${ deviceSets[idx].serial }`;
           }
-          _str += "<br/>";
+          _str += "</span></ul>";
           document.querySelector("#deviceSet").innerHTML = _str;
         }).catch((err) => {
           console.log('ERROR: ', err);
         });
     });
+
+    function controlChange(radio) {
+      document.querySelector().style = radio.value === "select" && radio.checked === "true" ? '' : 'display:none'
+    }
 
   </script>
 </head>
