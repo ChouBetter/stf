@@ -53,9 +53,18 @@
     }
 
     function exec() {
-      alert(1);
-      alert(document.querySelector("input[name=script]:checked").value);
-      alert(document.querySelector("input[name=control]:checked").value);
+      var scriptName = document.querySelector("input[name=script]:checked").value;
+      if (!scriptName) {
+        alert("please select script");
+        return;
+      }
+      var controlType = document.querySelector("input[name=control]:checked").value;
+      if (controlType === "select") {
+        var checkedDevices = document.querySelectorAll("input[name=devices]:checked");
+        checkedDevices.forEach((d) => {
+          console.log(d.value);
+        });
+      }
     }
 
   </script>
