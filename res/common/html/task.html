@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title></title>
   <script type="text/javascript">
+    var scriptSets, deviceSets;
     document.addEventListener("DOMContentLoaded", function () {
-      var scriptSets, deviceSets;
       fetch('/html/script.json', {})
         .then((response) => {
           return response.json();
