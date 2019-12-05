@@ -18,7 +18,7 @@
             _str += `<li>${ scriptSets[idx].name }</li>`;
             let items = scriptSets[idx].items;
             for (var idx2 in items)
-              _str += `<input type="radio" name="script" value="${ items[idx2].script }" />${ items[idx2].name }`;
+              _str += `<input type="radio" name="c" value="${ items[idx2].script }" />${ items[idx2].name }`;
           }
           _str += "</ul>";
           document.querySelector("#scriptSet").innerHTML = _str;
@@ -54,6 +54,8 @@
 
     function exec() {
       alert(1);
+      alert(document.querySelector("[name='script']:checked").value);
+      alert(document.querySelector("[name='control']:checked").value);
     }
 
   </script>
@@ -66,7 +68,7 @@
   <div id="deviceSet">
 
   </div>
-  <input type="button" value="exec" onclick="exec()" />
+  <input type="button" value="exec" style="width: 240px;height: 60px;" onclick="exec()" />
 </body>
 
 </html>
