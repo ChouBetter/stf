@@ -4,19 +4,38 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title></title>
-  <script>
-    fetch("/html/script.json")
-      .then(function (response) {
-        alert(response)
-        return response;
-      })
-      .catch(function (err) {});
+  <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function () {
+      var scriptSets, deviceSets;
+      fetch('/html/script.json', {})
+        .then((response) => {
+          return response.json();
+        }).then((jsonData) => {
+          console.log(scriptSets = jsonData);
+        }).catch((err) => {
+          console.log('ERROR: ', err);
+        });
+
+      fetch('/api/v1/devices', {})
+        .then((response) => {
+          return response.json();
+        }).then((jsonData) => {
+          console.log(deviceSets = jsonData);
+        }).catch((err) => {
+          console.log('ERROR: ', err);
+        });
+    });
 
   </script>
 </head>
 
 <body>
+  <div id="scriptSet">
 
+  </div>
+  <div id="deviceSet">
+
+  </div>
 </body>
 
 </html>

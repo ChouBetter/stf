@@ -1,18 +1,33 @@
-[
-	{
-		name: "group1",
-		items:[
-			{ name:"s1", script:"script1.py" },
-			{ name:"s2", script:"script2.py" },
-			{ name:"s3", script:"script3.py" }
-		]
-	},
-	{
-		name: "group2",
-		items:[
-			{ name:"2s1", script:"script21.py" },
-			{ name:"2s2", script:"script22.py" },
-			{ name:"2s3", script:"script23.py" }
-		]
-	}
+[{
+    "name": "group1",
+    "items": [{
+        "name": "s1",
+        "script": "script1.py"
+      },
+      {
+        "name": "s2",
+        "script": "script2.py"
+      },
+      {
+        "name": "s3",
+        "script": "script3.py"
+      }
+    ]
+  },
+  {
+    "name": "group2",
+    "items": [{
+        "name": "2s1",
+        "script": "script21.py"
+      },
+      {
+        "name": "2s2",
+        "script": "script22.py"
+      },
+      {
+        "name": "2s3",
+        "script": "script23.py"
+      }
+    ]
+  }
 ]
