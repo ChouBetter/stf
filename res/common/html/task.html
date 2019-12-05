@@ -18,7 +18,7 @@
             _str += `<li>${ scriptSets[idx].name }</li>`;
             let items = scriptSets[idx].items;
             for (var idx2 in items)
-              _str += `<input type="radio" name="c" value="${ items[idx2].script }" />${ items[idx2].name }`;
+              _str += `<input type="radio" name="script" value="${ items[idx2].script }" />${ items[idx2].name }`;
           }
           _str += "</ul>";
           document.querySelector("#scriptSet").innerHTML = _str;
