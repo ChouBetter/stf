@@ -12,15 +12,6 @@
           return response.json();
         }).then((jsonData) => {
           console.log(scriptSets = jsonData);
-        }).catch((err) => {
-          console.log('ERROR: ', err);
-        });
-
-      fetch('/api/v1/devices', {})
-        .then((response) => {
-          return response.json();
-        }).then((jsonData) => {
-          console.log(deviceSets = jsonData);
 
           var _str = '';
           for (var idx in scriptSets) {
@@ -32,6 +23,24 @@
             _str += "<br/>";
           }
           document.querySelector("#scriptSet").innerHTML = _str;
+        }).catch((err) => {
+          console.log('ERROR: ', err);
+        });
+
+      fetch('/api/v1/devices', {})
+        .then((response) => {
+          return response.json();
+        }).then((jsonData) => {
+          console.log(deviceSets = jsonData.devices);
+
+          var _str =
+            '<span>Control Type</span><input type="radio" name="control" value="all" />ALL<input type="radio" name="control" value="using" />USING<input type="radio" name="control" value="select" />SELECT<br/>';
+          for (var idx in deviceSets) {
+            _str +=
+              `<input type="checkbox" name="devices" value="${ deviceSets[idx].serial }" />${ deviceSets[idx].serial }`;
+          }
+          _str += "<br/>";
+          document.querySelector("#deviceSet").innerHTML = _str;
         }).catch((err) => {
           console.log('ERROR: ', err);
         });
