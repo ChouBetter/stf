@@ -21,6 +21,17 @@
           return response.json();
         }).then((jsonData) => {
           console.log(deviceSets = jsonData);
+
+          var _str = '';
+          for (var idx in scriptSets) {
+            _str += `<span>${ scriptSets[idx].name }</span>`;
+            let items = scriptSets[idx].items;
+            for (var idx2 in items) {
+              _str += `<input type="radio" name="script" value="${ items[idx2].script }" />${ items[idx2].name }`;
+            }
+            _str += "<br/>";
+          }
+          document.querySelector("#scriptSet").innerHTML = _str;
         }).catch((err) => {
           console.log('ERROR: ', err);
         });
