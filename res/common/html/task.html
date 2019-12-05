@@ -36,12 +36,10 @@
             '<span>Control Type:</span><ul>' +
             '<li><input type="radio" name="control" value="all" onchange="controlChange(this);" />ALL</li>' +
             '<li><input type="radio" name="control" value="using" onchange="controlChange(this);" />USING</li>' +
-            '<li><input type="radio" name="control" value="select" onchange="controlChange(this);" />SELECT</li><span id="spanDevices">';
+            '<li><input type="radio" name="control" value="select" onchange="controlChange(this);" checked />SELECT</li><span id="spanDevices">';
           for (var idx in deviceSets) {
             _str +=
               `<input type="checkbox" name="devices" value="${ deviceSets[idx].serial }" />${ deviceSets[idx].serial }`;
-            if (idx + 1 % 5 == 0)
-              _str += '<br/>'
           }
           _str += "</span></ul>";
           document.querySelector("#deviceSet").innerHTML = _str;
@@ -54,6 +52,10 @@
       document.querySelector("#spanDevices").style = radio.value === "select" && radio.checked ? '' : 'display:none'
     }
 
+    function exec() {
+      alert(1);
+    }
+
   </script>
 </head>
 
@@ -64,6 +66,7 @@
   <div id="deviceSet">
 
   </div>
+  <input type="button" value="exec" onclick="exec()" />
 </body>
 
 </html>
