@@ -13,7 +13,7 @@
         }).then((jsonData) => {
           console.log(scriptSets = jsonData);
 
-          var _str = '<span>Script</span><ul>';
+          var _str = '<span>Script:</span><ul>';
           for (var idx in scriptSets) {
             _str += `<li>${ scriptSets[idx].name }</li>`;
             let items = scriptSets[idx].items;
@@ -33,7 +33,10 @@
           console.log(deviceSets = jsonData.devices);
 
           var _str =
-            '<span>Control Type</span><input type="radio" name="control" value="all" />ALL<input type="radio" name="control" value="using" />USING<input type="radio" name="control" value="select" />SELECT<br/>';
+            '<span>Control Type:</span><ul>' +
+            '<li><input type="radio" name="control" value="all" />ALL</li>' +
+            '<li><input type="radio" name="control" value="using" />USING</li>' +
+            '<li><input type="radio" name="control" value="select" />SELECT</li></ul>';
           for (var idx in deviceSets) {
             _str +=
               `<input type="checkbox" name="devices" value="${ deviceSets[idx].serial }" />${ deviceSets[idx].serial }`;
