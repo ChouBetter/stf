@@ -64,6 +64,18 @@
         checkedDevices.forEach((d) => {
           console.log(d.value);
         });
+      } else if (controlType === "using") {
+        for (var idx in deviceSets) {
+          if (deviceSets[idx].using)
+            console.log(deviceSets[idx].serial);
+        }
+      } else if (controlType === "all") {
+        var checkedDevices = document.querySelectorAll("input[name=devices]");
+        checkedDevices.forEach((d) => {
+          console.log(d.value);
+        });
+      } else {
+        alert("no device match");
       }
     }
 
