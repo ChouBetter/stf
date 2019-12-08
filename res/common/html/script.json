@@ -1,15 +1,15 @@
 [{
     "name": "group1",
     "items": [{
-        "name": "s1",
+        "name": "script1",
         "script": "script1.py"
       },
       {
-        "name": "s2",
+        "name": "script2",
         "script": "script2.py"
       },
       {
-        "name": "s3",
+        "name": "script3",
         "script": "script3.py"
       }
     ]
@@ -17,15 +17,15 @@
   {
     "name": "group2",
     "items": [{
-        "name": "2s1",
+        "name": "task1",
         "script": "script21.py"
       },
       {
-        "name": "2s2",
+        "name": "task2",
         "script": "script22.py"
       },
       {
-        "name": "2s3",
+        "name": "task3",
         "script": "script23.py"
       }
     ]

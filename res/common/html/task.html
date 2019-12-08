@@ -39,7 +39,7 @@
             '<li><input type="radio" name="control" value="select" onchange="controlChange(this);" checked />SELECT</li><span id="spanDevices">';
           for (var idx in deviceSets) {
             _str +=
-              `<input type="checkbox" name="devices" value="${ deviceSets[idx].serial }" />${ deviceSets[idx].serial }`;
+              `<input type="checkbox" name="devices" value="${ deviceSets[idx].serial }" />${ deviceSets[idx].serial.split(":")[0] }`;
           }
           _str += "</span></ul>";
           document.querySelector("#deviceSet").innerHTML = _str;
