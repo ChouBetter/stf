@@ -30,10 +30,10 @@
         .then((response) => {
           return response.json();
         }).then((jsonData) => {
+          console.log(deviceSets = jsonData.devices);
           deviceSets.sort((a, b) => {
             return a.serial > b.serial ? 1 : -1;
           });
-          console.log(deviceSets = jsonData.devices);
 
           var _str =
             '<span>Control Type:</span><ul>' +
