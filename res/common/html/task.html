@@ -40,9 +40,8 @@
           for (var idx in deviceSets) {
             _str +=
               `<input type="checkbox" name="devices" value="${ deviceSets[idx].serial }" />${ deviceSets[idx].serial.split(":")[0] }`;
-            if ((idx + 1) % 8 == 0) {
+            if ((parseInt(idx) + 1) % 8 == 0)
               _str += "<br/>";
-            }
           }
           _str += "</span></ul>";
           document.querySelector("#deviceSet").innerHTML = _str;
