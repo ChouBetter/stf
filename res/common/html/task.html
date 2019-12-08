@@ -63,25 +63,42 @@
         alert("please select script");
         return;
       }
+
+      var interval = 500;
       var controlType = document.querySelector("input[name=control]:checked").value;
       if (controlType === "select") {
         var checkedDevices = document.querySelectorAll("input[name=devices]:checked");
         checkedDevices.forEach((d) => {
           console.log(d.value);
+          setTimeout(() => execScript(scriptName, d.value), interval);
+          interval += 1000;
         });
       } else if (controlType === "using") {
         for (var idx in deviceSets) {
-          if (deviceSets[idx].using)
+          if (deviceSets[idx].using) {
             console.log(deviceSets[idx].serial);
+            setTimeout(() => execScript(scriptName, deviceSets[idx].serial), interval);
+            interval += 1000;
+          }
         }
       } else if (controlType === "all") {
         var checkedDevices = document.querySelectorAll("input[name=devices]");
         checkedDevices.forEach((d) => {
           console.log(d.value);
+          setTimeout(() => execScript(scriptName, d.value), interval);
+          interval += 1000;
         });
       } else {
         alert("no device match");
       }
+    }
+
+    function execScript(serial, script) {
+      fetch("http://123.51.133.103:3001/auto/" + serial + "/" + script)
+        .then(function (response) {
+          return response;
+        })
+        .catch(function (err) {});
     }
 
   </script>
