@@ -106,6 +106,8 @@
       }
 
       function useDevice() {
+        var controlType = document.querySelector("input[name=control]:checked")
+          .value;
         if (controlType === "select") {
           var checkedDevices = document.querySelectorAll(
             "input[name=devices]:checked"
