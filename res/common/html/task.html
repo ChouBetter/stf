@@ -1,117 +1,150 @@
 <html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title></title>
+    <script type="text/javascript">
+      var scriptSets, deviceSets;
+      document.addEventListener("DOMContentLoaded", function() {
+        fetch("/html/script.json", {})
+          .then(response => {
+            return response.json();
+          })
+          .then(jsonData => {
+            console.log((scriptSets = jsonData));
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title></title>
-  <script type="text/javascript">
-    var scriptSets, deviceSets;
-    document.addEventListener("DOMContentLoaded", function () {
-      fetch('/html/script.json', {})
-        .then((response) => {
-          return response.json();
-        }).then((jsonData) => {
-          console.log(scriptSets = jsonData);
-
-          var _str = '<span>Script:</span><ul>';
-          for (var idx in scriptSets) {
-            _str += `<li>${ scriptSets[idx].name }</li>`;
-            let items = scriptSets[idx].items;
-            for (var idx2 in items)
-              _str += `<input type="radio" name="script" value="${ items[idx2].script }" />${ items[idx2].name }`;
-          }
-          _str += "</ul>";
-          document.querySelector("#scriptSet").innerHTML = _str;
-        }).catch((err) => {
-          console.log('ERROR: ', err);
-        });
-
-      fetch('/api/v1/devices', {})
-        .then((response) => {
-          return response.json();
-        }).then((jsonData) => {
-          console.log(deviceSets = jsonData.devices);
-          deviceSets.sort((a, b) => {
-            return a.serial > b.serial ? 1 : -1;
+            var _str = "<span>Script:</span><ul>";
+            for (var idx in scriptSets) {
+              _str += `<li>${scriptSets[idx].name}</li>`;
+              let items = scriptSets[idx].items;
+              for (var idx2 in items)
+                _str += `<input type="radio" name="script" value="${items[idx2].script}" />${items[idx2].name}`;
+            }
+            _str += "</ul>";
+            document.querySelector("#scriptSet").innerHTML = _str;
+          })
+          .catch(err => {
+            console.log("ERROR: ", err);
           });
 
-          var _str =
-            '<span>Control Type:</span><ul>' +
-            '<li><input type="radio" name="control" value="all" onchange="controlChange(this);" />ALL</li>' +
-            '<li><input type="radio" name="control" value="using" onchange="controlChange(this);" />USING</li>' +
-            '<li><input type="radio" name="control" value="select" onchange="controlChange(this);" checked />SELECT</li><span id="spanDevices">';
-          for (var idx in deviceSets) {
-            _str +=
-              `<input type="checkbox" name="devices" value="${ deviceSets[idx].serial }" />${ deviceSets[idx].serial.split(":")[0] }`;
-            if ((parseInt(idx) + 1) % 5 == 0)
-              _str += "<br/>";
-          }
-          _str += "</span></ul>";
-          document.querySelector("#deviceSet").innerHTML = _str;
-        }).catch((err) => {
-          console.log('ERROR: ', err);
-        });
-    });
+        fetch("/api/v1/devices", {})
+          .then(response => {
+            return response.json();
+          })
+          .then(jsonData => {
+            console.log((deviceSets = jsonData.devices));
+            deviceSets.sort((a, b) => {
+              return a.serial > b.serial ? 1 : -1;
+            });
 
-    function controlChange(radio) {
-      document.querySelector("#spanDevices").style = radio.value === "select" && radio.checked ? '' : 'display:none'
-    }
+            var _str =
+              "<span>Control Type:</span><ul>" +
+              '<li><input type="radio" name="control" value="all" onchange="controlChange(this);" />ALL</li>' +
+              '<li><input type="radio" name="control" value="using" onchange="controlChange(this);" />USING</li>' +
+              '<li><input type="radio" name="control" value="select" onchange="controlChange(this);" checked />SELECT</li><span id="spanDevices">';
+            for (var idx in deviceSets) {
+              _str += `<input type="checkbox" name="devices" value="${
+                deviceSets[idx].serial
+              }" />${deviceSets[idx].serial.split(":")[0]}`;
+              if ((parseInt(idx) + 1) % 5 == 0) _str += "<br/>";
+            }
+            _str += "</span></ul>";
+            document.querySelector("#deviceSet").innerHTML = _str;
+          })
+          .catch(err => {
+            console.log("ERROR: ", err);
+          });
+      });
 
-    function exec() {
-      var scriptName = document.querySelector("input[name=script]:checked").value;
-      if (!scriptName) {
-        alert("please select script");
-        return;
+      function controlChange(radio) {
+        document.querySelector("#spanDevices").style =
+          radio.value === "select" && radio.checked ? "" : "display:none";
       }
 
-      var interval = 500;
-      var controlType = document.querySelector("input[name=control]:checked").value;
-      if (controlType === "select") {
-        var checkedDevices = document.querySelectorAll("input[name=devices]:checked");
-        checkedDevices.forEach((d) => {
-          console.log(d.value);
-          setTimeout(() => execScript(scriptName, d.value), interval);
-          interval += 1000;
-        });
-      } else if (controlType === "using") {
-        for (var idx in deviceSets) {
-          if (deviceSets[idx].using) {
-            console.log(deviceSets[idx].serial);
-            setTimeout(() => execScript(scriptName, deviceSets[idx].serial), interval);
-            interval += 1000;
-          }
+      function runScript() {
+        var scriptName = document.querySelector("input[name=script]:checked")
+          .value;
+        if (!scriptName) {
+          alert("please select script");
+          return;
         }
-      } else if (controlType === "all") {
-        var checkedDevices = document.querySelectorAll("input[name=devices]");
-        checkedDevices.forEach((d) => {
-          console.log(d.value);
-          setTimeout(() => execScript(scriptName, d.value), interval);
-          interval += 1000;
-        });
-      } else {
-        alert("no device match");
+
+        var controlType = document.querySelector("input[name=control]:checked")
+          .value;
+        if (controlType === "select") {
+          var checkedDevices = document.querySelectorAll(
+            "input[name=devices]:checked"
+          );
+          checkedDevices.forEach(d => {
+            console.log(d.value);
+            execScript(scriptName, d.value);
+          });
+        } else if (controlType === "using") {
+          for (var idx in deviceSets) {
+            if (deviceSets[idx].using) {
+              console.log(deviceSets[idx].serial);
+              execScript(scriptName, deviceSets[idx].serial);
+            }
+          }
+        } else if (controlType === "all") {
+          var checkedDevices = document.querySelectorAll("input[name=devices]");
+          checkedDevices.forEach(d => {
+            console.log(d.value);
+            execScript(scriptName, d.value);
+          });
+        } else {
+          alert("no device match");
+        }
       }
-    }
 
-    function execScript(serial, script) {
-      fetch("http://123.51.133.103:3001/auto/" + serial + "/" + script)
-        .then(function (response) {
-          return response;
+      function execScript(serial, script) {
+        fetch("http://123.51.133.103:3001/auto/" + script + "/" + serial)
+          .then(function(response) {
+            return response;
+          })
+          .catch(function(err) {});
+      }
+
+      function useDevice() {
+        if (controlType === "select") {
+          var checkedDevices = document.querySelectorAll(
+            "input[name=devices]:checked"
+          );
+          checkedDevices.forEach(d => {
+            console.log(d.value);
+            execDevice(d.value);
+          });
+        } else alert("ONLY 'select' option can trigger useDevice");
+      }
+
+      function execDevice(serial) {
+        fetch("/api/v1/user/devices", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ serial: serial })
         })
-        .catch(function (err) {});
-    }
+          .then(function(res) {
+            return res;
+          })
+          .catch(function(err) {});
+      }
+    </script>
+  </head>
 
-  </script>
-</head>
-
-<body>
-  <div id="scriptSet">
-
-  </div>
-  <div id="deviceSet">
-
-  </div>
-  <input type="button" value="exec" style="width: 240px;height: 60px;" onclick="exec()" />
-</body>
-
+  <body>
+    <div id="scriptSet"></div>
+    <div id="deviceSet"></div>
+    <input
+      type="button"
+      value="runScript"
+      style="width: 240px;height: 60px;"
+      onclick="runScript()"
+    />
+    <input
+      type="button"
+      value="useDevice"
+      style="width: 240px;height: 60px;"
+      onclick="useDevice()"
+    />
+  </body>
 </html>
