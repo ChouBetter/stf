@@ -7,14 +7,14 @@
   <script type="text/javascript">
     var scriptSets, deviceSets;
     document.addEventListener("DOMContentLoaded", function () {
-      fetch("/html/script.json", {})
+      fetch("/html/manager.json", {})
         .then(response => {
           return response.json();
         })
         .then(jsonData => {
           console.log((scriptSets = jsonData));
 
-          var _str = "<span>Script:</span><ul>";
+          var _str = "<span>Shell:</span><ul>";
           for (var idx in scriptSets) {
             _str += `<li>${scriptSets[idx].name}</li>`;
             let items = scriptSets[idx].items;
@@ -39,12 +39,11 @@
           });
 
           var _str =
-            "<span>Control Type:</span><ul>" +
-            '<li><input type="radio" name="control" value="all" onchange="controlChange(this);" />ALL</li>' +
-            '<li><input type="radio" name="control" value="using" onchange="controlChange(this);" />USING</li>' +
-            '<li><input type="radio" name="control" value="select" onchange="controlChange(this);" checked />SELECT</li><span id="spanDevices">';
+            "<span>Shell Type:</span><ul>" +
+            '<li><input type="radio" name="control" value="all" onchange="controlChange(this);" />GLOBAL</li>' +
+            '<li><input type="radio" name="control" value="select" onchange="controlChange(this);" checked />SINGLE</li><span id="spanDevices">';
           for (var idx in deviceSets) {
-            _str += `<input type="checkbox" name="devices" value="${
+            _str += `<input type="radio" name="devices" value="${
                 deviceSets[idx].serial
               }" />${deviceSets[idx].serial.split(":")[0]}`;
             if ((parseInt(idx) + 1) % 5 == 0) _str += "<br/>";
@@ -73,65 +72,21 @@
       var controlType = document.querySelector("input[name=control]:checked")
         .value;
       if (controlType === "select") {
-        var checkedDevices = document.querySelectorAll(
+        var checkedDevice = document.querySelector(
           "input[name=devices]:checked"
-        );
-        checkedDevices.forEach(d => {
-          console.log(d.value);
-          execScript(scriptName, d.value);
-        });
-      } else if (controlType === "using") {
-        for (var idx in deviceSets) {
-          if (deviceSets[idx].using) {
-            console.log(deviceSets[idx].serial);
-            execScript(scriptName, deviceSets[idx].serial);
-          }
-        }
+        ).value;
+        execScript(scriptName, checkedDevice);
       } else if (controlType === "all") {
-        var checkedDevices = document.querySelectorAll("input[name=devices]");
-        checkedDevices.forEach(d => {
-          console.log(d.value);
-          execScript(scriptName, d.value);
-        });
+        execScript(scriptName, "1");
       } else {
         alert("no device match");
       }
     }
 
     function execScript(serial, script) {
-      fetch("http://123.51.133.103:3001/auto/" + script + "/" + serial)
+      fetch("http://123.51.133.103:3001/sh/" + script + "/" + serial)
         .then(function (response) {
           return response;
-        })
-        .catch(function (err) {});
-    }
-
-    function useDevice() {
-      var controlType = document.querySelector("input[name=control]:checked")
-        .value;
-      if (controlType === "select") {
-        var checkedDevices = document.querySelectorAll(
-          "input[name=devices]:checked"
-        );
-        checkedDevices.forEach(d => {
-          console.log(d.value);
-          execDevice(d.value);
-        });
-      } else alert("ONLY 'select' option can trigger useDevice");
-    }
-
-    function execDevice(serial) {
-      fetch("/api/v1/user/devices", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            serial: serial
-          })
-        })
-        .then(function (res) {
-          return res;
         })
         .catch(function (err) {});
     }
@@ -142,8 +97,7 @@
 <body>
   <div id="scriptSet"></div>
   <div id="deviceSet"></div>
-  <input type="button" value="runScript" style="width: 240px;height: 60px;" onclick="runScript()" />
-  <input type="button" value="useDevice" style="width: 240px;height: 60px;" onclick="useDevice()" />
+  <input type="button" value="runScript" style="width: 240px;height: 60px;" onclick="runShell()" />
 </body>
 
 </html>

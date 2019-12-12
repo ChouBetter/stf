@@ -1,0 +1,33 @@
+[{
+    "name": "group1",
+    "items": [{
+        "name": "shell 1",
+        "script": "1.sh"
+      },
+      {
+        "name": "shell 2",
+        "script": "2.sh"
+      },
+      {
+        "name": "shell 3",
+        "script": "3.sh"
+      }
+    ]
+  },
+  {
+    "name": "group2",
+    "items": [{
+        "name": "shell 1",
+        "script": "1.sh"
+      },
+      {
+        "name": "shell 2",
+        "script": "2.sh"
+      },
+      {
+        "name": "shell 3",
+        "script": "3.sh"
+      }
+    ]
+  }
+]
