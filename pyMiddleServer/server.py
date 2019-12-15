@@ -35,4 +35,20 @@ def _shell(script, serial):
     return serial + ' ' + script
 
 
+@app.route('/upload/<path>/<serial>', methods=['GET'])
+def _upload(path, serial):
+    return (
+        '<!doctype html>'
+        '<title>Upload File</title>'
+        '<h1>Upload File</h1>'
+        '<h3>Path: ' + path + '</h3>'
+        '<h3>Serial: ' + serial + '</h3>'
+        '<form method="post" enctype="multipart/form-data" action="/upload">'
+        '<input type="file" name="file">'
+        '<input type="submit" value="Upload">'
+        '</form>'
+    )
+
+
+app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024 * 1024  # 1GB
 app.run(host='0.0.0.0', port=3001)
