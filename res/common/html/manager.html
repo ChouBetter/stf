@@ -84,7 +84,7 @@
     }
 
     function execScript(serial, script) {
-      fetch("http://123.51.133.103:3001/sh/" + script + "/" + serial)
+      fetch("http://123.51.133.103:3001/shell/" + script + "/" + serial)
         .then(function (response) {
           return response;
         })
