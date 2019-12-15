@@ -30,7 +30,7 @@ def _auto(script, serial):
 
 
 @app.route('/shell/<script>/<serial>')
-def _auto(script, serial):
+def _shell(script, serial):
     print os.popen('./shell/' + script + ' ' + serial).read().strip()
     return serial + ' ' + script
 
