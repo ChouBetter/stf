@@ -183,7 +183,8 @@ module.exports = function DeviceListCtrl(
     details: false,
     usings: false,
     task: false,
-    mgr: false
+    mgr: false,
+    upload: false
   };
 
   SettingsService.bind($scope, {

@@ -1,0 +1,77 @@
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title></title>
+  <script type="text/javascript">
+    var scriptSets, deviceSets;
+    document.addEventListener("DOMContentLoaded", function () {
+      fetch("/html/upload.json", {})
+        .then(response => {
+          return response.json();
+        })
+        .then(jsonData => {
+          console.log((scriptSets = jsonData));
+
+          var _str = "<span>Path:</span><ul>";
+          for (var idx in scriptSets)
+            _str += `<li><input type="radio" name="script" value="${scriptSets[idx]}" />${scriptSets[idx]}</li>`;
+          _str += "</ul>";
+          document.querySelector("#scriptSet").innerHTML = _str;
+        })
+        .catch(err => {
+          console.log("ERROR: ", err);
+        });
+
+      fetch("/api/v1/devices", {})
+        .then(response => {
+          return response.json();
+        })
+        .then(jsonData => {
+          console.log((deviceSets = jsonData.devices));
+          deviceSets.sort((a, b) => {
+            return a.serial > b.serial ? 1 : -1;
+          });
+
+          var _str =
+            "<span>choose Device:</span><ul><li>";
+          for (var idx in deviceSets) {
+            _str += `<input type="radio" name="devices" value="${
+                deviceSets[idx].serial
+              }" />${deviceSets[idx].serial.split(":")[0]}`;
+            if ((parseInt(idx) + 1) % 5 == 0) _str += "<br/>";
+          }
+          _str += "</span></ul>";
+          document.querySelector("#deviceSet").innerHTML = _str;
+        })
+        .catch(err => {
+          console.log("ERROR: ", err);
+        });
+    });
+
+    function runScript() {
+      var scriptName = document.querySelector("input[name=script]:checked")
+        .value;
+      if (!scriptName) {
+        alert("please select path");
+        return;
+      }
+
+      var checkedDevice = document.querySelector(
+        "input[name=devices]:checked"
+      ).value;
+
+      document.location = "http://123.51.133.103:3001/upload/" + checkedDevice + "/" + scriptName.replace("/", "_")
+    }
+
+  </script>
+</head>
+
+<body>
+  <div id="scriptSet"></div>
+  <div id="deviceSet"></div>
+  <input type="button" value="runScript" style="width: 240px;height: 60px;" onclick="runScript()" />
+</body>
+
+</html>
