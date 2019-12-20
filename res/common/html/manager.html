@@ -13,13 +13,12 @@
         })
         .then(jsonData => {
           allowDevices = jsonData.user.allowDevices;
+          if (allowDevices[0] === "ALL");
+          else document.body.style = "display:none";
         })
         .catch(err => {
           console.log("ERROR: ", err);
         });
-
-      if (allowDevices[0] === "ALL");
-      else return;
 
       fetch("/html/manager.json", {})
         .then(response => {
