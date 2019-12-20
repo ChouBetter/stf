@@ -5,8 +5,22 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
   <title></title>
   <script type="text/javascript">
-    var scriptSets, deviceSets;
+    var scriptSets, deviceSets, allowDevices;
     document.addEventListener("DOMContentLoaded", function () {
+      fetch("/api/v1/user", {})
+        .then(response => {
+          return response.json();
+        })
+        .then(jsonData => {
+          allowDevices = jsonData.user.allowDevices;
+        })
+        .catch(err => {
+          console.log("ERROR: ", err);
+        });
+
+      if (allowDevices[0] === "ALL");
+      else return;
+
       fetch("/html/manager.json", {})
         .then(response => {
           return response.json();
