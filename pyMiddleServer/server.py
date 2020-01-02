@@ -59,7 +59,7 @@ def _push(serial, addr):
         localPath = os.path.join('./tmp', filename)
         file.save(localPath)
     devicePath = addr.replace('_', '/')
-    cmd = 'adb -s ' + serial + ' push ' + localPath + ' ' + devicePath
+    cmd = 'adb -s ' + serial + ' push \'' + localPath + '\' ' + devicePath
     print cmd
     print os.popen(cmd).read().strip()
     return serial
