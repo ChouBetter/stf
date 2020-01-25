@@ -2,7 +2,6 @@ from appium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from appium.webdriver.common.touch_action import TouchAction
 import time
 import sys
 
@@ -37,33 +36,34 @@ class Moments():
     def click_good(self):
         print('click_good test =======')
 
+	timeout = WebDriverWait(self.driver, 2)
+
 	tab=self.wait.until(EC.element_to_be_clickable((By.XPATH,'//*[@text="Discover"]'))).click()
 	moments=self.wait.until(EC.element_to_be_clickable((By.XPATH,'//*[@text="Moments"]'))).click()
 
-	tb=self.wait.until(EC.element_to_be_clickable((By.XPATH,'//*[@resource-id="com.tencent.mm:id/l1"]'))).size
+	tb=self.wait.until(EC.element_to_be_clickable((By.XPATH,'//android.widget.FrameLayout[@content-desc="You are in the page of,Moments"]/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.view.View/android.widget.FrameLayout[2]'))).size
 	th=tb['height']
 
 	s = self.driver.get_window_size()
 	x1 = s['width'] * 0.25
 	y1 = s['height'] * 0.25
 	y2 = s['height'] * 0.5
-	y2_i = s['height'] * 0.7
+	y2_i = s['height'] * 0.75
 	self.driver.swipe(x1, y2, x1, y1)
 
 	isEnd = False;
-	timeout = WebDriverWait(self.driver, 2)
 
 	while isEnd==False:
 
-		items = self.driver.find_elements_by_xpath('//*[@resource-id="com.tencent.mm:id/eyz"]')
+		items = self.driver.find_elements_by_xpath('//*[@content-desc="Comment"]')
 
 		for item in items :
 			try:
 				ip = item.location
-				if(ip['y']+40>th):
+				if(ip['y']>th):
 					item.click()
-					like=timeout.until(EC.element_to_be_clickable((By.XPATH,'//*[@resource-id="com.tencent.mm:id/eyk"]')))
-					isLike=timeout.until(EC.element_to_be_clickable((By.XPATH,'//*[@resource-id="com.tencent.mm:id/eym"]'))).get_attribute('text')
+					like=timeout.until(EC.element_to_be_clickable((By.XPATH,'//*/android.view.View/android.widget.LinearLayout/android.widget.LinearLayout[1]/android.widget.TextView')))
+					isLike=like.get_attribute('text')
 					print isLike
 					if(isLike=="Like"):
 						like.click()
@@ -71,26 +71,28 @@ class Moments():
 				pass
 		self.driver.swipe(x1, y2_i, x1, y1)
 		try:
-			endScroll = timeout.until_not(EC.element_to_be_clickable((By.XPATH,'//*[@resource-id="com.tencent.mm:id/aly"]')))
+			endScroll = timeout.until_not(EC.element_to_be_clickable((By.XPATH,'//android.widget.FrameLayout[@content-desc="You are in the page of,Moments"]/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.view.View/android.widget.FrameLayout[1]/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.ListView/android.widget.LinearLayout')))
 		except :
 			isEnd = True;
 			print 'Scroll End!';
 
-	items = self.driver.find_elements_by_xpath('//*[@resource-id="com.tencent.mm:id/eyz"]')
+	items = self.driver.find_elements_by_xpath('//*[@content-desc="Comment"]')
 
 	for item in items :
 		try:
 			ip = item.location
-			if(ip['y']+40>th):
-				item.click()
-				like=timeout.until(EC.element_to_be_clickable((By.XPATH,'//*[@resource-id="com.tencent.mm:id/eyk"]')))
-				isLike=timeout.until(EC.element_to_be_clickable((By.XPATH,'//*[@resource-id="com.tencent.mm:id/eym"]'))).get_attribute('text')
+			if(ip['y']>th):
+ 				item.click()
+                                like=timeout.until(EC.element_to_be_clickable((By.XPATH,'//*/android.view.View/android.widget.LinearLayout/android.widget.LinearLayout[1]/android.widget.TextView')))
+                                isLike=like.get_attribute('text')
 				print isLike
 				if(isLike=="Like"):
 					like.click();
 		except:
 			pass
 
+
+	print 'click_good finish ======'
     def main(self):
         self.click_good()
         self.driver.quit()
