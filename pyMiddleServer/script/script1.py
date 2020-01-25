@@ -12,7 +12,7 @@ deviceName = sys.argv[1]
 PLATFORM='Android'
 app_package='com.tencent.mm'
 app_activity='.ui.LauncherUI'
-driver_server='http://123.51.133.103:24723/wd/hub'
+driver_server='http://localhost:24723/wd/hub'
 noreset_flag='true'
 fullreset_flag='false'
 

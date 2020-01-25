@@ -16,7 +16,7 @@ desired_caps['appActivity'] = '.Calculator'
 desired_caps['noReset'] = 'true'
 desired_caps['fullReset'] = 'false'
 
-driver = webdriver.Remote('http://123.51.133.103:24723/wd/hub', desired_caps)
+driver = webdriver.Remote('http://localhost:24723/wd/hub', desired_caps)
 
 try:
     driver.find_element_by_xpath('//*[@resource-id="com.android.calculator2:id/digit_9"]').click()
