@@ -1,33 +1,132 @@
 [{
-    "name": "group1",
+    "name": "WeChat",
     "items": [{
-        "name": "script1",
-        "script": "script1.py"
+        "name": "啟動微信",
+        "script": "launch_wechat.py"
       },
       {
-        "name": "script2",
-        "script": "script2.py"
+        "name": "關閉微信",
+        "script": "close_wechat.py"
       },
       {
-        "name": "script3",
-        "script": "script3.py"
+        "name": "打開朋友圈",
+        "script": "open_moments.py"
+      },
+      {
+        "name": "打開群發",
+        "script": "open_broadcast_message.py"
+      },
+      {
+        "name": "打開我的信息",
+        "script": "open_profile.py"
+      },
+      {
+        "name": "打開附近的人",
+        "script": "open_nearby.py"
+      },
+      {
+        "name": "打開好友搜尋",
+        "script": "open_friends.py"
+      },
+      {
+        "name": "清除對話紀錄",
+        "script": "clear_chats.py"
+      },
+      {
+        "name": "點讚",
+        "script": "click_good.py"
+      },
+      {
+        "name": "發朋友圈",
+        "script": "post_context.py"
+      },
+      {
+        "name": "建立群聊(On going)",
+        "script": "group_chat.py"
+      },
+      {
+        "name": "發視頻朋友圈(On going)",
+        "script": "post_video.py"
+      },
+      {
+        "name": "接受朋友請求(On going)",
+        "script": "accept_friend_request.py"
       }
     ]
   },
   {
-    "name": "group2",
+    "name": "Douyin",
     "items": [{
-        "name": "task1",
-        "script": "script21.py"
+        "name": "啟動抖音",
+        "script": "douyin_launch.py"
       },
       {
-        "name": "task2",
-        "script": "script22.py"
+        "name": "關閉抖音",
+        "script": "douyin_close.py"
       },
       {
-        "name": "task3",
-        "script": "script23.py"
+        "name": "推薦頁點讚",
+        "script": "douyin_click_good.py"
+      },
+      {
+        "name": "推薦頁關注",
+        "script": "2.py"
+      },
+      {
+        "name": "推薦頁關注其粉絲",
+        "script": "3.py"
+      },
+      {
+        "name": "推薦頁評論",
+        "script": "4.py"
+      },
+      {
+        "name": "轉發視頻",
+        "script": "5.py"
+      },
+      {
+        "name": "點讚好友作品",
+        "script": "6.py"
+      },
+      {
+        "name": "評論好友作品",
+        "script": "7.py"
+      },
+      {
+        "name": "點讚關注人作品",
+        "script": "8.py"
+      },
+      {
+        "name": "評論關注人作品",
+        "script": "9.py"
+      },
+      {
+        "name": "互相關注",
+        "script": "10.py"
+      },
+      {
+        "name": "11. 刷抖音",
+        "script": "douyin_auto.py"
       }
     ]
+  },
+  {
+    "name": "QQ",
+    "items": [{
+        "name": "Activate QQ",
+        "script": "launch_qq.py"
+      },
+      {
+        "name": "Close QQ",
+        "script": "close_qq.py"
+      }
+    ]
+  },
+  {
+    "name": "Other",
+    "items": [{
+      "name": "Activate Calculator",
+      "script": "script2.py"
+    }]
   }
 ]
