@@ -62,7 +62,8 @@
         "input[name=devices]:checked"
       ).value;
 
-      document.location = "http://123.51.133.103:3001/upload/" + checkedDevice + "/" + scriptName.replace(/\//g, "_")
+      document.location = `http://${document.location.hostname}:3001/upload/${checkedDevice}/${scriptName.replace(
+          /\//g, "_")}`;
     }
 
   </script>

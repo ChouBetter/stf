@@ -101,7 +101,7 @@
     }
 
     function execScript(script, serial) {
-      fetch("http://123.51.133.103:3001/auto/" + script + "/" + serial)
+      fetch(`http://${document.location.hostname}:3001/auto/${script}/${serial}`)
         .then(function (response) {
           return response;
         })
