@@ -1,0 +1,20 @@
+*pyMiddleServer package
+apt install python
+apt install python-pip
+pip install Flask
+pip install requests
+pip install commentjson
+
+*appium package
+apt install npm
+npm install -g appium
+npm install -g appium-doctor
+pip install selenium
+
+*appium ckeck
+appium -v
+
+*start service
+appium -p 24723 > /dev/null 2>&1 &
+
+python server.py > /dev/null 2>&1 &
