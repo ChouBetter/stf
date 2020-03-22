@@ -78,9 +78,10 @@
     function runScript() {
       var scriptName = document.querySelector("input[name=script]:checked").value;
       var params = document.querySelectorAll("input[name^=param]")
-      for (var idx in params) {
+      for (var idx = 0; idx < params.length; idx++) {
         alert(params[idx].value)
       }
+
       if (!scriptName) {
         alert("please select script");
         return;
