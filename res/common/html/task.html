@@ -13,14 +13,13 @@
         })
         .then(jsonData => {
           console.log((scriptSets = jsonData));
-
           var _str = "<span>Script:</span><ul>";
           for (var idx in scriptSets) {
             _str += `<li>${scriptSets[idx].name}</li>`;
             let items = scriptSets[idx].items;
             for (var idx2 in items)
               _str +=
-              `<input type="radio" name="script" value="${items[idx2].script}" onchange="scriptChange(this);" />${items[idx2].name}`;
+              `<input type="radio" name="script" value="${items[idx2].script}" params="${items[idx2].params?items[idx2].params.join(";"):""}" onchange="scriptChange(this);" />${items[idx2].name}`;
           }
           _str += "</ul>";
           document.querySelector("#scriptSet").innerHTML = _str;
@@ -59,7 +58,7 @@
     });
 
     function scriptChange(radio) {
-      alert(radio.value);
+      alert(radio.params);
     }
 
     function controlChange(radio) {
