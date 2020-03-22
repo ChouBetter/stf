@@ -78,9 +78,9 @@
     function runScript() {
       var scriptName = document.querySelector("input[name=script]:checked").value;
       var params = document.querySelectorAll("input[name^=param]");
-      var ary = array();
+      var ary = {};
       if (params.length > 0) {
-        ary["params"] = array();
+        ary["params"] = [];
         for (var idx = 0; idx < params.length; idx++)
           ary["params"].push(params[idx].value);
       }
