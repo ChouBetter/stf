@@ -4,6 +4,7 @@ import requests
 import json
 import commentjson
 import os
+import base64
 
 
 def shutdown():
@@ -23,10 +24,14 @@ def index():
     return "success"
 
 
-@app.route('/auto/<script>/<serial>')
-def _auto(script, serial):
-    print os.popen('python script/' + script + ' ' + serial).read().strip()
-    return serial + ' ' + script
+@app.route('/auto/<script>/<serial>/<encode>')
+def _auto(script, serial, encode):
+    args = json.loads(base64.b64decode(encode))
+    cmd = 'python script/' + script + ' ' + serial
+    for param in args['params']:
+        cmd = cmd + ' \"' + param + '\"'
+    print os.popen(cmd).read().strip()
+    return cmd
 
 
 @app.route('/shell/<script>/<serial>')
