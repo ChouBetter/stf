@@ -19,7 +19,8 @@
             _str += `<li>${scriptSets[idx].name}</li>`;
             let items = scriptSets[idx].items;
             for (var idx2 in items)
-              _str += `<input type="radio" name="script" value="${items[idx2].script}" />${items[idx2].name}`;
+              _str +=
+              `<input type="radio" name="script" value="${items[idx2].script}" onchange="scriptChange(this);" />${items[idx2].name}`;
           }
           _str += "</ul>";
           document.querySelector("#scriptSet").innerHTML = _str;
@@ -56,6 +57,10 @@
           console.log("ERROR: ", err);
         });
     });
+
+    function scriptChange(radio) {
+      alert(radio.value);
+    }
 
     function controlChange(radio) {
       document.querySelector("#spanDevices").style =
@@ -142,6 +147,7 @@
 </head>
 
 <body>
+  <div id="paramSet"></div>
   <div id="scriptSet"></div>
   <div id="deviceSet"></div>
   <input type="button" value="runScript" style="width: 240px;height: 60px;" onclick="runScript()" />

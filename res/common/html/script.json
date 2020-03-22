@@ -1,6 +1,10 @@
 [{
     "name": "WeChat",
     "items": [{
+        "name": "參數測試",
+        "script": "launch_wechat.py",
+        "params": ["參數1", "參數2", "參數3"]
+      }, {
         "name": "啟動微信",
         "script": "launch_wechat.py"
       },
