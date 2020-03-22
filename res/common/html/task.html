@@ -58,7 +58,16 @@
     });
 
     function scriptChange(radio) {
-      alert(radio.getAttribute("params"));
+      var str = radio.getAttribute("params");
+      var params = str.split(";")
+
+      var _str = "<span>Parameter :</span><ul>"
+      for (var idx in params)
+        _str += `<li>${params[idx]}<input type="text" name="param${idx}" /></li>`;
+      _str += "</span></ul>";
+      document.querySelector("#paramSet").innerHTML = _str;
+      document.querySelector("#paramSet").style =
+        ps.length > 0 ? "" : "display:none";
     }
 
     function controlChange(radio) {
