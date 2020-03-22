@@ -77,10 +77,14 @@
 
     function runScript() {
       var scriptName = document.querySelector("input[name=script]:checked").value;
-      var params = document.querySelectorAll("input[name^=param]")
-      for (var idx = 0; idx < params.length; idx++) {
-        alert(params[idx].value)
+      var params = document.querySelectorAll("input[name^=param]");
+      var ary = array();
+      if (params.length > 0) {
+        ary["params"] = array();
+        for (var idx = 0; idx < params.length; idx++)
+          ary["params"].push(params[idx].value);
       }
+      var encoded = window.btoa(JSON.stringify(ary))
 
       if (!scriptName) {
         alert("please select script");
@@ -95,20 +99,20 @@
         );
         checkedDevices.forEach(d => {
           console.log(d.value);
-          execScript(scriptName, d.value);
+          execScript(scriptName, d.value, encoded);
         });
       } else if (controlType === "using") {
         for (var idx in deviceSets) {
           if (deviceSets[idx].using) {
             console.log(deviceSets[idx].serial);
-            execScript(scriptName, deviceSets[idx].serial);
+            execScript(scriptName, deviceSets[idx].serial, encoded);
           }
         }
       } else if (controlType === "all") {
         var checkedDevices = document.querySelectorAll("input[name=devices]");
         checkedDevices.forEach(d => {
           console.log(d.value);
-          execScript(scriptName, d.value);
+          execScript(scriptName, d.value, encoded);
         });
       } else {
         alert("no device match");
@@ -117,8 +121,8 @@
       alert("finished!");
     }
 
-    function execScript(script, serial) {
-      fetch(`http://${document.location.hostname}:3001/auto/${script}/${serial}`)
+    function execScript(script, serial, encoded) {
+      fetch(`http://${document.location.hostname}:3001/auto/${script}/${serial}/${encoded}`)
         .then(function (response) {
           return response;
         })
