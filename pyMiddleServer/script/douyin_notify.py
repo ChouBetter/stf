@@ -13,7 +13,7 @@ deviceName = sys.argv[1]
 PLATFORM='Android'
 app_package='com.ss.android.ugc.aweme'
 app_activity='.main.MainActivity'
-driver_server='http://localhost:24723/wd/hub'
+driver_server='http://123.51.133.103:24723/wd/hub'
 noreset_flag='true'
 fullreset_flag='false'
 serverSerial = int(deviceName.split(':', 1)[0].split('.')[3])
@@ -26,8 +26,8 @@ class Moments():
         'platformName':PLATFORM,
         'deviceName':deviceName,
         'udid':deviceName,
-#        'appPackage':app_package,
-#        'appActivity':app_activity,
+		#'appPackage':app_package,
+		#'appActivity':app_activity,
         'noReset':noreset_flag,
         'fullReset':fullreset_flag,
         'systemPort':systemPort,
@@ -36,13 +36,10 @@ class Moments():
         self.wait=WebDriverWait(self.driver,300)
 
     def tap_for_locate(self):
-		s = self.driver.get_window_size()
-		x_cent = s['width'] * 0.5
-        y_cent = s['height'] * 0.5
 		time.sleep(2)
-		self.driver.tap([(0,0),(720,1184)], 500)
+		self.driver.tap([(0,296),(720,1184)], 500)
     
-	def notify(self,times):
+    def notify(self,times):
 		print('douyin notify test ======= [argument] times = %d' %(times))
 
 		s = self.driver.get_window_size()
@@ -53,7 +50,7 @@ class Moments():
 		for i in range(times):	
 			try: 
 				self.tap_for_locate();							
-				notify=self.wait.until(EC.element_to_be_clickable((By.XPATH,'//*[@resource-id="com.ss.android.ugc.aweme:id/aw2"]'))).click()
+				notify=self.wait.until(EC.element_to_be_clickable((By.XPATH,'//*[@resource-id="com.ss.android.ugc.aweme:id/aw8"]'))).click()
 				print('douyin notify test ======= [  DEBUG ] click notify cnt = %d' %(i+1))
 				self.driver.swipe(x1, y2, x1, y1)
 							

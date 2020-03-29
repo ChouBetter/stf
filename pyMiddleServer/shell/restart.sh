@@ -11,7 +11,7 @@ if [ ${con_ip1} -ge 50 ] && [ ${con_ip1} -le 84 ] || [ ${con_ip1} -ge 90 ] && [ 
 
 	sshpass -p vmivmi ssh -o StrictHostKeyChecking=no -t -t vmi@172.16.0.10 "/home/vmi/vmi-mng-db/action_test_restart_con 2 $1"
 
-	sleep 30
+	sleep 40
 
 	# Device reconnect
 #	if [ ${con_ip1} -ge 50 ] && [ ${con_ip1} -le 84 ]; then

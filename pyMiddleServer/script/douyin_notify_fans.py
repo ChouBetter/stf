@@ -13,7 +13,7 @@ deviceName = sys.argv[1]
 PLATFORM='Android'
 app_package='com.ss.android.ugc.aweme'
 app_activity='.main.MainActivity'
-driver_server='http://localhost:24723/wd/hub'
+driver_server='http://123.51.133.103:24723/wd/hub'
 noreset_flag='true'
 fullreset_flag='false'
 serverSerial = int(deviceName.split(':', 1)[0].split('.')[3])
@@ -21,26 +21,23 @@ systemPort = str(serverSerial * 100 + 5)
 wdaLocalPort = str(serverSerial * 100 + 10)
 
 class Moments():
-    def __init__(self):
-        self.desired_caps={
-        'platformName':PLATFORM,
-        'deviceName':deviceName,
-        'udid':deviceName,
-#        'appPackage':app_package,
-#        'appActivity':app_activity,
-        'noReset':noreset_flag,
-        'fullReset':fullreset_flag,
-        'systemPort':systemPort,
-        'wdaLocalPort': wdaLocalPort}
-        self.driver=webdriver.Remote(driver_server,self.desired_caps)
-        self.wait=WebDriverWait(self.driver,300)
+    	def __init__(self):
+        	self.desired_caps={
+        	'platformName':PLATFORM,
+       	 	'deviceName':deviceName,
+        	'udid':deviceName,
+#        	'appPackage':app_package,
+#        	'appActivity':app_activity,
+        	'noReset':noreset_flag,
+        	'fullReset':fullreset_flag,
+        	'systemPort':systemPort,
+        	'wdaLocalPort': wdaLocalPort}
+        	self.driver=webdriver.Remote(driver_server,self.desired_caps)
+        	self.wait=WebDriverWait(self.driver,300)
 
-    def tap_for_locate(self):
-		s = self.driver.get_window_size()
-		x_cent = s['width'] * 0.5
-        y_cent = s['height'] * 0.5
+    	def tap_for_locate(self):
 		time.sleep(2)
-		self.driver.tap([(0,0),(720,1184)], 500)
+		self.driver.tap([(0,296),(720,1184)], 500)
     
 	def notify(self,times):
 		print('douyin notify fans test ======= [argument] times = %d' %(times))
@@ -52,11 +49,12 @@ class Moments():
 
 		self.tap_for_locate();
 		self.driver.swipe(x2, y1, x1, y1)
-		notifyTab=self.wait.until(EC.element_to_be_clickable((By.XPATH,'//*[@resource-id="com.ss.android.ugc.aweme:id/awm"]'))).click()
-
-		items = self.driver.find_elements_by_xpath('//*[@resource-id="com.ss.android.ugc.aweme:id/un"]')
+		notifyTab=self.wait.until(EC.element_to_be_clickable((By.XPATH,'//*[@resource-id="com.ss.android.ugc.aweme:id/awv"]'))).click()
+		
+		time.sleep(2)
+		items = self.driver.find_elements_by_xpath('//*[@resource-id="com.ss.android.ugc.aweme:id/v0"]')
 							
-		scrollLimit = 7
+		scrollLimit = 6
 		cnt = 0
 
 		x1 = s['width'] * 0.5
@@ -77,7 +75,7 @@ class Moments():
 		print('douyin notify fans test ======= finish ======')			         
 	def main(self):
 		self.notify(2)
-        self.driver.quit()
+        	self.driver.quit()
 
 M=Moments()
 M.main()

@@ -21,52 +21,59 @@ systemPort = str(serverSerial * 100 + 5)
 wdaLocalPort = str(serverSerial * 100 + 10)
 
 class Moments():
-    def __init__(self):
-        self.desired_caps={
-        'platformName':PLATFORM,
-        'deviceName':deviceName,
-        'udid':deviceName,
-#        'appPackage':app_package,
-#        'appActivity':app_activity,
-        'noReset':noreset_flag,
-        'fullReset':fullreset_flag,
-        'systemPort':systemPort,
-        'wdaLocalPort': wdaLocalPort}
-        self.driver=webdriver.Remote(driver_server,self.desired_caps)
-        self.wait=WebDriverWait(self.driver,300)
-
-    def tap_for_locate(self):
-		s = self.driver.get_window_size()
-		x_cent = s['width'] * 0.5
-        y_cent = s['height'] * 0.5
-		time.sleep(2)
-		self.driver.tap([(0,0),(720,1184)], 500)
+	def __init__(self):
+		self.desired_caps={
+		'platformName':PLATFORM,
+		'deviceName':deviceName,
+		'udid':deviceName,
+		#        'appPackage':app_package,
+		#        'appActivity':app_activity,
+		'automationName': "uiautomator2",
+		'noReset':noreset_flag,
+		'fullReset':fullreset_flag,
+		'systemPort':systemPort,
+		'wdaLocalPort': wdaLocalPort}
+		self.driver=webdriver.Remote(driver_server,self.desired_caps)
+		self.wait=WebDriverWait(self.driver,300)
+	
+	#點擊頁面一次確保元素可以被定位
+	def tap_for_locate(self):
+		time.sleep(3)
+		self.driver.tap([(0,296),(720,1184)], 1000)
     
 	def click_good(self,times):
-		print('douyin click good test ======= [argument] times = %d' %(times))
+		print('douyin click good test ======= ')
+		print('[argument] [%s] times = %d' %(str(sys.argv[1]),times))
 
+		#取得頁面大小
 		s = self.driver.get_window_size()
 		x1 = s['width'] * 0.5
 		y1 = s['height'] * 0.2
 		y2 = s['height'] * 0.8
-					
+		
+		#self.tap_for_locate()
+		#self.driver.swipe(x1, y2, x1, y1)
+
+		#執行 times 次			
 		for i in range(times):	
 			try:
-				self.tap_for_locate();							
-				like=self.wait.until(EC.element_to_be_clickable((By.XPATH,'//*[@resource-id="com.ss.android.ugc.aweme:id/aet"]'))).click()
-				print('douyin click good test ======= [  DEBUG ] click good cnt = %d' %(i+1))
-				self.driver.swipe(x1, y2, x1, y1)
-							
+				self.tap_for_locate()
+				print('[  DEBUG ] 正在定位喜歡元素...')	
+				#點擊喜歡						
+				like=self.wait.until(EC.element_to_be_clickable((By.ID,'com.ss.android.ugc.aweme:id/af7'))).click()				
+				print('[  DEBUG ] 以點擊 %d 次' %(i+1))
+				time.sleep(3)
+				#頁面下滑
+				self.driver.swipe(x1, y2, x1, y1)							
 			except:
-				print 'tiktok click good test ======= [ERROR]' 
-				pass	
+				print ('[ERROR] [%s] 無法定位元素' %(str(sys.argv[1])))
+				#pass	
 			      				
+		print('======= [%s] douyin click good test finish ======' %(str(sys.argv[1])) )
 
-		print('douyin click good test ======= finish ======')
-
-    def main(self):
-        self.click_good(2)
-        self.driver.quit()
+	def main(self):
+		self.click_good(int(sys.argv[2]))
+		self.driver.quit()
 
 M=Moments()
 M.main()
