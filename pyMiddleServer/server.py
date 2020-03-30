@@ -1,5 +1,6 @@
 # coding=utf-8
 from flask import Flask, redirect, request
+# from flask_cors import CORS, cross_origin
 import requests
 import json
 import commentjson
@@ -17,6 +18,7 @@ def shutdown():
 
 
 app = Flask(__name__, static_url_path='/static')
+# CORS(app)
 
 
 @app.route('/')
