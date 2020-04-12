@@ -98,6 +98,12 @@
       alert("finished!");
     }
 
+    function btnAdd() {
+      var account = document.querySelector("input[name=account]").value;
+      var password = document.querySelector("input[name=password]").value;
+      addUser(account, password);
+    }
+
     function execScript(script, serial) {
       fetch(`http://${document.location.hostname}:3001/shell/${script}/${serial}`)
         .then(function (response) {
@@ -106,10 +112,26 @@
         .catch(function (err) {});
     }
 
+    function addUser(account, password) {
+      fetch(`http://123.51.133.102:3002/add/${account}/${password}`)
+        .then(function (response) {
+          alert("success");
+          return response;
+        })
+        .catch(function (err) {
+          alert("error" + err);
+        });
+    }
+
   </script>
 </head>
 
 <body>
+  <div id="addUser">
+    account: <input type="text" name="account" />
+    password: <input type="text" name="password" />
+    <input type="button" value="Add User" style="width: 240px;height: 60px;" onclick="btnAdd()" />
+  </div>
   <div id="scriptSet"></div>
   <div id="deviceSet"></div>
   <input type="button" value="runShell" style="width: 240px;height: 60px;" onclick="runScript()" />
