@@ -28,8 +28,9 @@
           console.log(data);
           subSets = []
           if (data.length > 3) {
-            for (var row in data.split('), ('))
-              subSets.push(row.split("cn=")[1].split(",")[0]);
+            data = data.split('), (')
+            for (var idx in data)
+              subSets.push(data[idx].split("cn=")[1].split(",")[0]);
           }
           console.log(subSets)
         })
