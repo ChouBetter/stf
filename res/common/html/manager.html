@@ -116,10 +116,14 @@
       function addUser(account, password) {
         fetch(`/app/api/v1/pyLDAP?param=/add/${account}/${password}`)
           .then(function (response) {
+            console.log(response);
+            return response.text();
+          })
+          .then((data) => {
+            console.log(data);
             document.querySelector("input[name=account]").value = "";
             document.querySelector("input[name=password]").value = "";
-            alert("response: " + response.text());
-            return response;
+            alert("response: " + data);
           })
           .catch(function (err) {
             alert("error" + err);
