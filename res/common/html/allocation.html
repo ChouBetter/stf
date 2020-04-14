@@ -36,7 +36,7 @@
               _str += `<input type="radio" name="users" value="${user}" />${user}`;
               if ((parseInt(idx) + 1) % 5 == 0) _str += "<br/>";
             }
-            _str += "</span></ul>";
+            _str += "</ul>";
             document.querySelector("#userSet").innerHTML = _str;
           }
         })
