@@ -25,12 +25,21 @@ def index():
 
 @app.route('/add/<account>/<password>')
 def _add(account, password):
+    return _add_o(account, password, '')
+
+
+@app.route('/add/<account>/<password>/<owner>')
+def _add_o(account, password, owner):
     l = ldap.initialize(LDAP_SERVER)
     print("ldap.initialize")
     print(l.simple_bind_s(LDAP_BIND, LDAP_BIND_PASS))
     print("l.simple_bind_s")
 
-    dn = "cn=" + account + LDAP_ADD_DN
+    dn = ''
+    if owner == '':
+        dn = "cn=" + account + LDAP_ADD_DN
+    else:
+        dn = "cn=" + account + ",cn=" + owner + LDAP_ADD_DN
 
     account = account.encode('utf-8')
     password = password.encode('utf-8')
