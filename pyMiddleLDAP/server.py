@@ -9,7 +9,7 @@ import base64
 import ldap
 import ldap.modlist as modlist
 
-LDAP_SERVER = "ldap://123.51.133.103:389/"
+LDAP_SERVER = "ldap://localhost:389/"
 LDAP_BIND = "cn=admin,dc=androidcloud,dc=cn"
 LDAP_BIND_PASS = "^andr0id2019$"
 LDAP_ADD_DN = ",dc=androidcloud,dc=cn"
@@ -47,8 +47,13 @@ def _add(account, password):
     ldif = modlist.addModlist(attrs)
     print("modlist.addModlist")
 
-    result = l.add_s(dn, ldif)
-    print("l.add_s")
+    try:
+        result = l.add_s(dn, ldif)
+        print("l.add_s")
+    except Exception as e:
+        l.unbind_s()
+        print("l.unbind_s")
+        return str(e)
 
     l.unbind_s()
     print("l.unbind_s")
