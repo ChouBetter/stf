@@ -184,6 +184,7 @@ module.exports = function DeviceListCtrl(
     usings: false,
     task: false,
     mgr: false,
+    aloc: false,
     upload: false
   };
 
