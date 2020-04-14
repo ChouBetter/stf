@@ -28,11 +28,17 @@
           console.log(data);
           subSets = []
           if (data.length > 3) {
+            var _str = "<span>User:</span><ul>";
             data = data.split('), (')
-            for (var idx in data)
-              subSets.push(data[idx].split("cn=")[1].split(",")[0]);
+            for (var idx in data) {
+              var user = data[idx].split("cn=")[1].split(",")[0]
+              subSets.push(user);
+              _str += `<input type="radio" name="users" value="${user}" />${user}`;
+              if ((parseInt(idx) + 1) % 5 == 0) _str += "<br/>";
+            }
+            _str += "</span></ul>";
+            document.querySelector("#userSet").innerHTML = _str;
           }
-          console.log(subSets)
         })
         .catch((err) => {
           console.log("ERROR: ", err);
@@ -153,6 +159,7 @@
 </head>
 
 <body>
+  <div id="userSet"></div>
   <div id="addUser">
     <br />
     account: <input type="text" name="account" /> password:
