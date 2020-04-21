@@ -100,7 +100,7 @@
         );
         checkedDevices.forEach(d => {
           console.log(d.value);
-          execScript(d.url, scriptName, d.value, encoded);
+          execScript(d.getAttribute("url"), scriptName, d.value, encoded);
         });
       } else if (controlType === "using") {
         for (var idx in deviceSets) {
@@ -115,7 +115,7 @@
         var checkedDevices = document.querySelectorAll("input[name=devices]");
         checkedDevices.forEach(d => {
           console.log(d.value);
-          execScript(d.url, scriptName, d.value, encoded);
+          execScript(d.getAttribute("url"), scriptName, d.value, encoded);
         });
       } else {
         alert("no device match");
