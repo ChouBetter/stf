@@ -125,9 +125,9 @@
     }
 
     function execScript(host, script, serial, encoded) {
-      // fetch(`http://${document.location.hostname}:3001/auto/${script}/${serial}/${encoded}`)
-      console.log(`execScript URL: http://${host}:3001/auto/${script}/${serial}/${encoded}`)
-      fetch(`http://${host}:3001/auto/${script}/${serial}/${encoded}`)
+      var fetchURL = `/app/api/v1/pyLDAP?host=${host}&param=/${script}/${serial}/${encoded}`
+      console.log(`execScript URL: ${fetchURL}`)
+      fetch(fetchURL)
         .then(function (response) {
           return response;
         })
