@@ -100,20 +100,22 @@
         );
         checkedDevices.forEach(d => {
           console.log(d.value);
-          execScript(scriptName, d.value, encoded);
+          execScript(d.url, scriptName, d.value, encoded);
         });
       } else if (controlType === "using") {
         for (var idx in deviceSets) {
           if (deviceSets[idx].using) {
             console.log(deviceSets[idx].serial);
-            execScript(scriptName, deviceSets[idx].serial, encoded);
+            console.log(deviceSets[idx].display.url.split("//")[1].split(":")[0])
+            execScript(deviceSets[idx].display.url.split("//")[1].split(":")[0], scriptName, deviceSets[idx].serial,
+              encoded);
           }
         }
       } else if (controlType === "all") {
         var checkedDevices = document.querySelectorAll("input[name=devices]");
         checkedDevices.forEach(d => {
           console.log(d.value);
-          execScript(scriptName, d.value, encoded);
+          execScript(d.url, scriptName, d.value, encoded);
         });
       } else {
         alert("no device match");
@@ -122,8 +124,10 @@
       alert("finished!");
     }
 
-    function execScript(script, serial, encoded) {
-      fetch(`http://${document.location.hostname}:3001/auto/${script}/${serial}/${encoded}`)
+    function execScript(host, script, serial, encoded) {
+      // fetch(`http://${document.location.hostname}:3001/auto/${script}/${serial}/${encoded}`)
+      console.log(`execScript URL: http://${host}:3001/auto/${script}/${serial}/${encoded}`)
+      fetch(`http://${host}:3001/auto/${script}/${serial}/${encoded}`)
         .then(function (response) {
           return response;
         })
