@@ -44,9 +44,10 @@
             '<li><input type="radio" name="control" value="using" onchange="controlChange(this);" />USING</li>' +
             '<li><input type="radio" name="control" value="select" onchange="controlChange(this);" checked />SELECT</li><span id="spanDevices">';
           for (var idx in deviceSets) {
-            _str += `<input type="checkbox" name="devices" value="${
+            _str +=
+              `<input type="checkbox" name="devices" value="${
                 deviceSets[idx].serial
-              }" />${deviceSets[idx].serial.split(":")[0]}`;
+              }" url="${deviceSets[idx].display.url.split("//")[1].split(":")[0]}" />${deviceSets[idx].serial.split(":")[0]}`;
             if ((parseInt(idx) + 1) % 5 == 0) _str += "<br/>";
           }
           _str += "</span></ul>";
