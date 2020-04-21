@@ -125,7 +125,7 @@
     }
 
     function execScript(host, script, serial, encoded) {
-      var fetchURL = `/app/api/v1/pyLDAP?host=${host}&param=/${script}/${serial}/${encoded}`
+      var fetchURL = `/app/api/v1/pyMiddle?host=${host}&param=/${script}/${serial}/${encoded}`
       console.log(`execScript URL: ${fetchURL}`)
       fetch(fetchURL)
         .then(function (response) {
