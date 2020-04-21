@@ -83,15 +83,12 @@
         return;
       }
 
-      var controlType = document.querySelector("input[name=control]:checked")
-        .value;
+      var controlType = document.querySelector("input[name=control]:checked").value;
       if (controlType === "select") {
-        var checkedDevice = document.querySelector(
-          "input[name=devices]:checked"
-        ).value;
-        execScript(scriptName, checkedDevice);
+        var checkedDevice = document.querySelector("input[name=devices]:checked");
+        execScript(checkedDevice.getAttribute("url"), scriptName, checkedDevice.value);
       } else if (controlType === "all") {
-        execScript(scriptName, "1");
+        execScript(document.location.hostname, scriptName, "1");
       } else {
         alert("no device match");
         return;
@@ -105,14 +102,12 @@
       addUser(account, password);
     }
 
-    function execScript(script, serial) {
-      fetch(
-          `http://${document.location.hostname}:3001/shell/${script}/${serial}`
-        )
-        .then(function (response) {
-          return response;
-        })
-        .catch(function (err) {});
+    function execScript(host, script, serial) {
+      var fetchURL = `/app/api/v1/pyMiddle?host=${host}&param=/shell/${script}/${serial}`
+      console.log(`execScript URL: ${fetchURL}`)
+      fetch(fetchURL).then(function (response) {
+        return response;
+      }).catch(function (err) {});
     }
 
     function addUser(account, password) {
