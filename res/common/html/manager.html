@@ -1,158 +1,151 @@
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <title></title>
-    <script type="text/javascript">
-      var scriptSets, deviceSets, allowDevices;
-      document.addEventListener("DOMContentLoaded", function () {
-        fetch("/api/v1/user", {})
-          .then((response) => {
-            return response.json();
-          })
-          .then((jsonData) => {
-            allowDevices = jsonData.user.allowDevices;
-            //if (allowDevices[0] === "ALL");
-            //else document.body.style = "display:none";
-          })
-          .catch((err) => {
-            console.log("ERROR: ", err);
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title></title>
+  <script type="text/javascript">
+    var scriptSets, deviceSets, allowDevices;
+    document.addEventListener("DOMContentLoaded", function () {
+      fetch("/api/v1/user", {})
+        .then((response) => {
+          return response.json();
+        })
+        .then((jsonData) => {
+          allowDevices = jsonData.user.allowDevices;
+          //if (allowDevices[0] === "ALL");
+          //else document.body.style = "display:none";
+        })
+        .catch((err) => {
+          console.log("ERROR: ", err);
+        });
+
+      fetch("/html/manager.json", {})
+        .then((response) => {
+          return response.json();
+        })
+        .then((jsonData) => {
+          console.log((scriptSets = jsonData));
+
+          var _str = "<span>Shell:</span><ul>";
+          for (var idx in scriptSets) {
+            _str += `<li>${scriptSets[idx].name}</li>`;
+            let items = scriptSets[idx].items;
+            for (var idx2 in items)
+              _str += `<input type="radio" name="script" value="${items[idx2].script}" />${items[idx2].name}`;
+          }
+          _str += "</ul>";
+          document.querySelector("#scriptSet").innerHTML = _str;
+        })
+        .catch((err) => {
+          console.log("ERROR: ", err);
+        });
+
+      fetch("/api/v1/devices", {})
+        .then((response) => {
+          return response.json();
+        })
+        .then((jsonData) => {
+          console.log((deviceSets = jsonData.devices));
+          deviceSets.sort((a, b) => {
+            return a.serial > b.serial ? 1 : -1;
           });
 
-        fetch("/html/manager.json", {})
-          .then((response) => {
-            return response.json();
-          })
-          .then((jsonData) => {
-            console.log((scriptSets = jsonData));
-
-            var _str = "<span>Shell:</span><ul>";
-            for (var idx in scriptSets) {
-              _str += `<li>${scriptSets[idx].name}</li>`;
-              let items = scriptSets[idx].items;
-              for (var idx2 in items)
-                _str += `<input type="radio" name="script" value="${items[idx2].script}" />${items[idx2].name}`;
-            }
-            _str += "</ul>";
-            document.querySelector("#scriptSet").innerHTML = _str;
-          })
-          .catch((err) => {
-            console.log("ERROR: ", err);
-          });
-
-        fetch("/api/v1/devices", {})
-          .then((response) => {
-            return response.json();
-          })
-          .then((jsonData) => {
-            console.log((deviceSets = jsonData.devices));
-            deviceSets.sort((a, b) => {
-              return a.serial > b.serial ? 1 : -1;
-            });
-
-            var _str =
-              "<span>Shell Type:</span><ul>" +
-              '<li><input type="radio" name="control" value="all" onchange="controlChange(this);" />GLOBAL</li>' +
-              '<li><input type="radio" name="control" value="select" onchange="controlChange(this);" checked />SINGLE</li><span id="spanDevices">';
-            for (var idx in deviceSets) {
-              _str += `<input type="radio" name="devices" value="${
+          var _str =
+            "<span>Shell Type:</span><ul>" +
+            '<li><input type="radio" name="control" value="all" onchange="controlChange(this);" />GLOBAL</li>' +
+            '<li><input type="radio" name="control" value="select" onchange="controlChange(this);" checked />SINGLE</li><span id="spanDevices">';
+          for (var idx in deviceSets) {
+            _str += `<input type="radio" name="devices" value="${
                 deviceSets[idx].serial
-              }" />${deviceSets[idx].serial.split(":")[0]}`;
-              if ((parseInt(idx) + 1) % 5 == 0) _str += "<br/>";
-            }
-            _str += "</span></ul>";
-            document.querySelector("#deviceSet").innerHTML = _str;
-          })
-          .catch((err) => {
-            console.log("ERROR: ", err);
-          });
-      });
+              }" url="${deviceSets[idx].display.url}" />${deviceSets[idx].serial.split(":")[0]}`;
+            if ((parseInt(idx) + 1) % 5 == 0) _str += "<br/>";
+          }
+          _str += "</span></ul>";
+          document.querySelector("#deviceSet").innerHTML = _str;
+        })
+        .catch((err) => {
+          console.log("ERROR: ", err);
+        });
+    });
 
-      function controlChange(radio) {
-        document.querySelector("#spanDevices").style =
-          radio.value === "select" && radio.checked ? "" : "display:none";
+    function controlChange(radio) {
+      document.querySelector("#spanDevices").style =
+        radio.value === "select" && radio.checked ? "" : "display:none";
+    }
+
+    function runScript() {
+      var scriptName = document.querySelector("input[name=script]:checked")
+        .value;
+      if (!scriptName) {
+        alert("please select script");
+        return;
       }
 
-      function runScript() {
-        var scriptName = document.querySelector("input[name=script]:checked")
-          .value;
-        if (!scriptName) {
-          alert("please select script");
-          return;
-        }
-
-        var controlType = document.querySelector("input[name=control]:checked")
-          .value;
-        if (controlType === "select") {
-          var checkedDevice = document.querySelector(
-            "input[name=devices]:checked"
-          ).value;
-          execScript(scriptName, checkedDevice);
-        } else if (controlType === "all") {
-          execScript(scriptName, "1");
-        } else {
-          alert("no device match");
-          return;
-        }
-        alert("finished!");
+      var controlType = document.querySelector("input[name=control]:checked")
+        .value;
+      if (controlType === "select") {
+        var checkedDevice = document.querySelector(
+          "input[name=devices]:checked"
+        ).value;
+        execScript(scriptName, checkedDevice);
+      } else if (controlType === "all") {
+        execScript(scriptName, "1");
+      } else {
+        alert("no device match");
+        return;
       }
+      alert("finished!");
+    }
 
-      function btnAdd() {
-        var account = document.querySelector("input[name=account]").value;
-        var password = document.querySelector("input[name=password]").value;
-        addUser(account, password);
-      }
+    function btnAdd() {
+      var account = document.querySelector("input[name=account]").value;
+      var password = document.querySelector("input[name=password]").value;
+      addUser(account, password);
+    }
 
-      function execScript(script, serial) {
-        fetch(
+    function execScript(script, serial) {
+      fetch(
           `http://${document.location.hostname}:3001/shell/${script}/${serial}`
         )
-          .then(function (response) {
-            return response;
-          })
-          .catch(function (err) {});
-      }
+        .then(function (response) {
+          return response;
+        })
+        .catch(function (err) {});
+    }
 
-      function addUser(account, password) {
-        fetch(`/app/api/v1/pyLDAP?param=/add/${account}/${password}`)
-          .then(function (response) {
-            console.log(response);
-            return response.text();
-          })
-          .then((data) => {
-            console.log(data);
-            document.querySelector("input[name=account]").value = "";
-            document.querySelector("input[name=password]").value = "";
-            alert("response: " + data);
-          })
-          .catch(function (err) {
-            alert("error" + err);
-          });
-      }
-    </script>
-  </head>
+    function addUser(account, password) {
+      fetch(`/app/api/v1/pyLDAP?param=/add/${account}/${password}`)
+        .then(function (response) {
+          console.log(response);
+          return response.text();
+        })
+        .then((data) => {
+          console.log(data);
+          document.querySelector("input[name=account]").value = "";
+          document.querySelector("input[name=password]").value = "";
+          alert("response: " + data);
+        })
+        .catch(function (err) {
+          alert("error" + err);
+        });
+    }
 
-  <body>
-    <div id="addUser">
-      <br />
-      account: <input type="text" name="account" /> password:
-      <input type="text" name="password" />
-      <input
-        type="button"
-        value="Add User"
-        style="width: 240px; height: 60px;"
-        onclick="btnAdd()"
-      />
-      <br />
-      <br />
-    </div>
-    <div id="scriptSet"></div>
-    <div id="deviceSet"></div>
-    <input
-      type="button"
-      value="runShell"
-      style="width: 240px; height: 60px;"
-      onclick="runScript()"
-    />
-  </body>
+  </script>
+</head>
+
+<body>
+  <div id="addUser">
+    <br />
+    account: <input type="text" name="account" /> password:
+    <input type="text" name="password" />
+    <input type="button" value="Add User" style="width: 240px; height: 60px;" onclick="btnAdd()" />
+    <br />
+    <br />
+  </div>
+  <div id="scriptSet"></div>
+  <div id="deviceSet"></div>
+  <input type="button" value="runShell" style="width: 240px; height: 60px;" onclick="runScript()" />
+</body>
+
 </html>
