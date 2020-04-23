@@ -43,7 +43,7 @@ def _add_o(account, password, owner):
     else:
         dn = "cn=" + account + "," + \
             l.search_s(LDAP_BASE_DN, ldap.SCOPE_SUBTREE,
-                       "o="+owner.encode('utf-8'), None)[0][0]
+                       "cn="+owner.encode('utf-8'), None)[0][0]
 
     account = account.encode('utf-8')
     password = password.encode('utf-8')
