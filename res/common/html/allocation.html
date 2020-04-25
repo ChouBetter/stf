@@ -13,6 +13,7 @@
         el: '#app',
         data() {
           return {
+            ownDevices: [],
             selectedUser: '',
             subUsers: [],
             options: [{
@@ -73,9 +74,21 @@
                 data = data.split('), (')
                 for (var idx in data)
                   this.subUsers.push(data[idx].split("cn=")[1].split(",")[0]);
-
-                alert(this.subUsers)
               }
+            })
+            .catch((err) => {
+              console.log("ERROR: ", err);
+            });
+
+          fetch("/api/v1/devices", {})
+            .then((response) => {
+              return response.json();
+            })
+            .then((jsonData) => {
+              this.ownDevices = jsonData.devices;
+              this.ownDevices.sort((a, b) => {
+                return a.serial > b.serial ? 1 : -1;
+              });
             })
             .catch((err) => {
               console.log("ERROR: ", err);
@@ -196,11 +209,9 @@
     <el-row>
       <el-radio v-for="(item, index) in subUsers" v-model="selectedUser" :key="item" label="{{item}}">{{item}}
       </el-radio>
-      <el-button v-for="(item, index) in options" :key="index" @click="raise(index)">
-        {{ item.name }}
-        <br /> P: {{ item.price.toFixed(2) }}
-        <br />
-        <span style="display:block;background:black;" :class="item.amount > 0 ? '':'zero'">{{ item.amount }}</span>
+      <el-button v-for="(item, index) in ownDevices" :key="index" @click="raise(index)">
+        {{ item.serial }}
+
       </el-button>
     </el-row>
     <el-row>
