@@ -90,6 +90,7 @@
               this.ownDevices.sort((a, b) => {
                 return a.serial > b.serial ? 1 : -1;
               });
+              alert(this.ownDevices)
             })
             .catch((err) => {
               console.log("ERROR: ", err);
