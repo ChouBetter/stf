@@ -69,10 +69,12 @@
             })
             .then((data) => {
               if (data.length > 3) {
-                subUsers = []
+                this.subUsers = []
                 data = data.split('), (')
                 for (var idx in data)
-                  subUsers.push(data[idx].split("cn=")[1].split(",")[0]);
+                  this.subUsers.push(data[idx].split("cn=")[1].split(",")[0]);
+
+                alert(this.subUsers)
               }
             })
             .catch((err) => {
