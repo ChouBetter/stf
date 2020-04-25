@@ -16,6 +16,7 @@
             ownDevices: [],
             selectedUser: '',
             subUsers: [],
+            subDevices: [],
             options: [{
                 name: "Beans A",
                 price: 2.25,
@@ -209,6 +210,9 @@
     <el-row>
       <el-radio v-for="(item, index) in subUsers" v-model="selectedUser" :key="item" label="{{item}}">{{item}}
       </el-radio>
+      <el-transfer v-model="subDevices" :data="ownDevices">
+        <span slot-scope="{ option }">{{ option.serial }}</span>
+      </el-transfer>
       <el-button v-for="(item, index) in ownDevices" :key="index" @click="raise(index)">
         {{ item.serial }}
 
