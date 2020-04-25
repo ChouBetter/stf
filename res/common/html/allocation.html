@@ -60,6 +60,29 @@
             return sum.toFixed(2);
           }
         },
+        mounted() {
+          alert(1)
+          fetch('/app/api/v1/pyLDAP?param=/sub', {})
+            .then((response) => {
+              return response.text();
+            })
+            .then((data) => {
+              console.log(data);
+              subSets = []
+              if (data.length > 3) {
+                var _str = "<span>User:</span><ul>";
+                data = data.split('), (')
+                for (var idx in data)
+                  subSets.push(data[idx].split("cn=")[1].split(",")[0]);
+
+                alert(22)
+              }
+            })
+            .catch((err) => {
+              console.log("ERROR: ", err);
+            });
+
+        },
         methods: {
           raise(idx) {
             this.options[idx].amount += Number(this.unit);
