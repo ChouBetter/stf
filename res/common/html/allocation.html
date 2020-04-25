@@ -80,17 +80,22 @@
 
 <body>
   <div id="app">
+    <el-row> </el-row>
     <el-row>
+      <span class="demonstration">Users</span>
       <el-radio v-for="(item, index) in subUsers" v-model="selectedUser" :key="item" label="{{item}}">{{item}}
       </el-radio>
     </el-row>
     <el-row>
+      <span class="demonstration">Assign</span>
       <el-transfer filterable v-model="subDevices" :props="{key: 'serial', label: 'serial'}" :data="ownDevices"
         :titles="['Source', 'Target']">
       </el-transfer>
     </el-row>
     <el-row>
-      <el-button type="primary">SUBMIT</el-button>
+      <el-badge :value="subDevices.length" class="item" type="primary">
+        <el-button type="primary">Apply</el-button>
+      </el-badge>
     </el-row>
   </div>
 </body>
