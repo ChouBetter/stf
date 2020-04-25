@@ -90,7 +90,6 @@
               this.ownDevices.sort((a, b) => {
                 return a.serial > b.serial ? 1 : -1;
               });
-              alert(this.ownDevices)
             })
             .catch((err) => {
               console.log("ERROR: ", err);
@@ -211,8 +210,7 @@
     <el-row>
       <el-radio v-for="(item, index) in subUsers" v-model="selectedUser" :key="item" label="{{item}}">{{item}}
       </el-radio>
-      <el-transfer v-model="subDevices" :data="ownDevices">
-        <span slot-scope="{ option }">{{ option.serial }}</span>
+      <el-transfer v-model="subDevices" :props="{key: 'serial', label: 'serial'}" :data="ownDevices">
       </el-transfer>
       <el-button v-for="(item, index) in ownDevices" :key="index" @click="raise(index)">
         {{ item.serial }}
