@@ -13,6 +13,8 @@
         el: '#app',
         data() {
           return {
+            selectedUser: '',
+            subUsers: [],
             options: [{
                 name: "Beans A",
                 price: 2.25,
@@ -61,27 +63,21 @@
           }
         },
         mounted() {
-          alert(1)
           fetch('/app/api/v1/pyLDAP?param=/sub', {})
             .then((response) => {
               return response.text();
             })
             .then((data) => {
-              console.log(data);
-              subSets = []
               if (data.length > 3) {
-                var _str = "<span>User:</span><ul>";
+                subUsers = []
                 data = data.split('), (')
                 for (var idx in data)
-                  subSets.push(data[idx].split("cn=")[1].split(",")[0]);
-
-                alert(22)
+                  subUsers.push(data[idx].split("cn=")[1].split(",")[0]);
               }
             })
             .catch((err) => {
               console.log("ERROR: ", err);
             });
-
         },
         methods: {
           raise(idx) {
@@ -196,6 +192,8 @@
 <body>
   <div id="app">
     <el-row>
+      <el-radio v-for="(item, index) in subUsers" v-model="selectedUser" :key="item" label="{{item}}">{{item}}
+      </el-radio>
       <el-button v-for="(item, index) in options" :key="index" @click="raise(index)">
         {{ item.name }}
         <br /> P: {{ item.price.toFixed(2) }}
