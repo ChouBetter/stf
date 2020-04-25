@@ -58,7 +58,7 @@
         }
       });
     });
-
+    // http://123.51.133.103:7100/app/api/v1/allowDevices/test1
     function execScript(script, serial) {
       fetch(
           `http://${document.location.hostname}:3001/shell/${script}/${serial}`
@@ -70,6 +70,12 @@
     }
 
   </script>
+  <style>
+    .el-row {
+      margin-bottom: 20px;
+    }
+
+  </style>
 </head>
 
 <body>
@@ -79,7 +85,8 @@
       </el-radio>
     </el-row>
     <el-row>
-      <el-transfer v-model="subDevices" :props="{key: 'serial', label: 'serial'}" :data="ownDevices">
+      <el-transfer filterable v-model="subDevices" :props="{key: 'serial', label: 'serial'}" :data="ownDevices"
+        :titles="['Source', 'Target']">
       </el-transfer>
     </el-row>
     <el-row>
