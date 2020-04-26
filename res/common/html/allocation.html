@@ -16,7 +16,7 @@
             ownDevices: [],
             selectedUser: '',
             subUsers: [],
-            subDevices: [],
+            subUserDevices: [],
           };
         },
         computed: {},
@@ -52,14 +52,25 @@
             });
         },
         methods: {
-          submit(v) {
-            console.log(v)
-            alert(v)
+          userChange(user) {
+            fetch(`/app/api/v1/allowDevices/${user}`, {})
+              .then((response) => {
+                return response.json();
+              })
+              .then((jsonData) => {
+                this.subUserDevices = jsonData.allowDevices;
+              })
+              .catch((err) => {
+                console.log("ERROR: ", err);
+              });
+          },
+          apply() {
+            alert(1)
           }
         }
       });
     });
-    // http://123.51.133.103:7100/app/api/v1/allowDevices/test1
+
     function execScript(script, serial) {
       fetch(
           `http://${document.location.hostname}:3001/shell/${script}/${serial}`
@@ -85,19 +96,19 @@
     <el-row>
       <span class="demonstration">Users</span>
       <el-radio v-for="(item, index) in subUsers" v-model="selectedUser" :key="item" label="{{item}}"
-        @change="submit(item)">
+        @change="userChange(item)">
         {{item}}
       </el-radio>
     </el-row>
     <el-row>
       <span class="demonstration">Assign</span>
-      <el-transfer filterable v-model="subDevices" :props="{key: 'serial', label: 'serial'}" :data="ownDevices"
+      <el-transfer filterable v-model="subUserDevices" :props="{key: 'serial', label: 'serial'}" :data="ownDevices"
         :titles="['Source', 'Target']">
       </el-transfer>
     </el-row>
     <el-row>
-      <el-badge :value="subDevices.length" class="item" type="primary">
-        <el-button size="small">Apply</el-button>
+      <el-badge :value="subUserDevices.length" class="item" type="primary">
+        <el-button size="small" @click="apply">Apply</el-button>
       </el-badge>
     </el-row>
   </div>
