@@ -14,7 +14,7 @@
         data() {
           return {
             ownDevices: [],
-            selectedUser: '',
+            selectedUser: undefined,
             subUsers: [],
             subUserDevices: [],
           };
@@ -53,7 +53,10 @@
         },
         methods: {
           userChange(user) {
-            alert(`selectedUser: ${selectedUser}, user: ${user}`)
+            if (!user || user == undefined || user == '') {
+              return
+            }
+            console.log(`selectedUser: ${this.selectedUser}, user: ${user}`)
             fetch(`/app/api/v1/allowDevices/${user}`, {})
               .then((response) => {
                 return response.json();
@@ -66,7 +69,22 @@
               });
           },
           apply() {
-            alert(1)
+            if (!this.selectedUser || this.selectedUser == undefined || this.selectedUser == '') {
+              alert('please select User First!!!')
+              return
+            }
+            fetch('/app/api/v1/allowDevices/update', {
+                method: 'post',
+                headers: {
+                  'Accept': 'application/json, text/plain, */*',
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                  user: this.selectedUser,
+                  allowDevices: this.subUserDevices
+                })
+              }).then(res => res.json())
+              .then(res => console.log(res));
           }
         }
       });
