@@ -53,6 +53,7 @@
         },
         methods: {
           userChange(user) {
+            alert(`selectedUser: ${selectedUser}, user: ${user}`)
             fetch(`/app/api/v1/allowDevices/${user}`, {})
               .then((response) => {
                 return response.json();
@@ -103,7 +104,7 @@
     <el-row>
       <span class="demonstration">Assign</span>
       <el-transfer filterable v-model="subUserDevices" :props="{key: 'serial', label: 'serial'}" :data="ownDevices"
-        :titles="['Source', 'Target']">
+        :titles="['inventory', 'allocation']">
       </el-transfer>
     </el-row>
     <el-row>
