@@ -84,7 +84,8 @@
     <el-row> </el-row>
     <el-row>
       <span class="demonstration">Users</span>
-      <el-radio v-for="(item, index) in subUsers" v-model="selectedUser" :key="item" label="{{item}}" @change="submit">
+      <el-radio v-for="(item, index) in subUsers" v-model="selectedUser" :key="item" label="{{item}}"
+        @change="submit(item)">
         {{item}}
       </el-radio>
     </el-row>
