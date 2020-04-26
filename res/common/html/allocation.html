@@ -84,21 +84,16 @@
                   allowDevices: this.subUserDevices
                 })
               }).then(res => res.json())
-              .then(res => console.log(res));
+              .then(res => {
+                console.log(res)
+                if (res.result == 0) {
+                  alert("success")
+                }
+              });
           }
         }
       });
     });
-
-    function execScript(script, serial) {
-      fetch(
-          `http://${document.location.hostname}:3001/shell/${script}/${serial}`
-        )
-        .then(function (response) {
-          return response;
-        })
-        .catch(function (err) {});
-    }
 
   </script>
   <style>
