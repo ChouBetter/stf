@@ -52,8 +52,8 @@
             });
         },
         methods: {
-          submit() {
-
+          submit(v) {
+            alert(v)
           }
         }
       });
@@ -83,7 +83,8 @@
     <el-row> </el-row>
     <el-row>
       <span class="demonstration">Users</span>
-      <el-radio v-for="(item, index) in subUsers" v-model="selectedUser" :key="item" label="{{item}}">{{item}}
+      <el-radio v-for="(item, index) in subUsers" v-model="selectedUser" :key="item" label="{{item}}" @change="submit">
+        {{item}}
       </el-radio>
     </el-row>
     <el-row>
