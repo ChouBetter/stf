@@ -49,6 +49,7 @@
             })
             .catch((err) => {
               console.log("/api/v1/devices ERROR: ", err);
+              alert("error: " + err)
             });
         },
         methods: {
@@ -66,6 +67,7 @@
               })
               .catch((err) => {
                 console.log("ERROR: ", err);
+                alert("error: " + err)
               });
           },
           apply() {
@@ -89,7 +91,10 @@
                 if (res.result == 0) {
                   alert("success")
                 }
-              });
+              }).catch((err) => {
+                console.log("/app/api/v1/allowDevices/update ERROR: ", err);
+                alert("error: " + err)
+              });;
           }
         }
       });
