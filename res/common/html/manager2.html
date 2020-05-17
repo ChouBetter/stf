@@ -32,7 +32,8 @@
               }
               //this.slaveStatus = []
               for (var idx in this.slaveAddrs) {
-                fetch(`/api/v1/sensors?host=${this.slaveAddrs[idx]}`, {})
+                // fetch(`/api/v1/sensors?host=${this.slaveAddrs[idx]}`, {})
+                fetch("http://123.51.133.103:18000/sensors", {})
                   .then((response) => {
                     return response.json();
                   })
