@@ -32,7 +32,7 @@
               }
               //this.slaveStatus = []
               for (var idx in this.slaveAddrs) {
-                fetch(`/api/v1/sensors?host=${this.slaveAddrs[idx]}`, {})
+                fetch(`/app/api/v1/sensors?host=${this.slaveAddrs[idx]}`, {})
                   .then((response) => {
                     return response.json();
                   })
@@ -41,7 +41,7 @@
                     this.slaveStatus.push(jsonData.Information);
                   })
                   .catch((err) => {
-                    console.log(`/api/v1/sensors?host=${this.slaveAddrs[idx]} ERROR:`, err);
+                    console.log(`/app/api/v1/sensors?host=${this.slaveAddrs[idx]} ERROR:`, err);
                     alert("error: " + err)
                   });
               }
