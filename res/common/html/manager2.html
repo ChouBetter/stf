@@ -71,13 +71,6 @@
   <div id="app">
     <el-row> </el-row>
     <el-row>
-      <span class="demonstration">Agents</span>
-      <el-radio v-for="(item, index) in slaveAddrs" v-model="selectedUser" :key="item" :label="item"
-        @change="userChange">
-        {{item}}
-      </el-radio>
-    </el-row>
-    <el-row>
       <el-table :data="slaveStatus" style="width: 100%">
         <el-table-column prop="address" label="address"></el-table-column>
         <el-table-column prop="SP_AIR_FLOW_L_TEMP           (0x7E)" label="AIR_FLOW_L_TEMP"></el-table-column>
