@@ -29,7 +29,7 @@
               this.slaveAddrs = []
               for (var idx in jsonData.devices) {
                 var addr = jsonData.devices[idx].display.url.split("//")[1].split(":")[0]
-                if (!this.slave.includes[address]) this.slave.push(addr)
+                if (!this.slaveAddrs.includes[address]) this.slaveAddrs.push(addr)
               }
             })
             .catch((err) => {
