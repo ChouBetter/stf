@@ -38,6 +38,7 @@
                   })
                   .then((jsonData) => {
                     this.columns = Object.keys(jsonData.Information);
+                    jsonData.Information["address"] = this.slaveAddrs[idx];
                     this.slaveStatus.push(jsonData.Information);
                   })
                   .catch((err) => {
@@ -76,7 +77,16 @@
         {{item}}
       </el-radio>
     </el-row>
-
+    <el-row>
+      <el-table :data="slaveStatus" style="width: 100%">
+        <el-table-column prop="address" label="address" width="180">
+        </el-table-column>
+        <el-table-column prop="SP_AIR_FLOW_L_TEMP (0x7E)" label="SP_AIR_FLOW_L_TEMP (0x7E)" width="180">
+        </el-table-column>
+        <el-table-column prop="SP_AIR_FLOW_R_TEMP (0x7F)" label="SP_AIR_FLOW_R_TEMP (0x7F)" width="180">
+        </el-table-column>
+      </el-table>
+    </el-row>
   </div>
 </body>
 
