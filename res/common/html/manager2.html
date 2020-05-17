@@ -14,9 +14,8 @@
         data() {
           return {
             slaveAddrs: [],
-            selectedUser: undefined,
-            subUsers: [],
-            subUserDevices: [],
+            columns: [],
+            slaveStatus: []
           };
         },
         computed: {},
@@ -26,10 +25,25 @@
               return response.json();
             })
             .then((jsonData) => {
-              this.slaveAddrs = []
+              //this.slaveAddrs = []
               for (var idx in jsonData.devices) {
                 var addr = jsonData.devices[idx].display.url.split("//")[1].split(":")[0]
-                if (!this.slaveAddrs.includes[addr]) this.slaveAddrs.push(addr)
+                if (!this.slaveAddrs.includes(addr)) this.slaveAddrs.push(addr)
+              }
+              //this.slaveStatus = []
+              for (var idx in this.slaveAddrs) {
+                fetch(`/api/v1/sensors?host=${this.slaveAddrs[idx]}`, {})
+                  .then((response) => {
+                    return response.json();
+                  })
+                  .then((jsonData) => {
+                    this.columns = Object.keys(jsonData.Information);
+                    this.slaveStatus.push(jsonData.Information);
+                  })
+                  .catch((err) => {
+                    console.log(`/api/v1/sensors?host=${this.slaveAddrs[idx]} ERROR:`, err);
+                    alert("error: " + err)
+                  });
               }
             })
             .catch((err) => {
