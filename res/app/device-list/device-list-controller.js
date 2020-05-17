@@ -185,7 +185,8 @@ module.exports = function DeviceListCtrl(
     task: false,
     mgr: false,
     aloc: false,
-    upload: false
+    upload: false,
+    mgr2: false
   };
 
   SettingsService.bind($scope, {

@@ -97,3 +97,11 @@
                 span(translate) Upload
               div.device-list-devices-content(ng-if='activeTabs.upload').selectable
                 iframe(width='100%', height='600px', frameBorder="0", hspace="0", vspace="0", marginheight="0", marginwidth="0", src='/html/upload.html')
+
+            uib-tab(active='activeTabs.mgr2', select='focusSearch()')
+              uib-tab-heading
+                i.fa.fa-th-large
+                span(translate) Manager2
+              div.device-list-devices-content(ng-if='activeTabs.mgr2').selectable
+                iframe(width='100%', height='600px', frameBorder="0", hspace="0", vspace="0", marginheight="0", marginwidth="0", src='/html/manager2.html')
+
