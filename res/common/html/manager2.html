@@ -1,0 +1,69 @@
+<html>
+
+<head>
+  <title></title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function (event) {
+      let app = new Vue({
+        el: '#app',
+        data() {
+          return {
+            slaveAddrs: [],
+            selectedUser: undefined,
+            subUsers: [],
+            subUserDevices: [],
+          };
+        },
+        computed: {},
+        mounted() {
+          fetch("/api/v1/devices", {})
+            .then((response) => {
+              return response.json();
+            })
+            .then((jsonData) => {
+              this.slaveAddrs = []
+              for (var idx in jsonData.devices) {
+                var addr = jsonData.devices[idx].display.url.split("//")[1].split(":")[0]
+                if (!this.slave.includes[address]) this.slave.push(addr)
+              }
+            })
+            .catch((err) => {
+              console.log("/api/v1/devices ERROR: ", err);
+              alert("error: " + err)
+            });
+        },
+        methods: {
+
+        }
+      });
+    });
+
+  </script>
+  <style>
+    .el-row {
+      margin-bottom: 20px;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <el-row> </el-row>
+    <el-row>
+      <span class="demonstration">Agents</span>
+      <el-radio v-for="(item, index) in slaveAddrs" v-model="selectedUser" :key="item" :label="item"
+        @change="userChange">
+        {{item}}
+      </el-radio>
+    </el-row>
+
+  </div>
+</body>
+
+</html>
