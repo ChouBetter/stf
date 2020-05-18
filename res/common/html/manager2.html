@@ -27,8 +27,10 @@
             .then((jsonData) => {
               //this.slaveAddrs = []
               for (var idx in jsonData.devices) {
-                var addr = jsonData.devices[idx].display.url.split("//")[1].split(":")[0]
-                if (!this.slaveAddrs.includes(addr)) this.slaveAddrs.push(addr)
+                if (jsonData.devices[idx].display.url) {
+                  var addr = jsonData.devices[idx].display.url.split("//")[1].split(":")[0]
+                  if (!this.slaveAddrs.includes(addr)) this.slaveAddrs.push(addr)
+                }
               }
               //this.slaveStatus = []
               for (var idx in this.slaveAddrs) {
