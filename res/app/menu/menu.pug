@@ -22,3 +22,8 @@
         a(ng-href='/#!/help', accesskey='6')
           i.fa.fa-question-circle.fa-fw
           | {{ "Help" | translate }}
+
+      li(ng-show='!$root.basicMode')
+        a(ng-href='/app/api/v1/logout', accesskey='7')
+          i.fa.fa-sign-out.fa-fw
+          | {{ "Logout" }}
