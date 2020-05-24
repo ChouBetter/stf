@@ -27,14 +27,13 @@
         mounted() {
           fetch('/app/api/v1/pyLDAP?param=/sub', {})
             .then((response) => {
-              return response.text();
+              return response.json();
             })
             .then((data) => {
               if (data.length > 3) {
                 this.subUsers = []
-                data = data.split('), (')
                 for (var idx in data)
-                  this.subUsers.push(data[idx].split("cn=")[1].split(",")[0]);
+                  this.subUsers.push(data[idx][1].mail[0]);
               }
             })
             .catch((err) => {
