@@ -30,11 +30,9 @@
               return response.json();
             })
             .then((data) => {
-              if (data.length > 3) {
-                this.subUsers = []
-                for (var idx in data)
-                  this.subUsers.push(data[idx][1].mail[0]);
-              }
+              this.subUsers = []
+              for (var idx in data)
+                this.subUsers.push(data[idx][1].mail[0]);
             })
             .catch((err) => {
               console.log("/app/api/v1/pyLDAP?param=/sub ERROR: ", err);
