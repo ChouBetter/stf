@@ -118,15 +118,18 @@
     <el-row>
       <el-button type="text" @click="dialogVisible = true">Add User</el-button>
     </el-row>
-    <el-dialog title="Add User" :visible.sync="dialogVisible" width="50%" :before-close="handleClose">
+    <el-dialog title="Add User" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
       <el-row>
-        Account:<el-input v-model="account" placeholder="ex: user@domain.com"></el-input>
+        <span>Account:</span>
+        <el-input v-model="account" placeholder="ex: user@domain.com"></el-input>
       </el-row>
       <el-row>
-        Password:<el-input v-model="password" placeholder="please add password"></el-input>
+        <span>Password:</span>
+        <el-input v-model="password" placeholder="please add password"></el-input>
       </el-row>
       <el-row>
-        Allow Add User / Allocate Devices<el-switch v-model="allow" active-color="#13ce66" inactive-color="#ff4949">
+        <span> Allow Add User / Allocate Devices</span>
+        <el-switch v-model="allow" active-color="#13ce66" inactive-color="#ff4949">
         </el-switch>
       </el-row>
       <span slot="footer" class="dialog-footer">
