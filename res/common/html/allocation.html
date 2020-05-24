@@ -63,6 +63,25 @@
             this.allow = true
             done();
           },
+          addUser() {
+            if (!this.account.includes("@") || !this.account.includes(".")) {
+              alert("account format fail!")
+              return
+            }
+            fetch(`/app/api/v1/pyLDAP?param=/add/${this.account}/${this.password}`)
+              .then((response) => {
+                return response.json();
+              })
+              .then((jsonData) => {
+                alert("success")
+                this.dialogVisible = false;
+              })
+              .catch((err) => {
+                console.log("ERROR: ", err);
+                alert("error: " + err)
+                this.dialogVisible = false;
+              });
+          },
           userChange(user) {
             if (!user || user == undefined || user == '') {
               return
@@ -113,7 +132,7 @@
   </script>
   <style>
     .el-row {
-      margin-bottom: 20px;
+      margin: 10px;
     }
 
   </style>
@@ -134,13 +153,13 @@
         <el-input v-model="password" placeholder="please enter password"></el-input>
       </el-row>
       <el-row>
-        <span> Allow Add User / Allocate Devices</span>
+        <span> Allow Add User & Allocate Devices</span>
         <el-switch v-model="allow" active-color="#13ce66" inactive-color="#ff4949">
         </el-switch>
       </el-row>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        <el-button type="primary" @click="addUser">确 定</el-button>
       </span>
     </el-dialog>
     <el-row>Assign Devices: </el-row>
