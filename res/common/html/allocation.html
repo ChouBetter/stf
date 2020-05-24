@@ -13,6 +13,7 @@
         el: '#app',
         data() {
           return {
+            entry: false,
             ownDevices: [],
             selectedUser: undefined,
             subUsers: [],
@@ -25,6 +26,17 @@
         },
         computed: {},
         mounted() {
+          fetch('/app/api/v1/user', {})
+            .then((response) => {
+              return response.json();
+            })
+            .then((data) => {
+              if (data.allowAdd == 1) this.entry = true
+            })
+            .catch((err) => {
+              console.log("/app/api/v1/user ERROR: ", err);
+            });
+
           fetch('/app/api/v1/pyLDAP?param=/sub', {})
             .then((response) => {
               return response.json();
@@ -142,7 +154,7 @@
 </head>
 
 <body>
-  <div id="app">
+  <div id="app" v-if="entry">
     <el-row>
       <el-button type="success" icon="el-icon-user" @click="dialogVisible = true">Add User</el-button>
     </el-row>
