@@ -116,8 +116,14 @@
   <div id="app">
     <el-row>Add User: </el-row>
     <el-row>
-      Account:<el-input v-model="account" placeholder="ex: user@domain.com"></el-input>
-      Password:<el-input v-model="password" placeholder="please add password"></el-input>
+      <el-col :span="12">
+        Account:<el-input v-model="account" placeholder="ex: user@domain.com"></el-input>
+      </el-col>
+      <el-col :span="12">
+        Password:<el-input v-model="password" placeholder="please add password"></el-input>
+      </el-col>
+
+
       Allow Add User / Allocate Devices<el-switch v-model="allow" active-color="#13ce66" inactive-color="#ff4949">
       </el-switch>
     </el-row>
