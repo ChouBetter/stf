@@ -12,8 +12,6 @@ import ldap.modlist as modlist
 LDAP_SERVER = "ldap://localhost:389/"
 LDAP_BIND = "cn=admin,dc=androidcloud,dc=cn"
 LDAP_BIND_PASS = "^andr0id2019$"
-LDAP_ADD_DN = ",dc=androidcloud,dc=cn"
-
 LDAP_BASE_DN = "dc=androidcloud,dc=cn"
 
 app = Flask(__name__, static_url_path='/static')
@@ -37,27 +35,37 @@ def _add_o(account, password, owner):
     print(l.simple_bind_s(LDAP_BIND, LDAP_BIND_PASS))
     print("l.simple_bind_s")
 
-    dn = ''
-    if owner == '':
-        dn = "cn=" + account + LDAP_ADD_DN
-    else:
-        dn = "cn=" + account + "," + \
-            l.search_s(LDAP_BASE_DN, ldap.SCOPE_SUBTREE,
-                       "cn="+owner.encode('utf-8'), None)[0][0]
-
     account = account.encode('utf-8')
     password = password.encode('utf-8')
 
+    add_cn = account.split("@")[0]
+    add_dc = account.split("@")[1].split(".")
+
+    dn = ''
+    if owner == '':
+        dn = "cn=" + add_cn + ",dc=" + add_dc[0] + ",dc=" + add_dc[1]
+    else:
+        owner = owner.encode('utf-8')
+        own_cn = owner.split("@")[0]
+        own_dc = owner.split("@")[1]
+        if own_dc == account.split("@")[1]:
+            dn = "cn=" + add_cn + ",cn=" + own_cn + \
+                ",dc=" + add_dc[0] + ",dc=" + add_dc[1]
+        else:
+            dn = "cn=" + add_cn + ",dc=" + add_dc[0] + ",dc=" + add_dc[1]
+
     attrs = {}
     attrs['objectclass'] = ['inetOrgPerson']
-    attrs['cn'] = account
-    attrs['mail'] = account + "@androidcloud.cn"
-    attrs["givenName"] = account
-    attrs["sn"] = account
+    attrs['cn'] = add_cn
+    attrs['mail'] = account
+    attrs["givenName"] = add_cn
+    attrs["sn"] = add_cn
     attrs["userPassword"] = password
     attrs['description'] = 'ini group untuk semua dosen dokter'
     if owner != '':
         attrs['o'] = owner.encode('utf-8')
+
+    print(dn)
 
     ldif = modlist.addModlist(attrs)
     print("modlist.addModlist")
@@ -73,7 +81,7 @@ def _add_o(account, password, owner):
     l.unbind_s()
     print("l.unbind_s")
 
-    return str(result)
+    return json.dumps(result)
 
 
 @app.route('/sub/<account>')
@@ -95,7 +103,7 @@ def _sub(account):
     l.unbind_s()
     print("l.unbind_s")
 
-    return str(result)
+    return json.dumps(result)
 
 
 @app.route('/search/<account>')
@@ -105,9 +113,14 @@ def _search(account):
     print(l.simple_bind_s(LDAP_BIND, LDAP_BIND_PASS))
     print("l.simple_bind_s")
 
+    account = account.encode('utf-8')
+    acc_cn = account.split("@")[0]
+    # ac_dc = account.split("@")[1].split(".")
+    # dn = "cn=" + acc_cn + ",dc=" + ac_dc[0] + ",dc=" + ac_dc[1]
+
     try:
-        result = l.search_s(LDAP_BASE_DN, ldap.SCOPE_SUBTREE,
-                            "cn="+account.encode('utf-8'), None)
+        result = l.search_s(
+            LDAP_BASE_DN, ldap.SCOPE_SUBTREE, "cn=" + acc_cn, None)
         print("l.search_s")
     except Exception as e:
         l.unbind_s()
@@ -117,7 +130,7 @@ def _search(account):
     l.unbind_s()
     print("l.unbind_s")
 
-    return str(result)
+    return json.dumps(result)
 
 
 app.run(host='0.0.0.0', port=3002)
