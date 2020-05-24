@@ -17,6 +17,9 @@
             selectedUser: undefined,
             subUsers: [],
             subUserDevices: [],
+            account: "",
+            password: "",
+            allow: true
           };
         },
         computed: {},
@@ -111,7 +114,14 @@
 
 <body>
   <div id="app">
-    <el-row> </el-row>
+    <el-row>Add User: </el-row>
+    <el-row>
+      Account:<el-input v-model="account" placeholder="ex: user@domain.com"></el-input>
+      Password:<el-input v-model="password" placeholder="please add password"></el-input>
+      Allow Add User / Allocate Devices<el-switch v-model="allow" active-color="#13ce66" inactive-color="#ff4949">
+      </el-switch>
+    </el-row>
+    <el-row>Assign Devices: </el-row>
     <el-row>
       <span class="demonstration">Agents</span>
       <el-radio v-for="(item, index) in subUsers" v-model="selectedUser" :key="item" :label="item" @change="userChange">
