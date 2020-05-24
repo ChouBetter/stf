@@ -1,0 +1,11 @@
+
+@Host = http://localhost:3000
+
+###
+POST {{Host}}/allowDevices/update
+content-type: application/json
+
+{
+    "user": "gg2@androidcloud.cn",
+    "allowDevices": ["123","777"]
+}

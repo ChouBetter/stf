@@ -44,49 +44,31 @@ app.post("/allowDevices/update", express.json(), function (req, res) {
       if (err) console.log(err);
       r.db("stf")
         .table("users")
-        .filter({
-          name: name,
-        })
-        .limit(1)
-        .run(conn, (err, cursor) => {
-          cursor.toArray((err, user) => {
-            if (user.length) {
-              r.db("stf")
-                .table("users")
-                .filter({
-                  name: name,
-                })
-                .update({
+        .get(name)
+        .update({ allowDevices: allowDevices })
+        .run(conn, (err, result) => {
+          console.log(result);
+          if (result.skipped == 1) {
+            r.db("stf")
+              .table("users")
+              .insert([
+                {
+                  createdAt: r.now(),
+                  email: name,
+                  forwards: [],
+                  group: "FOPnIQ0mRJuwda/mi02kUg==",
+                  ip: "::ffff:127.0.0.1",
+                  lastLoggedInAt: r.now(),
+                  name: name.split("@")[0],
+                  settings: {},
                   allowDevices: allowDevices,
-                })
-                .run(conn, (err, cursor) => {
-                  res.status(200).json({
-                    result: 0,
-                  });
-                });
-            } else {
-              r.db("stf")
-                .table("users")
-                .insert([
-                  {
-                    createdAt: r.now(),
-                    email: name + "@androidcloud.com",
-                    forwards: [],
-                    group: "FOPnIQ0mRJuwda/mi02kUg==",
-                    ip: "::ffff:127.0.0.1",
-                    lastLoggedInAt: r.now(),
-                    name: name,
-                    settings: {},
-                    allowDevices: allowDevices,
-                  },
-                ])
-                .run(conn, (err, cursor) => {
-                  res.status(200).json({
-                    result: 0,
-                  });
-                });
-            }
-          });
+                  allowAdd: 0,
+                },
+              ])
+              .run(conn, (err, cursor) => {
+                res.status(200).send(body);
+              });
+          } else res.status(200).json({ result: 0 });
         });
     }
   );
