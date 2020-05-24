@@ -1,9 +1,7 @@
 # coding=utf-8
-from flask import Flask, redirect, request
+from flask import Flask, redirect, request, jsonify
 # from flask_cors import CORS, cross_origin
 import requests
-import json
-import commentjson
 import os
 import base64
 import ldap
@@ -81,7 +79,7 @@ def _add_o(account, password, owner):
     l.unbind_s()
     print("l.unbind_s")
 
-    return json.dumps(result)
+    return jsonify(result)
 
 
 @app.route('/sub/<account>')
@@ -103,7 +101,7 @@ def _sub(account):
     l.unbind_s()
     print("l.unbind_s")
 
-    return json.dumps(result)
+    return jsonify(result)
 
 
 @app.route('/search/<account>')
@@ -130,7 +128,7 @@ def _search(account):
     l.unbind_s()
     print("l.unbind_s")
 
-    return json.dumps(result)
+    return jsonify(result)
 
 
 app.run(host='0.0.0.0', port=3002)
