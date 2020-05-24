@@ -9,13 +9,6 @@
         .widget-content.padded
 
           .filtering-buttons
-            button.btn.btn-sm.btn-primary-outline(type='button', ng-click='triggerScript();')
-              i.fa.fa-play
-                span(ng-bind='"RunScript"|translate')
-
-            select(name='script',id='script')
-              option(ng-repeat='s in scripts', ng-value='s.script') {{s.name}}
-
             datalist(id='searchFields')
               select(name='searchFields')
                 option(ng-repeat='column in columns', ng-value='column.name + ": "',

@@ -126,33 +126,6 @@ module.exports = function DeviceListCtrl(
 
   $scope.columns = defaultColumns;
 
-  $scope.scripts = [{
-    name: "script1",
-    script: "script1.py"
-  }, {
-    name: "script2",
-    script: "script2.py"
-  }, {
-    name: "script3",
-    script: "script3.py"
-  }];
-
-  $scope.triggerScript = function () {
-    var script = document.getElementById("script").value;
-    alert(script);
-    console.log($scope.tracker.devices);
-    for (var idx in $scope.tracker.devices) {
-      var device = $scope.tracker.devices[idx]
-      console.log(device);
-      if (device.using)
-        fetch(`http://${document.location.hostname}:3001/auto/${device.serial}/${script}`)
-        .then(function (response) {
-          return response;
-        })
-        .catch(function (err) {});
-    }
-  };
-
   SettingsService.bind($scope, {
     target: "columns",
     source: "deviceListColumns"
