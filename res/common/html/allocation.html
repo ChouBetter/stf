@@ -71,7 +71,7 @@
               alert("account format fail!")
               return
             }
-            fetch(`/app/api/v1/pyLDAP?param=/add/${this.account}/${this.password}/${this.allow}`)
+            fetch(`/app/api/v1/pyLDAP/add/${this.account}/${this.password}/${this.allow}`)
               .then((response) => {
                 return response.json();
               })
