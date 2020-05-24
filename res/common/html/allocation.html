@@ -19,7 +19,8 @@
             subUserDevices: [],
             account: "",
             password: "",
-            allow: true
+            allow: true,
+            dialogVisible: false
           };
         },
         computed: {},
@@ -114,19 +115,25 @@
 
 <body>
   <div id="app">
-    <el-row>Add User: </el-row>
     <el-row>
-      <el-col :span="12">
-        Account:<el-input v-model="account" placeholder="ex: user@domain.com"></el-input>
-      </el-col>
-      <el-col :span="12">
-        Password:<el-input v-model="password" placeholder="please add password"></el-input>
-      </el-col>
-
-
-      Allow Add User / Allocate Devices<el-switch v-model="allow" active-color="#13ce66" inactive-color="#ff4949">
-      </el-switch>
+      <el-button type="text" @click="dialogVisible = true">Add User</el-button>
     </el-row>
+    <el-dialog title="Add User" :visible.sync="dialogVisible" width="50%" :before-close="handleClose">
+      <el-row>
+        Account:<el-input v-model="account" placeholder="ex: user@domain.com"></el-input>
+      </el-row>
+      <el-row>
+        Password:<el-input v-model="password" placeholder="please add password"></el-input>
+      </el-row>
+      <el-row>
+        Allow Add User / Allocate Devices<el-switch v-model="allow" active-color="#13ce66" inactive-color="#ff4949">
+        </el-switch>
+      </el-row>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+      </span>
+    </el-dialog>
     <el-row>Assign Devices: </el-row>
     <el-row>
       <span class="demonstration">Agents</span>
