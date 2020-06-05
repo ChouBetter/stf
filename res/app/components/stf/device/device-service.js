@@ -2,12 +2,22 @@ var oboe = require("oboe");
 var _ = require("lodash");
 var EventEmitter = require("eventemitter3");
 
+
+
 module.exports = function DeviceServiceFactory(
   $http,
   socket,
   EnhanceDeviceService
 ) {
   var deviceService = {};
+  var allowDevices = [];
+
+  $http.get("/api/v1/user" + serial).then(function (response) {
+    try {
+      allowDevices = response.data.user.allowDevices;
+    } catch {}
+
+  });
 
   function Tracker($scope, options) {
     var devices = [];
@@ -116,6 +126,11 @@ module.exports = function DeviceServiceFactory(
 
     function addListener(event) {
       var device = get(event.data);
+      if ((allowDevices.length > 0 && allowDevices[1] == "ALL") ||
+        allowDevices.includes(device.serial)) {} else {
+        return;
+      }
+
       if (device) {
         modify(device, event.data);
         notify(event);
@@ -129,6 +144,11 @@ module.exports = function DeviceServiceFactory(
 
     function changeListener(event) {
       var device = get(event.data);
+      if ((allowDevices.length > 0 && allowDevices[1] == "ALL") ||
+        allowDevices.includes(device.serial)) {} else {
+        return;
+      }
+
       if (device) {
         modify(device, event.data);
         if (!options.filter(device)) {
