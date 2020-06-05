@@ -14,6 +14,7 @@ module.exports = function DeviceServiceFactory(
 
   $http.get("/api/v1/user").then(function (response) {
     try {
+      console.log(response.data);
       allowDevices = response.data.user.allowDevices;
     } catch (e) {
       console.log(e);
