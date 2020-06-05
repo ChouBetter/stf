@@ -12,7 +12,7 @@ module.exports = function DeviceServiceFactory(
   var deviceService = {};
   var allowDevices = [];
 
-  $http.get("/api/v1/user" + serial).then(function (response) {
+  $http.get("/api/v1/user").then(function (response) {
     try {
       allowDevices = response.data.user.allowDevices;
     } catch (e) {
