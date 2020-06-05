@@ -102,7 +102,6 @@ module.exports = function DeviceServiceFactory(
     }.bind(this);
 
     var modify = function modify(data, newData) {
-      var device = get(event.data);
       if ((allowDevices.length > 0 && allowDevices[1] == "ALL") ||
         allowDevices.includes(newData.serial)) {} else {
         return;
