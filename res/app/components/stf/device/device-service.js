@@ -16,6 +16,7 @@ module.exports = function DeviceServiceFactory(
     try {
       console.log(response.data);
       allowDevices = response.data.user.allowDevices;
+      console.log(allowDevices);
     } catch (e) {
       console.log(e);
     }
@@ -90,12 +91,23 @@ module.exports = function DeviceServiceFactory(
     }
 
     var insert = function insert(data) {
+      if ((allowDevices.length > 0 && allowDevices[1] == "ALL") ||
+        allowDevices.includes(data.serial)) {} else {
+        return;
+      }
+
       devicesBySerial[data.serial] = devices.push(data) - 1;
       sync(data);
       this.emit("add", data);
     }.bind(this);
 
     var modify = function modify(data, newData) {
+      var device = get(event.data);
+      if ((allowDevices.length > 0 && allowDevices[1] == "ALL") ||
+        allowDevices.includes(newData.serial)) {} else {
+        return;
+      }
+
       _.merge(data, newData, function (a, b) {
         // New Arrays overwrite old Arrays
         if (_.isArray(b)) {
@@ -129,10 +141,6 @@ module.exports = function DeviceServiceFactory(
 
     function addListener(event) {
       var device = get(event.data);
-      if ((allowDevices.length > 0 && allowDevices[1] == "ALL") ||
-        allowDevices.includes(device.serial)) {} else {
-        return;
-      }
 
       if (device) {
         modify(device, event.data);
@@ -146,12 +154,6 @@ module.exports = function DeviceServiceFactory(
     }
 
     function changeListener(event) {
-      var device = get(event.data);
-      if ((allowDevices.length > 0 && allowDevices[1] == "ALL") ||
-        allowDevices.includes(device.serial)) {} else {
-        return;
-      }
-
       if (device) {
         modify(device, event.data);
         if (!options.filter(device)) {
