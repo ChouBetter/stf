@@ -91,8 +91,7 @@ module.exports = function DeviceServiceFactory(
     }
 
     var insert = function insert(data) {
-      if ((allowDevices.length > 0 && allowDevices[1] == "ALL") ||
-        allowDevices.includes(data.serial)) {} else {
+      if (allowDevices.includes("ALL") || allowDevices.includes(data)) {} else {
         return;
       }
 
@@ -102,8 +101,7 @@ module.exports = function DeviceServiceFactory(
     }.bind(this);
 
     var modify = function modify(data, newData) {
-      if ((allowDevices.length > 0 && allowDevices[1] == "ALL") ||
-        allowDevices.includes(newData.serial)) {} else {
+      if (allowDevices.includes("ALL") || allowDevices.includes(newData.serial)) {} else {
         return;
       }
 
