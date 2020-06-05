@@ -15,7 +15,9 @@ module.exports = function DeviceServiceFactory(
   $http.get("/api/v1/user" + serial).then(function (response) {
     try {
       allowDevices = response.data.user.allowDevices;
-    } catch {}
+    } catch (e) {
+      console.log(e);
+    }
 
   });
 
