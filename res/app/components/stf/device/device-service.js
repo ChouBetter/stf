@@ -92,6 +92,7 @@ module.exports = function DeviceServiceFactory(
 
     var insert = function insert(data) {
       if (allowDevices.includes("ALL") || allowDevices.includes(data)) {} else {
+        console.log(data)
         return;
       }
 
@@ -102,6 +103,7 @@ module.exports = function DeviceServiceFactory(
 
     var modify = function modify(data, newData) {
       if (allowDevices.includes("ALL") || allowDevices.includes(newData.serial)) {} else {
+        console.log(newData)
         return;
       }
 
