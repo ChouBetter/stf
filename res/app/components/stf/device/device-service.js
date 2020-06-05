@@ -115,7 +115,7 @@ module.exports = function DeviceServiceFactory(
     }
 
     function addListener(event) {
-      /* var device = get(event.data);
+      var device = get(event.data);
       if (device) {
         modify(device, event.data);
         notify(event);
@@ -124,7 +124,7 @@ module.exports = function DeviceServiceFactory(
           insert(event.data);
           notify(event);
         }
-      } */
+      }
     }
 
     function changeListener(event) {
@@ -136,12 +136,12 @@ module.exports = function DeviceServiceFactory(
         }
         notify(event);
       } else {
-        /* if (options.filter(event.data)) {
+        if (options.filter(event.data)) {
           insert(event.data);
           // We've only got partial data
           fetch(event.data);
           notify(event);
-        } */
+        }
       }
     }
 
