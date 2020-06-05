@@ -15,7 +15,7 @@ module.exports = function DeviceServiceFactory(
     var scopedSocket = socket.scoped($scope);
     var digestTimer, lastDigest;
 
-    $scope.$on("$destroy", function() {
+    $scope.$on("$destroy", function () {
       clearTimeout(digestTimer);
     });
 
@@ -83,7 +83,7 @@ module.exports = function DeviceServiceFactory(
     }.bind(this);
 
     var modify = function modify(data, newData) {
-      _.merge(data, newData, function(a, b) {
+      _.merge(data, newData, function (a, b) {
         // New Arrays overwrite old Arrays
         if (_.isArray(b)) {
           return b;
@@ -105,17 +105,17 @@ module.exports = function DeviceServiceFactory(
     function fetch(data) {
       deviceService
         .load(data.serial)
-        .then(function(device) {
+        .then(function (device) {
           return changeListener({
             important: true,
             data: device
           });
         })
-        .catch(function() {});
+        .catch(function () {});
     }
 
     function addListener(event) {
-      var device = get(event.data);
+      /* var device = get(event.data);
       if (device) {
         modify(device, event.data);
         notify(event);
@@ -124,7 +124,7 @@ module.exports = function DeviceServiceFactory(
           insert(event.data);
           notify(event);
         }
-      }
+      } */
     }
 
     function changeListener(event) {
@@ -136,12 +136,12 @@ module.exports = function DeviceServiceFactory(
         }
         notify(event);
       } else {
-        if (options.filter(event.data)) {
+        /* if (options.filter(event.data)) {
           insert(event.data);
           // We've only got partial data
           fetch(event.data);
           notify(event);
-        }
+        } */
       }
     }
 
@@ -149,7 +149,7 @@ module.exports = function DeviceServiceFactory(
     scopedSocket.on("device.remove", changeListener);
     scopedSocket.on("device.change", changeListener);
 
-    this.add = function(device) {
+    this.add = function (device) {
       addListener({
         important: true,
         data: device
@@ -161,57 +161,57 @@ module.exports = function DeviceServiceFactory(
 
   Tracker.prototype = new EventEmitter();
 
-  deviceService.trackAll = function($scope) {
+  deviceService.trackAll = function ($scope) {
     var tracker = new Tracker($scope, {
-      filter: function() {
+      filter: function () {
         return true;
       },
       digest: false
     });
 
-    oboe("/api/v1/devices").node("devices[*]", function(device) {
+    oboe("/api/v1/devices").node("devices[*]", function (device) {
       tracker.add(device);
     });
 
     return tracker;
   };
 
-  deviceService.trackGroup = function($scope) {
+  deviceService.trackGroup = function ($scope) {
     var tracker = new Tracker($scope, {
-      filter: function(device) {
+      filter: function (device) {
         return device.using;
       },
       digest: true
     });
 
-    oboe("/api/v1/user/devices").node("devices[*]", function(device) {
+    oboe("/api/v1/user/devices").node("devices[*]", function (device) {
       tracker.add(device);
     });
 
     return tracker;
   };
 
-  deviceService.load = function(serial) {
-    return $http.get("/api/v1/devices/" + serial).then(function(response) {
+  deviceService.load = function (serial) {
+    return $http.get("/api/v1/devices/" + serial).then(function (response) {
       return response.data.device;
     });
   };
 
-  deviceService.get = function(serial, $scope) {
+  deviceService.get = function (serial, $scope) {
     var tracker = new Tracker($scope, {
-      filter: function(device) {
+      filter: function (device) {
         return device.serial === serial;
       },
       digest: true
     });
 
-    return deviceService.load(serial).then(function(device) {
+    return deviceService.load(serial).then(function (device) {
       tracker.add(device);
       return device;
     });
   };
 
-  deviceService.updateNote = function(serial, note) {
+  deviceService.updateNote = function (serial, note) {
     socket.emit("device.note", {
       serial: serial,
       note: note
