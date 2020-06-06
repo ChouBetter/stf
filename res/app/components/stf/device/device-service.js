@@ -9,7 +9,6 @@ module.exports = function DeviceServiceFactory(
 ) {
   var deviceService = {};
   var allowDevices = [];
-  var passport = false;
 
   let yyy = () => {
     return new Promise((resolve, reject) => {
@@ -22,7 +21,7 @@ module.exports = function DeviceServiceFactory(
           console.log(e);
         }
         resolve(true)
-      }).catch(err => reject(err));
+      })
     })
   }
 
@@ -36,9 +35,7 @@ module.exports = function DeviceServiceFactory(
     } catch (e) {
       console.log(e);
     }
-
-    passport = true;
-  }).catch(err => console.log(err));
+  })
 
   function Tracker($scope, options) {
     var devices = [];
