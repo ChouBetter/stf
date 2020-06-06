@@ -19,8 +19,9 @@ module.exports = function DeviceServiceFactory(
     } catch (e) {
       console.log(e);
     }
+    resolve()
     //passport = true;
-  });
+  }).catch(err => console.log(err));
 
   //while (!passport);
 
