@@ -2,8 +2,6 @@ var oboe = require("oboe");
 var _ = require("lodash");
 var EventEmitter = require("eventemitter3");
 
-
-
 module.exports = function DeviceServiceFactory(
   $http,
   socket,
@@ -11,8 +9,9 @@ module.exports = function DeviceServiceFactory(
 ) {
   var deviceService = {};
   var allowDevices = [];
+  //var passport = false;
 
-  $http.get("/api/v1/user").then(function (response) {
+  await $http.get("/api/v1/user").then(function (response) {
     try {
       console.log(response.data);
       allowDevices = response.data.user.allowDevices;
@@ -20,8 +19,10 @@ module.exports = function DeviceServiceFactory(
     } catch (e) {
       console.log(e);
     }
-
+    //passport = true;
   });
+
+  //while (!passport);
 
   function Tracker($scope, options) {
     var devices = [];
@@ -92,7 +93,7 @@ module.exports = function DeviceServiceFactory(
 
     var insert = function insert(data) {
       if (allowDevices.includes("ALL") || allowDevices.includes(data)) {} else {
-        console.log(data)
+        //console.log(data)
         return;
       }
 
@@ -102,8 +103,11 @@ module.exports = function DeviceServiceFactory(
     }.bind(this);
 
     var modify = function modify(data, newData) {
-      if (allowDevices.includes("ALL") || allowDevices.includes(newData.serial)) {} else {
-        console.log(newData)
+      if (
+        allowDevices.includes("ALL") ||
+        allowDevices.includes(newData.serial)
+      ) {} else {
+        //console.log(newData)
         return;
       }
 
@@ -132,7 +136,7 @@ module.exports = function DeviceServiceFactory(
         .then(function (device) {
           return changeListener({
             important: true,
-            data: device
+            data: device,
           });
         })
         .catch(function () {});
@@ -176,7 +180,7 @@ module.exports = function DeviceServiceFactory(
     this.add = function (device) {
       addListener({
         important: true,
-        data: device
+        data: device,
       });
     };
 
@@ -190,7 +194,7 @@ module.exports = function DeviceServiceFactory(
       filter: function () {
         return true;
       },
-      digest: false
+      digest: false,
     });
 
     oboe("/api/v1/devices").node("devices[*]", function (device) {
@@ -205,7 +209,7 @@ module.exports = function DeviceServiceFactory(
       filter: function (device) {
         return device.using;
       },
-      digest: true
+      digest: true,
     });
 
     oboe("/api/v1/user/devices").node("devices[*]", function (device) {
@@ -226,7 +230,7 @@ module.exports = function DeviceServiceFactory(
       filter: function (device) {
         return device.serial === serial;
       },
-      digest: true
+      digest: true,
     });
 
     return deviceService.load(serial).then(function (device) {
@@ -238,7 +242,7 @@ module.exports = function DeviceServiceFactory(
   deviceService.updateNote = function (serial, note) {
     socket.emit("device.note", {
       serial: serial,
-      note: note
+      note: note,
     });
   };
 
