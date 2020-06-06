@@ -10,23 +10,6 @@ module.exports = function DeviceServiceFactory(
   var deviceService = {};
   var allowDevices = [];
 
-  let yyy = () => {
-    return new Promise((resolve, reject) => {
-      $http.get("/api/v1/user").then(function (response) {
-        try {
-          console.log(response.data);
-          allowDevices = response.data.user.allowDevices;
-          console.log(allowDevices);
-        } catch (e) {
-          console.log(e);
-        }
-        resolve(true)
-      })
-    })
-  }
-
-  await yyy;
-
   $http.get("/api/v1/user").then(function (response) {
     try {
       console.log(response.data);
