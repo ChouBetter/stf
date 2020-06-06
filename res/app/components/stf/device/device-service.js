@@ -9,6 +9,7 @@ module.exports = function DeviceServiceFactory(
 ) {
   var deviceService = {};
   var allowDevices = [];
+  var passport = false;
 
   $http.get("/api/v1/user").then(function (response) {
     try {
@@ -18,6 +19,7 @@ module.exports = function DeviceServiceFactory(
     } catch (e) {
       console.log(e);
     }
+    passport = true;
   })
 
   function Tracker($scope, options) {
@@ -88,9 +90,11 @@ module.exports = function DeviceServiceFactory(
     }
 
     var insert = function insert(data) {
-      if (allowDevices.includes("ALL") || allowDevices.includes(data)) {} else {
-        //console.log(data)
-        return;
+      if (passport) {
+        if (allowDevices.includes("ALL") || allowDevices.includes(data)) {} else {
+          //console.log(data)
+          return;
+        }
       }
 
       devicesBySerial[data.serial] = devices.push(data) - 1;
@@ -99,12 +103,11 @@ module.exports = function DeviceServiceFactory(
     }.bind(this);
 
     var modify = function modify(data, newData) {
-      if (
-        allowDevices.includes("ALL") ||
-        allowDevices.includes(newData.serial)
-      ) {} else {
-        //console.log(newData)
-        return;
+      if (passport) {
+        if (allowDevices.includes("ALL") || allowDevices.includes(newData.serial)) {} else {
+          //console.log(newData)
+          return;
+        }
       }
 
       _.merge(data, newData, function (a, b) {
