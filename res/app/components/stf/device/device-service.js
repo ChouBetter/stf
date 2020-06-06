@@ -9,9 +9,9 @@ module.exports = function DeviceServiceFactory(
 ) {
   var deviceService = {};
   var allowDevices = [];
-  //var passport = false;
+  var passport = false;
 
-  await $http.get("/api/v1/user").then(function (response) {
+  $http.get("/api/v1/user").then(function (response) {
     try {
       console.log(response.data);
       allowDevices = response.data.user.allowDevices;
@@ -19,11 +19,13 @@ module.exports = function DeviceServiceFactory(
     } catch (e) {
       console.log(e);
     }
-    resolve()
-    //passport = true;
-  }).catch(err => console.log(err));
+    passport = true;
+  }).catch(err => {
+    console.log(err);
+    passport = true;
+  });
 
-  //while (!passport);
+  while (!passport);
 
   function Tracker($scope, options) {
     var devices = [];
