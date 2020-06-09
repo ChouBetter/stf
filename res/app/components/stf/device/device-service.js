@@ -19,8 +19,8 @@ module.exports = function DeviceServiceFactory(
     } catch (e) {
       console.log(e);
     }
-    passport = true;
-  })
+    passport = false;
+  });
 
   function Tracker($scope, options) {
     var devices = [];
@@ -91,7 +91,8 @@ module.exports = function DeviceServiceFactory(
 
     var insert = function insert(data) {
       if (passport) {
-        if (allowDevices.includes("ALL") || allowDevices.includes(data)) {} else {
+        if (allowDevices.includes("ALL") || allowDevices.includes(data)) {
+        } else {
           //console.log(data)
           return;
         }
@@ -104,7 +105,11 @@ module.exports = function DeviceServiceFactory(
 
     var modify = function modify(data, newData) {
       if (passport) {
-        if (allowDevices.includes("ALL") || allowDevices.includes(newData.serial)) {} else {
+        if (
+          allowDevices.includes("ALL") ||
+          allowDevices.includes(newData.serial)
+        ) {
+        } else {
           //console.log(newData)
           return;
         }
