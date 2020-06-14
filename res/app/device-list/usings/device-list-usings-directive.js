@@ -40,6 +40,7 @@ module.exports = function DeviceListUsingDirective(
         }
 
         if (device.using) {
+          li.style = "pointer-events:none";
           if (device.display.rotation == 90 || device.display.rotation == 270) {
             li.classList.add("landscape");
             li.innerHTML = "<iframe style='width:385px;height:225px' src='/#!/control/" +
