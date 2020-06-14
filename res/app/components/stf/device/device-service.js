@@ -153,7 +153,6 @@ module.exports = function DeviceServiceFactory(
 
     function addListener(event) {
       var device = get(event.data);
-
       if (device) {
         modify(device, event.data);
         notify(event);
@@ -166,6 +165,7 @@ module.exports = function DeviceServiceFactory(
     }
 
     function changeListener(event) {
+      var device = get(event.data);
       if (device) {
         modify(device, event.data);
         if (!options.filter(device)) {
