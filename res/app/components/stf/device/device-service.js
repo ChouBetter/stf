@@ -10,7 +10,7 @@ module.exports = function DeviceServiceFactory(
   var deviceService = {};
   var allowDevices = [];
   var passport = false;
-
+  /*
   $http.get("/api/v1/user").then(function (response) {
     try {
       console.log(response.data);
@@ -21,7 +21,7 @@ module.exports = function DeviceServiceFactory(
     }
     passport = false;
   });
-
+*/
   function Tracker($scope, options) {
     var devices = [];
     var devicesBySerial = Object.create(null);
@@ -91,7 +91,10 @@ module.exports = function DeviceServiceFactory(
 
     var insert = function insert(data) {
       if (passport) {
-        if (allowDevices.includes("ALL") || allowDevices.includes(data)) {
+        if (
+          allowDevices.includes("ALL") ||
+          allowDevices.includes(data.serial)
+        ) {
         } else {
           //console.log(data)
           return;
