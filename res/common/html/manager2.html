@@ -83,6 +83,14 @@
         <el-table-column prop="SP_FAN0_2_TACH               (0x48)" label="FAN0_2_TACH"></el-table-column>
         <el-table-column prop="SP_FAN1-1_TACH               (0x4A)" label="FAN1-1_TACH"></el-table-column>
         <el-table-column prop="SP_FAN1-2_TACH               (0x4B)" label="FAN1-2_TACH"></el-table-column>
+        <el-table-column label="Actions">
+          <template slot-scope="scope">
+            <el-button size="mini" @click="alert(scope.row.address)">nodestat</el-button>
+            <el-button size="mini" @click="handleDelete(scope.$index, scope.row)">seatstat</el-button>
+            <el-button size="mini" @click="handleDelete(scope.$index, scope.row)">containerstat
+            </el-button>
+          </template>
+        </el-table-column>
       </el-table>
     </el-row>
   </div>
