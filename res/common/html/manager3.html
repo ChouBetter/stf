@@ -71,8 +71,8 @@
       nodestat: <el-tag>{{ addr }}</el-tag>
     </el-row>
     <el-row>
-      <el-table :data="nodestat" style="width: 100%">
-        <el-table-column prop="id" label="id"></el-table-column>
+      <el-table :data="nodestat" style="width: 100%" :default-sort="{prop: 'id', order: 'ascending'}">
+        <el-table-column prop="id" label="id" sortable></el-table-column>
         <el-table-column prop="state" label="state"></el-table-column>
         <el-table-column prop="temperature" label="temperature"></el-table-column>
         <el-table-column prop="cpu_usage" label="cpu_usage"></el-table-column>
