@@ -1,0 +1,71 @@
+<html>
+
+<head>
+  <title></title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <script type="text/javascript">
+    var address = "123.51.133.103"; //swindow.location.hash.substr(1);
+    document.addEventListener("DOMContentLoaded", function (event) {
+      let app = new Vue({
+        el: '#app',
+        data() {
+          return {
+            chassis: [],
+            slaveAddrs: [],
+            columns: [],
+            slaveStatus: []
+          };
+        },
+        computed: {},
+        mounted() {
+          fetch(`http://${address}:19000/api/getchassis`)
+            .then((response) => {
+              return response.json();
+            })
+            .then((jsonData) => {
+              this.chassis = jsonData;
+            })
+            .catch((err) => {
+              console.log("/api/getchassis: ", err);
+              alert("/api/getchassis error: " + err);
+            });
+        },
+        methods: {
+
+        }
+      });
+    });
+
+  </script>
+  <style>
+    .el-row {
+      margin-bottom: 20px;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <el-row> </el-row>
+    <el-row>
+      <el-table :data="slaveStatus" style="width: 100%">
+        <el-table-column prop="address" label="address"></el-table-column>
+        <el-table-column prop="SP_AIR_FLOW_L_TEMP           (0x7E)" label="AIR_FLOW_L_TEMP"></el-table-column>
+        <el-table-column prop="SP_AIR_FLOW_R_TEMP           (0x7F)" label="AIR_FLOW_R_TEMP"></el-table-column>
+        <el-table-column prop="SP_FAN0-3_TACH               (0x49)" label="FAN0-3_TACH"></el-table-column>
+        <el-table-column prop="SP_FAN0_0_TACH               (0x46)" label="FAN0_0_TACH"></el-table-column>
+        <el-table-column prop="SP_FAN0_1_TACH               (0x47)" label="FAN0_1_TACH"></el-table-column>
+        <el-table-column prop="SP_FAN0_2_TACH               (0x48)" label="FAN0_2_TACH"></el-table-column>
+        <el-table-column prop="SP_FAN1-1_TACH               (0x4A)" label="FAN1-1_TACH"></el-table-column>
+        <el-table-column prop="SP_FAN1-2_TACH               (0x4B)" label="FAN1-2_TACH"></el-table-column>
+      </el-table>
+    </el-row>
+  </div>
+</body>
+
+</html>
