@@ -36,6 +36,9 @@
                 console.log("/api/getcontainerstat: ", err);
                 alert("/api/getcontainerstat error: " + err);
               });
+          },
+          goBack() {
+            window.history.back();
           }
         }
       });
@@ -54,6 +57,7 @@
   <div id="app">
     <el-row>
       containerstat: <el-tag>{{ addr }}</el-tag>
+      <el-button type="success" @click="goBack">Back</el-button>
     </el-row>
     <el-row>
       <el-table :data="containerstat" style="width: 100%" :default-sort="{prop: 'id', order: 'ascending'}">

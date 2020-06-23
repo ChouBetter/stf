@@ -51,6 +51,9 @@
                 console.log("/api/getnodestat: ", err);
                 alert("/api/getnodestat error: " + err);
               });
+          },
+          goBack() {
+            window.history.back();
           }
         }
       });
@@ -69,6 +72,7 @@
   <div id="app">
     <el-row>
       nodestat: <el-tag>{{ addr }}</el-tag>
+      <el-button type="success" @click="goBack">Back</el-button>
     </el-row>
     <el-row>
       <el-table :data="nodestat" style="width: 100%" :default-sort="{prop: 'id', order: 'ascending'}">
