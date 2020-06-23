@@ -57,6 +57,7 @@
   <div id="app">
     <el-row>
       seatstat: <el-tag>{{ addr }}</el-tag>
+      <el-button type="success" @click="goBack">Back</el-button>
     </el-row>
     <el-row>
       <el-table :data="seatstat" style="width: 100%" :default-sort="{prop: 'id', order: 'ascending'}">
