@@ -22,8 +22,7 @@
         },
         computed: {},
         mounted() {
-          // fetch(`http://${address}:19000/api/getchassis`)
-          fetch(`/app/api/v1/sensors?host=${address}&path=api/getchassis`)
+          fetch(`/app/api/v1/iscsi?host=${address}&path=api/getchassis`)
             .then((response) => {
               return response.json();
             })
