@@ -55,7 +55,15 @@
             });
         },
         methods: {
-
+          nodestat(addr) {
+            location.href = 'manager3.html#' + addr
+          },
+          seatstat(addr) {
+            location.href = 'manager4.html#' + addr
+          },
+          containerstat(addr) {
+            location.href = 'manager5.html#' + addr
+          }
         }
       });
     });
@@ -85,10 +93,9 @@
         <el-table-column prop="SP_FAN1-2_TACH               (0x4B)" label="FAN1-2_TACH"></el-table-column>
         <el-table-column label="Actions">
           <template slot-scope="scope">
-            <el-button size="mini" @click="alert(scope.row.address)">nodestat</el-button>
-            <el-button size="mini" @click="handleDelete(scope.$index, scope.row)">seatstat</el-button>
-            <el-button size="mini" @click="handleDelete(scope.$index, scope.row)">containerstat
-            </el-button>
+            <el-button size="mini" @click="nodestat(scope.row.address)">nodestat</el-button>
+            <el-button size="mini" @click="seatstat(scope.row.address)">seatstat</el-button>
+            <el-button size="mini" @click="containerstat(scope.row.address)">containerstat</el-button>
           </template>
         </el-table-column>
       </el-table>

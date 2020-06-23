@@ -8,7 +8,7 @@
   <script src="https://unpkg.com/element-ui/lib/index.js"></script>
   <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
   <script type="text/javascript">
-    var address = "123.51.133.103"; //swindow.location.hash.substr(1);
+    var address = window.location.hash.substr(1);
     document.addEventListener("DOMContentLoaded", function (event) {
       let app = new Vue({
         el: '#app',
