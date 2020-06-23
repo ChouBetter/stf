@@ -15,41 +15,26 @@
         data() {
           return {
             addr: "",
-            chassis: [],
-            nodestat: [],
+            seatstat: [],
           };
         },
         computed: {},
         mounted() {
           this.addr = address;
-          this.getchassis();
+          this.getseatstat();
         },
         methods: {
-          getchassis() {
-            fetch(`/app/api/v1/iscsi?host=${address}&path=api/getchassis`)
+          getseatstat() {
+            fetch(`/app/api/v1/iscsi?host=${address}&path=api/getseatstat/0`)
               .then((response) => {
                 return response.json();
               })
               .then((jsonData) => {
-                this.chassis = jsonData;
-                this.getnodestat();
+                this.seatstat = jsonData;
               })
               .catch((err) => {
-                console.log("/api/getchassis: ", err);
-                alert("/api/getchassis error: " + err);
-              });
-          },
-          getnodestat() {
-            fetch(`/app/api/v1/iscsi?host=${address}&path=api/getnodestat/${this.chassis[0]}/0`)
-              .then((response) => {
-                return response.json();
-              })
-              .then((jsonData) => {
-                this.nodestat = jsonData;
-              })
-              .catch((err) => {
-                console.log("/api/getnodestat: ", err);
-                alert("/api/getnodestat error: " + err);
+                console.log("/api/getseatstat: ", err);
+                alert("/api/getseatstat error: " + err);
               });
           }
         }
@@ -68,16 +53,16 @@
 <body>
   <div id="app">
     <el-row>
-      nodestat: <el-tag>{{ addr }}</el-tag>
+      seatstat: <el-tag>{{ addr }}</el-tag>
     </el-row>
     <el-row>
-      <el-table :data="nodestat" style="width: 100%">
+      <el-table :data="seatstat" style="width: 100%">
         <el-table-column prop="id" label="id"></el-table-column>
         <el-table-column prop="state" label="state"></el-table-column>
-        <el-table-column prop="temperature" label="temperature"></el-table-column>
         <el-table-column prop="cpu_usage" label="cpu_usage"></el-table-column>
         <el-table-column prop="memory_usage" label="memory_usage"></el-table-column>
-        <el-table-column prop="uptime" label="uptime"></el-table-column>
+        <el-table-column prop="tx_bytes" label="tx_bytes"></el-table-column>
+        <el-table-column prop="rx_bytes" label="rx_bytes"></el-table-column>
       </el-table>
     </el-row>
   </div>
