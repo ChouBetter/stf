@@ -15,27 +15,41 @@
         data() {
           return {
             chassis: [],
-            slaveAddrs: [],
-            columns: [],
-            slaveStatus: []
+            nodestat: [],
           };
         },
         computed: {},
         mounted() {
-          fetch(`/app/api/v1/iscsi?host=${address}&path=api/getchassis`)
-            .then((response) => {
-              return response.json();
-            })
-            .then((jsonData) => {
-              this.chassis = jsonData;
-            })
-            .catch((err) => {
-              console.log("/api/getchassis: ", err);
-              alert("/api/getchassis error: " + err);
-            });
+          getchassis();
         },
         methods: {
-
+          getchassis() {
+            fetch(`/app/api/v1/iscsi?host=${address}&path=api/getchassis`)
+              .then((response) => {
+                return response.json();
+              })
+              .then((jsonData) => {
+                this.chassis = jsonData;
+                getnodestat();
+              })
+              .catch((err) => {
+                console.log("/api/getchassis: ", err);
+                alert("/api/getchassis error: " + err);
+              });
+          },
+          getnodestat() {
+            fetch(`/app/api/v1/iscsi?host=${address}&path=api/getnodestat/${this.chassis[0]}/0`)
+              .then((response) => {
+                return response.json();
+              })
+              .then((jsonData) => {
+                this.nodestat = jsonData;
+              })
+              .catch((err) => {
+                console.log("/api/getnodestat: ", err);
+                alert("/api/getnodestat error: " + err);
+              });
+          }
         }
       });
     });
@@ -53,16 +67,13 @@
   <div id="app">
     <el-row> </el-row>
     <el-row>
-      <el-table :data="slaveStatus" style="width: 100%">
-        <el-table-column prop="address" label="address"></el-table-column>
-        <el-table-column prop="SP_AIR_FLOW_L_TEMP           (0x7E)" label="AIR_FLOW_L_TEMP"></el-table-column>
-        <el-table-column prop="SP_AIR_FLOW_R_TEMP           (0x7F)" label="AIR_FLOW_R_TEMP"></el-table-column>
-        <el-table-column prop="SP_FAN0-3_TACH               (0x49)" label="FAN0-3_TACH"></el-table-column>
-        <el-table-column prop="SP_FAN0_0_TACH               (0x46)" label="FAN0_0_TACH"></el-table-column>
-        <el-table-column prop="SP_FAN0_1_TACH               (0x47)" label="FAN0_1_TACH"></el-table-column>
-        <el-table-column prop="SP_FAN0_2_TACH               (0x48)" label="FAN0_2_TACH"></el-table-column>
-        <el-table-column prop="SP_FAN1-1_TACH               (0x4A)" label="FAN1-1_TACH"></el-table-column>
-        <el-table-column prop="SP_FAN1-2_TACH               (0x4B)" label="FAN1-2_TACH"></el-table-column>
+      <el-table :data="nodestat" style="width: 100%">
+        <el-table-column prop="id" label="id"></el-table-column>
+        <el-table-column prop="state" label="state"></el-table-column>
+        <el-table-column prop="temperature" label="temperature"></el-table-column>
+        <el-table-column prop="cpu_usage" label="cpu_usage"></el-table-column>
+        <el-table-column prop="memory_usage" label="memory_usage"></el-table-column>
+        <el-table-column prop="uptime" label="uptime"></el-table-column>
       </el-table>
     </el-row>
   </div>
