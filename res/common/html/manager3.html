@@ -20,7 +20,7 @@
         },
         computed: {},
         mounted() {
-          getchassis();
+          this.getchassis();
         },
         methods: {
           getchassis() {
@@ -30,7 +30,7 @@
               })
               .then((jsonData) => {
                 this.chassis = jsonData;
-                getnodestat();
+                this.getnodestat();
               })
               .catch((err) => {
                 console.log("/api/getchassis: ", err);
