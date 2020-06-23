@@ -1,0 +1,71 @@
+<html>
+
+<head>
+  <title></title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <script type="text/javascript">
+    var address = "123.51.133.103"; //swindow.location.hash.substr(1);
+    document.addEventListener("DOMContentLoaded", function (event) {
+      let app = new Vue({
+        el: '#app',
+        data() {
+          return {
+            addr: "",
+            containerstat: [],
+          };
+        },
+        computed: {},
+        mounted() {
+          this.addr = address;
+          this.getseatstat();
+        },
+        methods: {
+          getseatstat() {
+            fetch(`/app/api/v1/iscsi?host=${address}&path=api/getcontainerstat/0`)
+              .then((response) => {
+                return response.json();
+              })
+              .then((jsonData) => {
+                this.containerstat = jsonData;
+              })
+              .catch((err) => {
+                console.log("/api/getcontainerstat: ", err);
+                alert("/api/getcontainerstat error: " + err);
+              });
+          }
+        }
+      });
+    });
+
+  </script>
+  <style>
+    .el-row {
+      margin-bottom: 20px;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <el-row>
+      containerstat: <el-tag>{{ addr }}</el-tag>
+    </el-row>
+    <el-row>
+      <el-table :data="containerstat" style="width: 100%">
+        <el-table-column prop="id" label="id"></el-table-column>
+        <el-table-column prop="state" label="state"></el-table-column>
+        <el-table-column prop="internal_storage_capacity" label="internal_storage_capacity"></el-table-column>
+        <el-table-column prop="internal_storage_used" label="internal_storage_used"></el-table-column>
+        <el-table-column prop="external_storage_capacity" label="external_storage_capacity"></el-table-column>
+        <el-table-column prop="external_storage_used" label="external_storage_used"></el-table-column>
+      </el-table>
+    </el-row>
+  </div>
+</body>
+
+</html>
