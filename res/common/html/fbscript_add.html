@@ -13,7 +13,6 @@
         el: '#app',
         data() {
           return {
-            entry: false,
             ownDevices: [],
             fbscripts: {},
             selectedUser: undefined,
@@ -148,7 +147,7 @@
 </head>
 
 <body>
-  <div id="app" v-if="entry">
+  <div id="app">
     <el-row>Task Script: </el-row>
     <el-row>
       <el-radio v-for="(item, index) in subUsers" v-model="selectedUser" :key="item" :label="item" @change="userChange">
