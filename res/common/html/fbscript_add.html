@@ -97,7 +97,7 @@
               return
             }
             var taskDevices = [];
-            subUserDevices.forEach(element => taskDevices.push({
+            this.subUserDevices.forEach(element => taskDevices.push({
               ip: element.split(":")[0],
               param: this.selectedScriptValue.split("/")[2]
             }));
