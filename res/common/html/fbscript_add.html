@@ -15,13 +15,9 @@
           return {
             ownDevices: [],
             fbscripts: {},
-            selectedUser: undefined,
-            subUsers: [],
+            fbscriptKeys: [],
+            selectedScript: undefined,
             subUserDevices: [],
-            account: "",
-            password: "",
-            allow: true,
-            dialogVisible: false
           };
         },
         computed: {},
@@ -36,6 +32,7 @@
                 return response.json();
               })
               .then((jsonData) => {
+                this.fbscriptKeys = Object.keys(jsonData);
                 this.fbscripts = jsonData;
               })
               .catch((err) => {
@@ -150,7 +147,8 @@
   <div id="app">
     <el-row>Task Script: </el-row>
     <el-row>
-      <el-radio v-for="(item, index) in subUsers" v-model="selectedUser" :key="item" :label="item" @change="userChange">
+      <el-radio v-for="(item, index) in fbscriptKeys" v-model="selectedScript" :key="item" :label="item"
+        @change="userChange">
         {{item}}
       </el-radio>
     </el-row>
