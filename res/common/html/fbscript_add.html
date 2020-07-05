@@ -27,6 +27,9 @@
           this.fetchDevices();
         },
         methods: {
+          addTask() {
+            location.href = 'fbscript_view.html'
+          },
           fetchScripts() {
             fetch("/app/api/v1/fbscript", {})
               .then((response) => {
@@ -160,6 +163,9 @@
       <el-badge :value="subUserDevices.length" class="item" type="primary">
         <el-button size="small" @click="apply">Add Task</el-button>
       </el-badge>
+    </el-row>
+    <el-row>
+      <el-button type="success" icon="el-icon-user" @click="addTask">Back to List</el-button>
     </el-row>
   </div>
 </body>
