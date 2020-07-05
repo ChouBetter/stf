@@ -17,6 +17,7 @@
             fbscripts: {},
             fbscriptKeys: [],
             selectedScript: undefined,
+            selectedScriptValue: undefined,
             subUserDevices: [],
           };
         },
@@ -88,25 +89,11 @@
               });
           },
           userChange(user) {
-            if (!user || user == undefined || user == '') {
-              return
-            }
-            console.log(`selectedUser: ${this.selectedUser}, user: ${user}`)
-            fetch(`/app/api/v1/allowDevices/${user}`, {})
-              .then((response) => {
-                return response.json();
-              })
-              .then((jsonData) => {
-                this.subUserDevices = jsonData.allowDevices;
-              })
-              .catch((err) => {
-                console.log("ERROR: ", err);
-                alert("error: " + err)
-              });
+            this.selectedScriptValue = this.fbscripts[this.selectedScript];
           },
           apply() {
-            if (!this.selectedUser || this.selectedUser == undefined || this.selectedUser == '') {
-              alert('please select User First!!!')
+            if (!this.selectedScript || this.selectedScript == undefined) {
+              alert('please select Script First!!!')
               return
             }
             fetch('/app/api/v1/allowDevices/update', {
@@ -153,14 +140,17 @@
       </el-radio>
     </el-row>
     <el-row>
+      {{fbscripts[selectedScript]}}
+    </el-row>
+    <el-row>
       <span class="demonstration">Devices</span>
       <el-transfer filterable v-model="subUserDevices" :props="{key: 'serial', label: 'serial'}" :data="ownDevices"
-        :titles="['inventory', 'allocation']">
+        :titles="['Devices', 'Apply To Task']">
       </el-transfer>
     </el-row>
     <el-row>
       <el-badge :value="subUserDevices.length" class="item" type="primary">
-        <el-button size="small" @click="apply">Apply</el-button>
+        <el-button size="small" @click="apply">Add Task</el-button>
       </el-badge>
     </el-row>
   </div>
