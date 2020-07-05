@@ -13,44 +13,22 @@
         el: '#app',
         data() {
           return {
-            slaveAddrs: [],
-            columns: [],
-            slaveStatus: []
+            taskData: {},
+            taskStatus: []
           };
         },
         computed: {},
         mounted() {
-          fetch("/api/v1/devices", {})
+          fetch('/app/api/v1/fbscript/status', {})
             .then((response) => {
               return response.json();
             })
             .then((jsonData) => {
-              //this.slaveAddrs = []
-              for (var idx in jsonData.devices) {
-                if (jsonData.devices[idx].display != undefined) {
-                  var addr = jsonData.devices[idx].display.url.split("//")[1].split(":")[0]
-                  if (!this.slaveAddrs.includes(addr)) this.slaveAddrs.push(addr)
-                }
-              }
-              //this.slaveStatus = []
-              for (var idx in this.slaveAddrs) {
-                fetch(`/app/api/v1/sensors?host=${this.slaveAddrs[idx]}`, {})
-                  .then((response) => {
-                    return response.json();
-                  })
-                  .then((jsonData) => {
-                    this.columns = Object.keys(jsonData.Information);
-                    jsonData.Information["address"] = this.slaveAddrs[idx];
-                    this.slaveStatus.push(jsonData.Information);
-                  })
-                  .catch((err) => {
-                    console.log(`/app/api/v1/sensors?host=${this.slaveAddrs[idx]} ERROR:`, err);
-                    alert("error: " + err)
-                  });
-              }
+              this.taskData = jsonData;
+              this.taskStatus = Object.values(this.taskData);
             })
             .catch((err) => {
-              console.log("/api/v1/devices ERROR: ", err);
+              console.log('/app/api/v1/fbscript/status ERROR:', err);
               alert("error: " + err)
             });
         },
@@ -78,16 +56,14 @@
       <el-button type="success" icon="el-icon-user" @click="addTask">Add Task</el-button>
     </el-row>
     <el-row>
-      <el-table :data="slaveStatus" style="width: 100%">
-        <el-table-column prop="address" label="address"></el-table-column>
-        <el-table-column prop="SP_AIR_FLOW_L_TEMP           (0x7E)" label="AIR_FLOW_L_TEMP"></el-table-column>
-        <el-table-column prop="SP_AIR_FLOW_R_TEMP           (0x7F)" label="AIR_FLOW_R_TEMP"></el-table-column>
-        <el-table-column prop="SP_FAN0-3_TACH               (0x49)" label="FAN0-3_TACH"></el-table-column>
-        <el-table-column prop="SP_FAN0_0_TACH               (0x46)" label="FAN0_0_TACH"></el-table-column>
-        <el-table-column prop="SP_FAN0_1_TACH               (0x47)" label="FAN0_1_TACH"></el-table-column>
-        <el-table-column prop="SP_FAN0_2_TACH               (0x48)" label="FAN0_2_TACH"></el-table-column>
-        <el-table-column prop="SP_FAN1-1_TACH               (0x4A)" label="FAN1-1_TACH"></el-table-column>
-        <el-table-column prop="SP_FAN1-2_TACH               (0x4B)" label="FAN1-2_TACH"></el-table-column>
+      <el-table :data="taskStatus" style="width: 100%">
+        <el-table-column prop="task_name" label="task_name"></el-table-column>
+        <el-table-column prop="status" label="status"></el-table-column>
+        <el-table-column prop="script" label="script"></el-table-column>
+        <el-table-column prop="param" label="param"></el-table-column>
+        <el-table-column prop="starttime" label="starttime"></el-table-column>
+        <el-table-column prop="endtime" label="endtime"></el-table-column>
+        <el-table-column prop="createtime" label="createtime"></el-table-column>
       </el-table>
     </el-row>
   </div>
