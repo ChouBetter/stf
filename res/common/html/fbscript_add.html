@@ -1,0 +1,172 @@
+<html>
+
+<head>
+  <title></title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function (event) {
+      let app = new Vue({
+        el: '#app',
+        data() {
+          return {
+            entry: false,
+            ownDevices: [],
+            fbscripts: {},
+            selectedUser: undefined,
+            subUsers: [],
+            subUserDevices: [],
+            account: "",
+            password: "",
+            allow: true,
+            dialogVisible: false
+          };
+        },
+        computed: {},
+        mounted() {
+          this.fetchScripts();
+          this.fetchDevices();
+        },
+        methods: {
+          fetchScripts() {
+            fetch("/app/api/v1/fbscript", {})
+              .then((response) => {
+                return response.json();
+              })
+              .then((jsonData) => {
+                this.fbscripts = jsonData;
+              })
+              .catch((err) => {
+                console.log("/app/api/v1/fbscript ERROR: ", err);
+                alert("error: " + err)
+              });
+          },
+          fetchDevices() {
+            fetch("/api/v1/devices", {})
+              .then((response) => {
+                return response.json();
+              })
+              .then((jsonData) => {
+                this.ownDevices = jsonData.devices;
+                this.ownDevices.sort((a, b) => {
+                  return a.serial > b.serial ? 1 : -1;
+                });
+              })
+              .catch((err) => {
+                console.log("/api/v1/devices ERROR: ", err);
+                alert("error: " + err)
+              });
+          },
+          handleClose(done) {
+            this.account = ""
+            this.password = ""
+            this.allow = true
+            done();
+          },
+          closeDialog() {
+            this.dialogVisible = false;
+            this.account = ""
+            this.password = ""
+            this.allow = true
+          },
+          addUser() {
+            if (!this.account.includes("@") || !this.account.includes(".")) {
+              alert("account format fail!")
+              return
+            }
+            fetch(`/app/api/v1/pyLDAP/add/${this.account}/${this.password}/${this.allow}`)
+              .then((response) => {
+                return response.json();
+              })
+              .then((jsonData) => {
+                alert("success")
+                this.closeDialog()
+              })
+              .catch((err) => {
+                console.log("ERROR: ", err);
+                alert("error: " + err)
+                this.closeDialog()
+              });
+          },
+          userChange(user) {
+            if (!user || user == undefined || user == '') {
+              return
+            }
+            console.log(`selectedUser: ${this.selectedUser}, user: ${user}`)
+            fetch(`/app/api/v1/allowDevices/${user}`, {})
+              .then((response) => {
+                return response.json();
+              })
+              .then((jsonData) => {
+                this.subUserDevices = jsonData.allowDevices;
+              })
+              .catch((err) => {
+                console.log("ERROR: ", err);
+                alert("error: " + err)
+              });
+          },
+          apply() {
+            if (!this.selectedUser || this.selectedUser == undefined || this.selectedUser == '') {
+              alert('please select User First!!!')
+              return
+            }
+            fetch('/app/api/v1/allowDevices/update', {
+                method: 'post',
+                headers: {
+                  'Accept': 'application/json, text/plain, */*',
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                  user: this.selectedUser,
+                  allowDevices: this.subUserDevices
+                })
+              }).then(res => res.json())
+              .then(res => {
+                console.log(res)
+                if (res.result == 0) {
+                  alert("success")
+                }
+              }).catch((err) => {
+                console.log("/app/api/v1/allowDevices/update ERROR: ", err);
+                alert("error: " + err)
+              });;
+          }
+        }
+      });
+    });
+
+  </script>
+  <style>
+    .el-row {
+      margin: 10px;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div id="app" v-if="entry">
+    <el-row>Task Script: </el-row>
+    <el-row>
+      <el-radio v-for="(item, index) in subUsers" v-model="selectedUser" :key="item" :label="item" @change="userChange">
+        {{item}}
+      </el-radio>
+    </el-row>
+    <el-row>
+      <span class="demonstration">Devices</span>
+      <el-transfer filterable v-model="subUserDevices" :props="{key: 'serial', label: 'serial'}" :data="ownDevices"
+        :titles="['inventory', 'allocation']">
+      </el-transfer>
+    </el-row>
+    <el-row>
+      <el-badge :value="subUserDevices.length" class="item" type="primary">
+        <el-button size="small" @click="apply">Apply</el-button>
+      </el-badge>
+    </el-row>
+  </div>
+</body>
+
+</html>
