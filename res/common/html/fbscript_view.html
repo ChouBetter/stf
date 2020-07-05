@@ -1,0 +1,96 @@
+<html>
+
+<head>
+  <title></title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function (event) {
+      let app = new Vue({
+        el: '#app',
+        data() {
+          return {
+            slaveAddrs: [],
+            columns: [],
+            slaveStatus: []
+          };
+        },
+        computed: {},
+        mounted() {
+          fetch("/api/v1/devices", {})
+            .then((response) => {
+              return response.json();
+            })
+            .then((jsonData) => {
+              //this.slaveAddrs = []
+              for (var idx in jsonData.devices) {
+                if (jsonData.devices[idx].display != undefined) {
+                  var addr = jsonData.devices[idx].display.url.split("//")[1].split(":")[0]
+                  if (!this.slaveAddrs.includes(addr)) this.slaveAddrs.push(addr)
+                }
+              }
+              //this.slaveStatus = []
+              for (var idx in this.slaveAddrs) {
+                fetch(`/app/api/v1/sensors?host=${this.slaveAddrs[idx]}`, {})
+                  .then((response) => {
+                    return response.json();
+                  })
+                  .then((jsonData) => {
+                    this.columns = Object.keys(jsonData.Information);
+                    jsonData.Information["address"] = this.slaveAddrs[idx];
+                    this.slaveStatus.push(jsonData.Information);
+                  })
+                  .catch((err) => {
+                    console.log(`/app/api/v1/sensors?host=${this.slaveAddrs[idx]} ERROR:`, err);
+                    alert("error: " + err)
+                  });
+              }
+            })
+            .catch((err) => {
+              console.log("/api/v1/devices ERROR: ", err);
+              alert("error: " + err)
+            });
+        },
+        methods: {
+          addTask() {
+            location.href = 'fbscript_add.html'
+          }
+        }
+      });
+    });
+
+  </script>
+  <style>
+    .el-row {
+      margin-bottom: 20px;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <el-row> </el-row>
+    <el-row>
+      <el-button type="success" icon="el-icon-user" @click="addTask">Add Task</el-button>
+    </el-row>
+    <el-row>
+      <el-table :data="slaveStatus" style="width: 100%">
+        <el-table-column prop="address" label="address"></el-table-column>
+        <el-table-column prop="SP_AIR_FLOW_L_TEMP           (0x7E)" label="AIR_FLOW_L_TEMP"></el-table-column>
+        <el-table-column prop="SP_AIR_FLOW_R_TEMP           (0x7F)" label="AIR_FLOW_R_TEMP"></el-table-column>
+        <el-table-column prop="SP_FAN0-3_TACH               (0x49)" label="FAN0-3_TACH"></el-table-column>
+        <el-table-column prop="SP_FAN0_0_TACH               (0x46)" label="FAN0_0_TACH"></el-table-column>
+        <el-table-column prop="SP_FAN0_1_TACH               (0x47)" label="FAN0_1_TACH"></el-table-column>
+        <el-table-column prop="SP_FAN0_2_TACH               (0x48)" label="FAN0_2_TACH"></el-table-column>
+        <el-table-column prop="SP_FAN1-1_TACH               (0x4A)" label="FAN1-1_TACH"></el-table-column>
+        <el-table-column prop="SP_FAN1-2_TACH               (0x4B)" label="FAN1-2_TACH"></el-table-column>
+      </el-table>
+    </el-row>
+  </div>
+</body>
+
+</html>
