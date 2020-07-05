@@ -96,24 +96,32 @@
               alert('please select Script First!!!')
               return
             }
-            fetch('/app/api/v1/allowDevices/update', {
+            var taskDevices = [];
+            subUserDevices.forEach(element => taskDevices.push({
+              ip: element.split(":")[0],
+              param: this.selectedScriptValue.split("/")[2]
+            }));
+
+            fetch('/app/api/v1/fbscript/insert', {
                 method: 'post',
                 headers: {
                   'Accept': 'application/json, text/plain, */*',
                   'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                  user: this.selectedUser,
-                  allowDevices: this.subUserDevices
+                  task_name: this.selectedScript,
+                  script: this.selectedScript,
+                  param: ["https…"],
+                  devices: taskDevices,
+                  starttime: null,
+                  endtime: null
                 })
               }).then(res => res.json())
               .then(res => {
                 console.log(res)
-                if (res.result == 0) {
-                  alert("success")
-                }
+                alert(res.result)
               }).catch((err) => {
-                console.log("/app/api/v1/allowDevices/update ERROR: ", err);
+                console.log("/app/api/v1/fbscript/insert ERROR: ", err);
                 alert("error: " + err)
               });;
           }
