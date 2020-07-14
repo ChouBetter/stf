@@ -3,15 +3,19 @@ import sys
 import random
 from appium import webdriver
 
+SCRIPT_INTERVAL = 0.3
+
 deviceName = sys.argv[1]
 serverSerial = int(deviceName.split(':', 1)[0].split('.')[3])
 systemPort = str(serverSerial * 100 + 5)
 wdaLocalPort = str(serverSerial * 100 + 10)
-webdriverURL = 'http://localhost:2472' + str(random.randint(1, 9)) + '/wd/hub'
+# webdriverURL = 'http://localhost:2472' + str(serverSerial % 10) + '/wd/hub'
+# webdriverURL = 'http://localhost:2472' + str(random.randint(1, 9)) + '/wd/hub'
+webdriverURL = 'http://localhost:24723/wd/hub'
 
-print('deviceName: %s, serverSerial: %s' % (deviceName, serverSerial))
-print('systemPort: %s, wdaLocalPort: %s' % (systemPort, wdaLocalPort))
-print('webdriverURL: %s' % (webdriverURL))
+print('systemPort: %s, wdaLocalPort: %s, deviceName: %s, serverSerial: %s' %
+      (systemPort, wdaLocalPort, deviceName, serverSerial))
+# print('webdriverURL: %s' % (webdriverURL))
 
 desired_caps = {}
 desired_caps['platformName'] = 'Android'
@@ -26,44 +30,53 @@ desired_caps['appActivity'] = '.Calculator'
 desired_caps['noReset'] = 'true'
 desired_caps['fullReset'] = 'false'
 
-#driver = webdriver.Remote('http://123.51.133.103:24723/wd/hub', desired_caps)
-#driver = webdriver.Remote('http://localhost:24723/wd/hub', desired_caps)
-driver = webdriver.Remote(webdriverURL, desired_caps)
-
+time.sleep(random.randint(1, 6))
+tStart = time.time()
 try:
+    driver = webdriver.Remote(webdriverURL, desired_caps)
+except Exception as e:
+    print("# %s init cost %f sec(s)" % (serverSerial, time.time()-tStart))
+    print(e)
+
+initCost = time.time() - tStart
+workCost = 0.0
+try:
+    tStart = time.time()
     driver.find_element_by_xpath(
         '//*[@resource-id="com.android.calculator2:id/digit_9"]').click()
-    time.sleep(1)
+    time.sleep(SCRIPT_INTERVAL)
     driver.find_element_by_xpath(
         '//*[@resource-id="com.android.calculator2:id/digit_8"]').click()
-    time.sleep(1)
+    time.sleep(SCRIPT_INTERVAL)
     driver.find_element_by_xpath(
         '//*[@resource-id="com.android.calculator2:id/digit_7"]').click()
-    time.sleep(1)
+    time.sleep(SCRIPT_INTERVAL)
     driver.find_element_by_xpath(
         '//*[@resource-id="com.android.calculator2:id/digit_6"]').click()
-    time.sleep(1)
+    time.sleep(SCRIPT_INTERVAL)
     driver.find_element_by_xpath(
         '//*[@resource-id="com.android.calculator2:id/digit_5"]').click()
-    time.sleep(1)
+    time.sleep(SCRIPT_INTERVAL)
     driver.find_element_by_xpath(
         '//*[@resource-id="com.android.calculator2:id/digit_4"]').click()
-    time.sleep(1)
+    time.sleep(SCRIPT_INTERVAL)
     driver.find_element_by_xpath(
         '//*[@resource-id="com.android.calculator2:id/digit_3"]').click()
-    time.sleep(1)
+    time.sleep(SCRIPT_INTERVAL)
     driver.find_element_by_xpath(
         '//*[@resource-id="com.android.calculator2:id/digit_2"]').click()
-    time.sleep(1)
+    time.sleep(SCRIPT_INTERVAL)
     driver.find_element_by_xpath(
         '//*[@resource-id="com.android.calculator2:id/digit_1"]').click()
-    time.sleep(1)
+    time.sleep(SCRIPT_INTERVAL)
     driver.find_element_by_xpath(
         '//*[@resource-id="com.android.calculator2:id/digit_0"]').click()
-    time.sleep(1)
-except:
+    workCost = time.time() - tStart
+except Exception as e:
     print("Something wrong")
+    print(e)
 
 time.sleep(3)
-
 driver.quit()
+print("# %s init cost %f sec(s), work cost %f sec(s)" %
+      (serverSerial, initCost, workCost))
