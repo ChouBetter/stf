@@ -43,7 +43,7 @@ while idx <= 5:
         idx += 1
         time.sleep(random.randint(6, 10))
 else:
-    print("# %s retry 5 times fail")
+    print("# %s retry 5 times fail" % (serverSerial))
     exit(0)
 
 initCost = time.time() - tStart
