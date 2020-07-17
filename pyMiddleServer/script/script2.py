@@ -3,7 +3,6 @@ import sys
 import random
 from appium import webdriver
 
-SCRIPT_INTERVAL = 0.3
 
 deviceName = sys.argv[1]
 serverSerial = int(deviceName.split(':', 1)[0].split('.')[3])
@@ -32,11 +31,20 @@ desired_caps['fullReset'] = 'false'
 
 time.sleep(random.randint(1, 6))
 tStart = time.time()
-try:
-    driver = webdriver.Remote(webdriverURL, desired_caps)
-except Exception as e:
-    print("# %s init cost %f sec(s)" % (serverSerial, time.time()-tStart))
-    print(e)
+
+idx = 1
+while idx <= 5:
+    try:
+        driver = webdriver.Remote(webdriverURL, desired_caps)
+        break
+    except Exception as e:
+        print("# %s init Exception %d/5" % (serverSerial, idx))
+        print(e)
+        idx += 1
+        time.sleep(random.randint(6, 10))
+else:
+    print("# %s retry 5 times fail")
+    exit(0)
 
 initCost = time.time() - tStart
 workCost = 0.0
@@ -44,31 +52,31 @@ try:
     tStart = time.time()
     driver.find_element_by_xpath(
         '//*[@resource-id="com.android.calculator2:id/digit_9"]').click()
-    time.sleep(SCRIPT_INTERVAL)
+    time.sleep(1)
     driver.find_element_by_xpath(
         '//*[@resource-id="com.android.calculator2:id/digit_8"]').click()
-    time.sleep(SCRIPT_INTERVAL)
+    time.sleep(1)
     driver.find_element_by_xpath(
         '//*[@resource-id="com.android.calculator2:id/digit_7"]').click()
-    time.sleep(SCRIPT_INTERVAL)
+    time.sleep(1)
     driver.find_element_by_xpath(
         '//*[@resource-id="com.android.calculator2:id/digit_6"]').click()
-    time.sleep(SCRIPT_INTERVAL)
+    time.sleep(1)
     driver.find_element_by_xpath(
         '//*[@resource-id="com.android.calculator2:id/digit_5"]').click()
-    time.sleep(SCRIPT_INTERVAL)
+    time.sleep(1)
     driver.find_element_by_xpath(
         '//*[@resource-id="com.android.calculator2:id/digit_4"]').click()
-    time.sleep(SCRIPT_INTERVAL)
+    time.sleep(1)
     driver.find_element_by_xpath(
         '//*[@resource-id="com.android.calculator2:id/digit_3"]').click()
-    time.sleep(SCRIPT_INTERVAL)
+    time.sleep(1)
     driver.find_element_by_xpath(
         '//*[@resource-id="com.android.calculator2:id/digit_2"]').click()
-    time.sleep(SCRIPT_INTERVAL)
+    time.sleep(1)
     driver.find_element_by_xpath(
         '//*[@resource-id="com.android.calculator2:id/digit_1"]').click()
-    time.sleep(SCRIPT_INTERVAL)
+    time.sleep(1)
     driver.find_element_by_xpath(
         '//*[@resource-id="com.android.calculator2:id/digit_0"]').click()
     workCost = time.time() - tStart
