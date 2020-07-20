@@ -32,20 +32,8 @@ desired_caps['fullReset'] = 'false'
 time.sleep(random.randint(1, 6))
 tStart = time.time()
 
-idx = 1
-while idx <= 5:
-    try:
-        driver = webdriver.Remote(webdriverURL, desired_caps)
-        driver.implicitly_wait(3)
-        break
-    except Exception as e:
-        print("# %s init Exception %d/5" % (serverSerial, idx))
-        print(e)
-        idx += 1
-        time.sleep(random.randint(6, 10))
-else:
-    print("# %s retry 5 times fail" % (serverSerial))
-    exit(0)
+driver = webdriver.Remote(webdriverURL, desired_caps)
+driver.implicitly_wait(3)
 
 initCost = time.time() - tStart
 workCost = 0.0
