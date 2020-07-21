@@ -23,6 +23,8 @@ desired_caps['udid'] = deviceName
 desired_caps['systemPort'] = systemPort
 desired_caps['wdaLocalPort'] = wdaLocalPort
 
+# desired_caps['automationName'] = 'UiAutomator1'
+
 desired_caps['appPackage'] = 'com.android.calculator2'
 desired_caps['appActivity'] = '.Calculator'
 

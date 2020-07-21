@@ -1,0 +1,38 @@
+
+@Host = http://123.51.133.103:8090
+
+###
+POST {{Host}}/taskmanager/insert
+
+{
+    "owner": "paul@rapidsignage.com",
+    "task_name":"mission_no1",
+    "script": "fb_stream.py",
+    "param" : ["https…", "None"],
+    "devices": [                 
+        {
+         "ip":"172.16.x.x",               
+         "param": ["Hi1", "None", "False"],   
+        },
+        {
+         "ip":"172.16.y.y",
+         "param": ["Hello", "None", "False"],
+        },
+        {
+         "ip":"172.16.z.z",
+         "param": ["HiHi", "None", "True"],
+        }
+        ],
+    "starttime": "None",
+    "endtime": "None"
+}
+
+###
+GET {{Host}}/taskmanager/scripts
+
+###
+DELETE http://123.51.133.103:24723/wd/hub/session/42a81c85-ce2d-4118-8d37-b7f9362e82ec
+
+###
+GET http://123.51.133.103:24723/wd/hub/sessions
+
