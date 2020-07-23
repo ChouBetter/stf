@@ -23,7 +23,7 @@ desired_caps['udid'] = deviceName
 desired_caps['systemPort'] = systemPort
 desired_caps['wdaLocalPort'] = wdaLocalPort
 
-desired_caps['automationName'] = 'UiAutomator1'
+# desired_caps['automationName'] = 'UiAutomator1'
 
 desired_caps['appPackage'] = 'com.android.calculator2'
 desired_caps['appActivity'] = '.Calculator'
@@ -39,7 +39,7 @@ while idx <= 5:
     try:
         driver = webdriver.Remote(
             command_executor=webdriverURL,
-            keep_alive=True,
+            # keep_alive=True,
             desired_capabilities=desired_caps)
         driver.implicitly_wait(2)
         break
