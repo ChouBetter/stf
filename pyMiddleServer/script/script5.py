@@ -53,6 +53,7 @@ else:
     exit(0)
 
 initCost = time.time() - tStart
+print("# %s init success, cost %f sec(s)" % (serverSerial, initCost))
 workCost = 0.0
 try:
     tStart = time.time()
